@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    box-sizing: border-box;
+    font-family: Ubuntu !important;
+}
+
+:root {
+    font-size: 13px;
+}
+
+.fff::after {
+    content: "";
+    width: 500px;
+    height: 500px;
+    background-color: red;
+    position: absolute;
+    top: 500px;
+}
+
+
+.imgdiv:hover img {
+    transform: scale(1.2) rotate(10deg);
+}
+
+.imgdiv img {
+    transition: ease-out 0.3s;
+}
+
+.swiper-wrapper {
+    display: flex;
+    flex-direction: row;
+}
