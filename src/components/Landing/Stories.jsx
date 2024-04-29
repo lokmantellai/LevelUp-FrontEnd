@@ -52,7 +52,7 @@ export default function Stories() {
 
             >
                 {courses.map((ele) =>
-                    <SwiperSlide key={courses.indexOf(ele)} className='bg-[#FFF0C4] w-[400px]  py-[100px] px-[100px] flex flex-col gap-[20px] items-center rounded-[10px]'>
+                    <SwiperSlide key={courses.indexOf(ele)} className='bg-[#FFF0C4] w-[400px]  py-[50px] px-[50px] flex flex-col gap-[20px] items-center rounded-[10px]'>
                         <img src={student} alt="" className='w-[100px] h-[100px] rounded-full' />
 
                         <div className='text-center flex flex-col gap-[20px]'>

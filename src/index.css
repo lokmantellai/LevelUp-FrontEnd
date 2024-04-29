@@ -33,3 +33,28 @@
     display: flex;
     flex-direction: row;
 }
+
+.fas.fa-chevron-down {
+    transition: transform 0.2s ease-in-out;
+    /* Adjust duration and timing as needed */
+}
+
+.accordion .answer {
+    transition: height 5000ms ease-in-out;
+    /* Adjust duration and timing as needed */
+    max-height: 0;
+    /* Initially hidden */
+    overflow: hidden;
+    /* Prevent content overflow when closed */
+}
+
+.accordion.open .answer {
+    max-height: 1000px;
+    /* Adjust for your content height */
+}
+
+.prfNav,
+.menu-list {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+
+}
