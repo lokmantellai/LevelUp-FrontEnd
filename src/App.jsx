@@ -1,27 +1,33 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css'
-import Login from './pages/Login'
+import Login from'./pages/Login'
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
-import SignUpStep from './pages/SignUpStep';
-import Profile from './pages/Profile';
+import { ContextProvider } from './context/Auth';
+import { RegisterContextProvider } from './context/Register';
+import SignUpStep from './pages/SignStep';
+import CourseManager from './pages/CourseManager';
+import EmailVerification from './pages/EmailVerification';
 
 function App() {
   // Check if the browser is Firefox
   var isFirefox = typeof InstallTrigger !== 'undefined';
-  if (isFirefox)
-    document.documentElement.style.fontSize = "16px";
-  return (
-    <>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/Login' element={<Login />} />
-        <Route path='/SingUp' element={<SignUp />} />
-        <Route path='/SingUp/step' element={<SignUpStep />} />
-        <Route path='/Profile' element={<Profile />} />
-      </Routes>
-    </>
-  )
-}
+  if (isFirefox) 
+    document.documentElement.style.fontSize = "14px";
+    return (
+      <>
+        <ContextProvider>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<RegisterContextProvider><SignUp /></RegisterContextProvider>} />
+            <Route path='/signup/step/:num' element={<RegisterContextProvider><SignUpStep /></RegisterContextProvider>} />
+            <Route path='/emailverification' element={<RegisterContextProvider><EmailVerification /></RegisterContextProvider>} />
+            <Route path='/courses' element={<CourseManager />} />
+          </Routes>
+        </ContextProvider>
+      </>
+    )
+  }
 
-export default App
+export default App;

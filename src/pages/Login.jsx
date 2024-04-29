@@ -5,11 +5,50 @@ import Btn from '../components/Btn';
 import InputField from '../components/inputField';
 import lottie from "lottie-web"
 import animation from "../assets/animation.json"
-import { Link } from 'react-router-dom';
-import ErrMessage from '../components/ErrMessage';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import ErrorMessage from '../components/ErrorMessage';
+import axios from 'axios';
+import { useAuth } from '../context/hooks';
 
 
 export default function Login() {
+    const { login } = useAuth();
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState } = useForm();
+    const { errors } = formState;
+    const [otherError, setOtherError] = useState("");
+    const validationEmail = { 
+        required: "Please fill out all fields", 
+        maxLength: 60, 
+        pattern: {
+            value: /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/,
+            message: "Please enter a valid email address"
+        }  
+    };
+    //validation password
+    const validationPassword = { 
+        required: "Please fill out all fields", 
+    }; 
+    const fetchToAuth = (data) => {
+        axios.post("http://127.0.0.1:8000/users/login/", data)
+  .then(() => {
+    // If the request is successful, navigate to the home page
+      /* navigate("/"); */
+      navigate("/");
+  })
+  .catch((error) => {
+    // Handle the error here
+    if (error.response.status === 401) {
+      // Handle 401 Unauthorized error
+        setOtherError("Email or Password are invalid");
+      // You can display an error message to the user or take other actions as needed
+    } else {
+      // Handle other errors
+      console.log("An error occurred:", error.message);
+    }
+  });
+    }
     useEffect(() => {
         const instance = lottie.loadAnimation({
             container: document.querySelector(".animation .cont-anim"),
@@ -20,11 +59,6 @@ export default function Login() {
         }) 
         return () => instance.destroy();
     }, [])
-    const [Errors, setErrors] = useState(false)
-    const handleSubmit = (ev) => {
-        ev.preventDefault();
-        setErrors(true);
-    }
     return (
         <div className="login-section grid lg:grid-cols-2 grid-cols-1 bg-[#0095B2] h-[100vh]">
             <div className=" bg-white animation lg:flex justify-center items-center hidden ">
@@ -54,13 +88,12 @@ export default function Login() {
                     <span className='px-3 font-bold text-xl text-white'>Or</span>
                     <div className='max-w-[11rem] w-[39vw] h-1 bg-white'></div>
                 </div>
-                <form className='w-[89%] max-w-[25rem] mt-7 flex flex-col'>
-                    {
-                        Errors &&
-                        <ErrMessage text="Incorrect email or password" setErrors={setErrors} />
-                    }
-                    <InputField name="Email" type="email"  />
-                    <InputField name="Password" type="password" />
+                <form className='w-[89%] max-w-[25rem] mt-7 flex flex-col' onSubmit={handleSubmit((data) => {
+                    fetchToAuth(data);
+                })}>
+                    <ErrorMessage errors={errors} others={otherError} />
+                    <InputField setToForm={{...register("email",validationEmail)}}  type="text" placeholder="Email" />
+                    <InputField setToForm={{...register("password",validationPassword)}}  type="password" placeholder="Password" />
                     <div className='mb-3'>
                         <a className='text-white font-medium text-xl ' href='#'>forget password ?</a>
                     </div>
@@ -70,11 +103,11 @@ export default function Login() {
                             <input type='checkbox' className='me-4 w-6 h-6 appearance-none rounded-[0.29rem] border-[3px]  checked:border-primary checked:bg-primary checked:after:absolute  checked:after:ms-[0.4rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:border-[#3b71ca] checked:after:bg-transparent checked:after:content-[""] hover:cursor-pointer checked:after:ml-[7px]  checked:bg-[#3b71ca] checked:after:mt-[2px] ' />
                             Remember me
                         </div>
-                        <Btn text="Login" type="submit" handleSubmit={handleSubmit} />
+                        <Btn text="Login" type="submit" />
                     </div>
                     <div className='w-[100%] h-1 bg-white ml-auto mr-auto mt-5'></div>
                     <div className='text-white font-medium text-lg ml-auto mr-auto mt-5 mb-20'>
-                        Don’t have an account ? <Link className='font-bold text-[#FCEE65] relative' to='/SingUp'>Sign-Up .
+                        Don’t have an account ? <Link className='font-bold text-[#FCEE65] relative' to='/signup'>Sign-Up .
                         <span className='absolute left-0 bottom-[-3px] w-full h-[2px] bg-[#FCEE65]'></span>
                         </Link>
                         </div>
