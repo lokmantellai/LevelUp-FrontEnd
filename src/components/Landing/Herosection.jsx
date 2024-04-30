@@ -16,13 +16,15 @@ import img2 from "../../assets/Landing/img2.svg"
 import img3 from "../../assets/Landing/img3.svg"
 import img4 from "../../assets/Landing/img4.svg"
 import img5 from "../../assets/Landing/img5.svg"
+import img6 from "../../assets/Landing/LogoA.svg"
 
 
 
 
 export default function Hero() {
 
-    const isMediumScreen = useMediaQuery({ minWidth: 1280 });
+    const isMediumScreen = useMediaQuery({ minWidth: 991 });
+
 
     const words = ['Gamified', 'Interactive', 'Engaging']
     const [word, setWord] = useState(words[0]);
@@ -49,25 +51,28 @@ export default function Hero() {
 
 
     return (
-        <div className='hero  mx-[100px] my-[100px] flex flex-col gap-[100px] items-center 
+        <div className='hero   flex flex-col gap-[50px] items-center 
+        xs:my-[50px] xs:mx-[50px] 
         sm:my-[50px] sm:mx-[50px] 
-        md:my-[100px] md:mx-[100px]'>
+        md:my-[50px] md:mx-[100px]'>
             <div className='top grid grid-cols-12 gap-5 items-center justify-between '>
-                <div className='leftside flex flex-col gap-[50px] col-span-6
+                <div className='leftside flex flex-col gap-[30px] col-span-6
                 xs:col-span-12 
                 sm:col-span-12 
                 md:col-span-6'>
-                    <h1 className=' font-extrabold text-[64px] text-[#006073] 
-                    xs:text-center
-                    sm:text-[48px] sm:text-center
+                    <h1 className=' font-extrabold  text-[#006073] 
+                    xs:text-center xs:text-[30px]
+                    sm:text-[36px] sm:text-center
                     md:text-left
-                    xl:text-[54px] 
-                    2xl:text-[64px]'>Code & Conquer:CS University's
+                    xl:text-[42px] 
+                    2xl:text-[48px]'>Code & Conquer:CS University's
                         {isMediumScreen && < br />}<span className='text-[#FAE200]  
-                        md:text-[54px] 
-                        xl:text-[64px] 
-                        2xl:text-[72px]'><em> {word}</em></span>  Learning</h1>
-                    <p className='font-regular text-[22px] text-[#006073]
+                        xs:text-[38px]
+                        sm:text-[42px]
+                        md:text-[46px] 
+                        xl:text-[48px] 
+                        2xl:text-[52px]'><em> {word}</em></span>  Learning</h1>
+                    <p className='font-regular text-[20px] text-[#006073]
                     xs:text-center
                     sm:text-center
                     md:text-left'>
@@ -77,8 +82,8 @@ export default function Hero() {
                     xs:justify-center
                     sm:justify-center
                     md:justify-start'>
-                        <button className='w-[190px] h-[60px] bg-[#FFF0C4] text-[#3D3700] rounded-[8px] text-[18px] font-bold [transition:background-color_0.3s_ease,_box-shadow_0.3s_ease] hover:bg-[#FFE9A6] hover:[box-shadow:0px_4px_10px_2px_rgba(0,_0,_0,_0.25)]'>View More</button>
-                        <button className='w-[190px] h-[60px] bg-[#FCEE65] text-[#3D3700] rounded-[8px] text-[18px] font-bold [transition:background-color_0.3s_ease,_box-shadow_0.3s_ease] hover:bg-[#FAE200] hover:[box-shadow:0px_4px_10px_2px_rgba(0,_0,_0,_0.25)]'>Get Started</button>
+                        <button className='w-[150px] h-[50px] bg-[#FFF0C4] text-[#3D3700] rounded-[8px] text-[14px] font-bold [transition:background-color_0.3s_ease,_box-shadow_0.3s_ease] hover:bg-[#FFE9A6] hover:[box-shadow:0px_4px_10px_2px_rgba(0,_0,_0,_0.25)]'>View More</button>
+                        <button className='w-[150px] h-[50px] bg-[#FCEE65] text-[#3D3700] rounded-[8px] text-[14px] font-bold [transition:background-color_0.3s_ease,_box-shadow_0.3s_ease] hover:bg-[#FAE200] hover:[box-shadow:0px_4px_10px_2px_rgba(0,_0,_0,_0.25)]'>Get Started</button>
                     </div>
                 </div>
                 <div className=' col-span-1'></div>
@@ -88,7 +93,7 @@ export default function Hero() {
                 md:block'></div>
             </div>
             <div className='down w-[-webkit-fill-available] flex flex-col gap-[25px]'>
-                <h1 className='font-bold text-[24px] text-[#006073] text-left '>Trusted By</h1>
+                <h1 className='font-bold text-[20px] text-[#006073] text-left '>Trusted By</h1>
                 <Swiper
                     className='flex flex-row'
                     // install Swiper modules
@@ -116,12 +121,12 @@ export default function Hero() {
                         }
                     }}
                 >
-                    <SwiperSlide className='flex justify-center items-center'><img src={img1} alt="" /></SwiperSlide>
-                    <SwiperSlide className='flex justify-center items-center'><img src={img2} alt="" /></SwiperSlide>
-                    <SwiperSlide className='flex justify-center items-center'><img src={img3} alt="" /></SwiperSlide>
-                    <SwiperSlide className='flex justify-center items-center'><img src={img4} alt="" /></SwiperSlide>
-                    <SwiperSlide className='flex justify-center items-center'><img src={img5} alt="" /></SwiperSlide>
-                    <SwiperSlide className='flex justify-center items-center'><img src={img5} alt="" /></SwiperSlide>
+                    <SwiperSlide className='flex justify-center items-center'><img src={img1} alt="" className='h-[50px]' /></SwiperSlide>
+                    <SwiperSlide className='flex justify-center items-center'><img src={img2} alt="" className='h-[50px]' /></SwiperSlide>
+                    <SwiperSlide className='flex justify-center items-center'><img src={img3} alt="" className='h-[50px]' /></SwiperSlide>
+                    <SwiperSlide className='flex justify-center items-center'><img src={img4} alt="" className='h-[50px]' /></SwiperSlide>
+                    <SwiperSlide className='flex justify-center items-center'><img src={img5} alt="" className='h-[50px]' /></SwiperSlide>
+                    <SwiperSlide className='flex justify-center items-center'><img src={img6} alt="" className='h-[50px]' /></SwiperSlide>
 
                 </Swiper>
             </div>
