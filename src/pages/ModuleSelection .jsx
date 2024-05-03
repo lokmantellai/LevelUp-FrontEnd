@@ -6,6 +6,7 @@ import Btn from '../components/Btn';
 import { useRegister } from '../context/hooks';
 import axios from 'axios';
 function ModuleSelection() {
+  console.log(useRegister().ModulesSelected)
   function splitArrayToChunks(arr, size1, size2) {
     console.log(size1,size2)
     const result = [];
@@ -82,9 +83,7 @@ function ModuleSelection() {
         registerForm.save("courses_of_interest", null);
     else
         registerForm.save("courses_of_interest", result);
-
     registerForm.save("university", "University Abdel El Hamid Mehri");
-
     try {
         const response = await axios.post('http://localhost:8000/users/register/student/', 
             registerForm.extract(), {
@@ -93,7 +92,7 @@ function ModuleSelection() {
             }
         });
         console.log(response);
-        navigate("/emailverification"); 
+      //  navigate("/emailverification"); 
         return response;
     } catch (error) {
         console.log(error.message);

@@ -10,7 +10,7 @@ import Stories from "../components/Landing/Stories";
 import { useAuth } from "../context/hooks";
 
 export default function Home() {
-    const Auth = useAuth();
+   /*  const Auth = useAuth();
     const jwtToken = Auth.showToken();
     console.log("jwt  " + jwtToken)
     const axiosInstance = axios.create({
@@ -25,7 +25,7 @@ export default function Home() {
   })
   .catch(error => {
     console.error('Error:', error.response.data);
-  });
+  }); */
     return (
         <div id="home" className='home bg-[#FFFFFC] overflow-hidden' >
             <div className="container1  mx-[auto] my-[0] xl:w-[100%]">
@@ -34,7 +34,7 @@ export default function Home() {
                 <Benifeits />
                 <Courses />
                 <Stories />
-          <Quests />
+                <Quests />
                 <JoinUs />
                 <Footer />
             </div>

@@ -14,7 +14,17 @@ import ErrorMessage from '../components/ErrorMessage';
 export default function SignUp() {
     const navigate = useNavigate();
     const registerForm = useRegister();
-    const { register, handleSubmit, formState, watch } = useForm();
+    console.log(registerForm.data)
+    const { register, handleSubmit, formState, watch } = useForm({
+        defaultValues: {
+            first_name: registerForm.data?.user?.first_name || "",
+            last_name: registerForm.data?.user?.last_name || "",
+            email: registerForm.data?.user?.email || "",
+            password: registerForm.data?.user?.password || "",
+            confirmPassword: registerForm.data?.user?.confirmPassword || "",
+        }
+    });
+    
     const { errors } = formState;
     const [otherError, setOtherError] = useState("");
     const password = watch("password");
@@ -101,6 +111,7 @@ export default function SignUp() {
                             .then(() => { 
                                 registerForm.save("user", data);
                                 setOtherError("");  
+                                console.log(data)
                                 navigate("/signup/step/1")
                              })
                             .catch(()=> setOtherError("Email is already used"));
