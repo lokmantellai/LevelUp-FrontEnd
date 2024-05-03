@@ -7,6 +7,7 @@ import { useRegister } from '../context/hooks';
 export default function SpecialitySelection() {
   const navigate = useNavigate();
   const registerForm = useRegister();
+  registerForm.setProgress(4, "/signup/step/2", 3);
   const [selectedSpicality, setselectedSpicality] = useState(null);
   //specialities
   const specialities = [

@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 export default function SelectTeachingYear() {
   const navigate = useNavigate();
   const registerForm = useRegister();
+  registerForm.setProgress(4, "/signup/step/1", 2);
   const { register, handleSubmit } = useForm();
     return (
       <form onSubmit={handleSubmit((data) => {

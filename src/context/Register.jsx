@@ -4,7 +4,10 @@ export const RegisterContext = createContext(null);
 export const RegisterContextProvider = ({ children }) => {
     // set Data will be sent to api #registre
     const [data, setData] = useState({});
-    const save = (name,value) => {
+    const [all, setAll] = useState();
+    const [prev, setPrev] = useState();
+    const [current, setCurrent] = useState();
+    const save = (name, value) => {
         data[name] = value;
         setData(data);
     }
@@ -13,11 +16,17 @@ export const RegisterContextProvider = ({ children }) => {
     }
     const extract = () => {
         delete data.role;
-        data["courses_of_interest"] = data["courses_of_interest"].join('#');
+        if(data.courses_of_interest != null)
+            data["courses_of_interest"] = data["courses_of_interest"].join('#');
         return data;
     }
+    const setProgress = (all , prev , current) => {
+        setAll(all);
+        setPrev(prev);
+        setCurrent(current);
+    }
     return (
-        <RegisterContext.Provider value={{ data, save, clear ,extract}}>
+        <RegisterContext.Provider value={{ data, save, clear, extract, all, current, prev , setProgress}}>
             {children}
         </RegisterContext.Provider>
     )

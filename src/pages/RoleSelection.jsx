@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 function RoleSelection() {
   const { register, handleSubmit } = useForm();
   const registerForm = useRegister();
+  registerForm.setProgress(4, "/signup", 1);
+
   const navigate = useNavigate();
   return (
       <>

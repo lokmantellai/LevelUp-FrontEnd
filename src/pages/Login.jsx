@@ -32,10 +32,12 @@ export default function Login() {
     }; 
     const fetchToAuth = (data) => {
         axios.post("http://127.0.0.1:8000/users/login/", data)
-  .then(() => {
-    // If the request is successful, navigate to the home page
-      /* navigate("/"); */
-      navigate("/");
+  .then((res) => {
+      // If the request is successful, navigate to the home page , store JWT
+      if (res.data.message == "success") {
+        login(res.data.access_token,res.data.refresh_token)
+          navigate("/");          
+      }
   })
   .catch((error) => {
     // Handle the error here

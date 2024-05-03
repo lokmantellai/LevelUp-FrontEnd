@@ -10,14 +10,12 @@ function ChoiceBtn({ text, setToForm, styleImg ,style, grade}) {
       const label = ev.currentTarget.classList;
       if (!label.contains("outline")) {
         const previousOutline = document.querySelector("label.outline");
-        if (previousOutline) {
+        if (previousOutline) 
           previousOutline.classList.remove("outline");
-        }
       }
       label.add("outline");
     }}
-  >
-  
+    >  
       <input {...setToForm} className="appearance-none" type="radio" data-grade={grade} value={text}  />
       <img className={"absolute lg:left-11 left-9 lg:w-20 w-20 lg:h-20 h-20 top-1/2 -translate-y-1/2 max-[568px]:h-14 max-[568px]:w-14 " + styleImg} src={personne} alt="personne" />
       {text.includes("Bachelor") ? text.split("Bachelor ")[1] : text.includes("Master") ? text.split("Master ")[1] : text}
