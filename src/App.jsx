@@ -25,7 +25,7 @@ function App() {
           <Route path='/signup/step/:num' element={<RegisterContextProvider><SignUpStep /></RegisterContextProvider>} />
           <Route path='/emailverification' element={<RegisterContextProvider><EmailVerification /></RegisterContextProvider>} />
           <Route path='/courses' element={<CourseManager />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/profile/:id' element={<Profile />} />
         </Routes>
       </ContextProvider>
     </>

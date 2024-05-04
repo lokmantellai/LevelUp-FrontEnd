@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { colors } from '@mui/material';
 
 
 export default function Navbar() {
