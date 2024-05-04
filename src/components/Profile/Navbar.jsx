@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { colors } from '@mui/material';
 
 
 export default function Navbar() {
@@ -63,7 +62,8 @@ export default function Navbar() {
                 md:flex'>
                     <img src={per} alt="" className='w-[15px]' />
                 </div>
-                <FontAwesomeIcon className={`${isMenuOpen ? 'rotate-180 transition-transform duration-300 ease-out' : 'transition-transform duration-300 ease-out'}`} style={{ color: '#E8FBFF', height: '20px' }} icon={isMenuOpen ? faChevronDown : faBars} onClick={toggleMenu} />
+                <div className='py-[10px] px-[10px]  flex justify-center items-center hover:cursor-pointer' onClick={toggleMenu}><FontAwesomeIcon className={`${isMenuOpen ? 'rotate-180 transition-transform duration-300 ease-out' : 'transition-transform duration-300 ease-out'}`} style={{ color: '#E8FBFF', height: '20px' }} icon={isMenuOpen ? faChevronDown : faBars} /></div>
+
             </div>
             {isMenuOpen && (
                 <div className="menu-list flex justify-center items-center absolute min-w-[100px] bg-[#FFFFFC] p-[10px] top-[50px] rounded-tl-none rounded-br-[10px] rounded-tr-none rounded-bl-[10px]
@@ -71,9 +71,9 @@ export default function Navbar() {
                 sm:right-[50px]
                 md:right-[100px]  ">
                     <ul className='w-[100%] text-center'>
-                        {window.innerWidth < 640 && <li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> <Link to="/">Dashboard</Link > </li>}
-                        {window.innerWidth < 640 && <li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> <Link to="/">Learn</Link > </li>}
-                        {window.innerWidth < 991 && <li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> <Link to="/">Notifications</Link > </li>}
+                        {window.innerWidth < 640 && <Link to="/"> <li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> Dashboard </li></Link >}
+                        {window.innerWidth < 640 && <Link to="/"><li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> Learn </li></Link >}
+                        {window.innerWidth < 991 && <Link to="/"><li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'>Notifications </li></Link >}
 
                         <li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> <Link to="/">Setting</Link > </li>
                         <li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> <Link to="/">Logout</Link > </li>

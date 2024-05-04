@@ -49,39 +49,49 @@
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
 
 }
+
 .checkedChoice {
     background-color: #00333D !important;
     color: white;
 }
+
 .checkedChoice img {
     display: block !important;
 }
+
 .searchBar:focus-within svg {
     fill: #6b7280;
 }
+
 ::-webkit-scrollbar {
     width: 1.1rem;
 }
+
 ::-webkit-scrollbar-track {
     background-color: #E8FBFF;
     border-radius: 120px;
 }
-::-webkit-scrollbar-thumb{
+
+::-webkit-scrollbar-thumb {
     background-color: #00333D;
     border-radius: 120px;
 }
+
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
     transition: background-color 600000s 0s, color 600000s 0s;
 }
+
 .p-inputtext {
     font-size: 1.3rem;
     color: black;
 }
+
 .p-dropdown-items-wrapper {
     overflow-y: auto !important;
     max-height: 220px !important;
 }
+
 .p-dropdown-items-wrapper {
     padding-left: 1rem !important;
     padding-top: 0.7rem !important;
@@ -90,31 +100,57 @@ input:-webkit-autofill:focus {
     background-color: #E8FBFF !important;
     border-radius: 6px !important;
     cursor: pointer;
-	font-weight: normal;
-	white-space: nowrap;
-	position: relative;
-	overflow: hidden;
-} 
+    font-weight: normal;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+}
+
 .p-dropdown-label.p-inputtext.p-placeholder {
     font-size: 19px;
     font-family: Ubuntu !important;
     color: #6b7280;
     box-shadow: none !important;
 }
-.p-dropdown{
+
+.p-dropdown {
     box-shadow: none !important;
 }
+
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
     background-color: transparent;
 }
+
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled).p-focus {
-	color: #4b5563;
-	background: transparent;
+    color: #4b5563;
+    background: transparent;
 }
+
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
-	color: #4b5563;
-	background: transparent;
+    color: #4b5563;
+    background: transparent;
 }
+
 .p-dropdown-item:hover .p-dropdown-item-label {
     color: black;
+}
+
+/* Counter css */
+
+
+.circle-bg {
+    fill: #E8FBFF;
+    stroke: #E8FBFF;
+}
+
+.circle-pr {
+    fill: none;
+    stroke: #FAE200;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.circle-text {
+    font-size: 22px;
+    font-weight: 500;
 }
