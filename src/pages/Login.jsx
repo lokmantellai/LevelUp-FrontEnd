@@ -31,6 +31,8 @@ export default function Login() {
         required: "Please fill out all fields",
     };
     const fetchToAuth = (data) => {
+
+
         axios.post("http://192.168.205.126:8000//users/login/", data)
             .then(() => {
                 // If the request is successful, navigate to the home page

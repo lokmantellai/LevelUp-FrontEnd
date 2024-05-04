@@ -6,6 +6,7 @@ import Btn from '../components/Btn';
 import { useRegister } from '../context/hooks';
 import axios from 'axios';
 function ModuleSelection() {
+  console.log(useRegister().ModulesSelected)
   function splitArrayToChunks(arr, size1, size2) {
     console.log(size1,size2)
     const result = [];
@@ -71,31 +72,32 @@ function ModuleSelection() {
   let [result, setResult] = useState(splitArrayToChunks([],size.size1,size.size2));
   const navigate = useNavigate();
   const registerForm = useRegister();
-  const handlerNextBtn = () => {
-      let result = [];
+  registerForm.setProgress(4, "/signup/step/3", 4);
+  const handlerNextBtn = async () => {
+    let result = [];
     document.querySelectorAll(".checkedChoice").forEach((el) => {
-      result.push(el.textContent);
-    })
-      registerForm.save("courses_of_interest",result)
-      console.log(registerForm.data)
-      const fetchData = async () => {
-        registerForm.save("university", "Universite Constantine 2 Abdelhamid Mehri");
-        try {
-            const response = await axios.post('http://localhost:8000/users/register/student/', 
-                registerForm.extract(), {
-                headers: {  
-                    'Content-Type': 'application/json',
-                }
-            });
-            return response;
-        } catch (error) {
-            console.log(error.message);
-        }
-    };   
-    
-    fetchData();
-      navigate("/emailverification"); 
+        result.push(el.textContent);
+    });
+
+    if (result.length === 0)
+        registerForm.save("courses_of_interest", null);
+    else
+        registerForm.save("courses_of_interest", result);
+    registerForm.save("university", "University Abdel El Hamid Mehri");
+    try {
+        const response = await axios.post('http://localhost:8000/users/register/student/', 
+            registerForm.extract(), {
+            headers: {  
+                'Content-Type': 'application/json',
+            }
+        });
+        console.log(response);
+      //  navigate("/emailverification"); 
+        return response;
+    } catch (error) {
+        console.log(error.message);
     }
+};
     return (
         <div className="container mx-auto py-12 px-5 relative bg-[#FFFFFC]">
         <main className='flex items-start flex-col mt-20 mb-10'>

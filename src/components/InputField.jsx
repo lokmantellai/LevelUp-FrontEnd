@@ -1,7 +1,5 @@
 import Eye from "../assets/Vector.png"
-function test() {
-    return "test";
-}
+
 export default function InputField({ type, placeholder, setToForm }) {
     function changeVisibiltyPassword(ev) {
         const input = ev.target.nextElementSibling;

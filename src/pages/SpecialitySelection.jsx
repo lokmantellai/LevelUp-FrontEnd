@@ -7,7 +7,12 @@ import { useRegister } from '../context/hooks';
 export default function SpecialitySelection() {
   const navigate = useNavigate();
   const registerForm = useRegister();
-  const [selectedSpicality, setselectedSpicality] = useState(null);
+  registerForm.setProgress(4, "/signup/step/2", 3);
+  const [selectedSpicality, setSelectedSpicality] = useState(() => {
+  return registerForm.data?.speciality
+    ? { name:  registerForm.data.speciality}
+    : null;
+});
   //specialities
   const specialities = [
       { name: 'Information Technology' },
@@ -30,7 +35,7 @@ export default function SpecialitySelection() {
               navigate("/signup/step/4")
             }
           }}>
-            <Dropdown onChange={(e) => setselectedSpicality(e.value)} value={selectedSpicality} options={specialities} optionLabel="name" 
+            <Dropdown  onChange={(e) => setSelectedSpicality(e.value)} value={selectedSpicality} options={specialities} optionLabel="name" 
                 placeholder="Select a Specilaity" className="w-full md:w-14rem  bg-[#E8FBFF] text-xl text-center py-5 px-4  " />
                 <Btn text="Next" type="submit" style={"w-44 h-16 text-xl max-[568px]:w-36 mt-6 absolute bottom-10 right-10"}  />
           </form>
