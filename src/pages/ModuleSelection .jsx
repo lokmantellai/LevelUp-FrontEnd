@@ -84,15 +84,32 @@ function ModuleSelection() {
     else
       registerForm.save("courses_of_interest", result);
     registerForm.save("university", "University Abdel El Hamid Mehri");
+    console.log(registerForm.data.role.toLowerCase() + " Heyyy")
     try {
-      const response = await axios.post('http://192.168.205.126:8000/users/register/student/',
+      const response = await axios.post(`http://192.168.205.126:8000/users/register/${registerForm.data.role.toLowerCase()}/`,
         registerForm.extract(), {
         headers: {
           'Content-Type': 'application/json',
         }
-      });
+      }).then((res) => {
+        console.log(res.data.teacher_id + "Teacher id")
+        if (registerForm.data.role == "Teacher") {
+          axios.post(`http://192.168.205.126:8000/users/register/${registerForm.data.role.toLowerCase()}/`,
+            {
+              "course_names": registerForm.data.courses_of_interest,
+              "teacher_id": res.data.teacher_id 
+      
+            }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        }
+            
+      })
+        
       console.log(response);
-      navigate("/emailverification");
+      //navigate("/emailverification");
       return response;
     } catch (error) {
       console.log(error.message);

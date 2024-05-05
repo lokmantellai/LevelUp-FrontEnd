@@ -18,6 +18,7 @@ export default function SignUpStep() {
             {(num == 2 && registerForm.data.role == "Student") && <SelectTeachingYear />}
             {(num == 3 && registerForm.data.role == "Student") && <SpecialitySelection />}
             {(num == 4 && registerForm.data.role == "Student") && <ModuleSelection />}
+            {(num == 2 && registerForm.data.role == "Teacher") && <ModuleSelection />}
         </div>
     )
 }
