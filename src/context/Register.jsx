@@ -16,10 +16,11 @@ export const RegisterContextProvider = ({ children }) => {
         setData(null);
     }
     const extract = () => {
-        delete data.role;
-        if(data.courses_of_interest != null)
-            data["courses_of_interest"] = data["courses_of_interest"].join('#');
-        return data;
+        let data_user = { ...data }
+        delete data_user.role
+        if(data_user.courses_of_interest != null)
+            data_user["courses_of_interest"] = data_user["courses_of_interest"].join('#');
+        return data_user;
     }
     const saveTemp = (modules) => {
         setModulesSelected(modules);

@@ -32,7 +32,7 @@ export default function SpecialitySelection() {
             ev.preventDefault();
             if (selectedSpicality) {
               registerForm.save("speciality", selectedSpicality.name);
-              navigate("/signup/step/4")
+              navigate("/signup/step/4");
             }
           }}>
             <Dropdown  onChange={(e) => setSelectedSpicality(e.value)} value={selectedSpicality} options={specialities} optionLabel="name" 

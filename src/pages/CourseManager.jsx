@@ -16,7 +16,7 @@ export default CourseManager
 
 function SlideBar() {
     return (
-        <div className="min-h-screen bg-[#0095B2] w-56 flex flex-col items-center py-10">
+        <div className="min-h-screen bg-[#0095B2] w-60 flex flex-col items-center py-10">
             <Link to={"/"}>
                 <img src={Logo} className="w-48 mb-24"/>
             </Link>
@@ -43,11 +43,11 @@ function SlideBar() {
 }
 function Header() {
     return (
-        <header className="flex flex-col shadow-lg bg-[#FFFFFC] color-[#FFFDE8] px-24 py-6 h-24 border flex-1" >
-            <div className="">
-                Search For Courses. . .
+        <header className="flex justify-between flex-row shadow-lg bg-[#FFFFFC] color-[#FFFDE8] ps-36 px-28 py-6 h-24 border flex-1" >
+            <div className="w-[40rem]">
+                <input placeholder="Search For Courses. . ." className="bg-[#FFF8B2] w-full h-full flex justify-center text-center focus:outline-none placeholder:text-[#453507] text-xl"/>
             </div>
-            <div className="flex flex-col gap-7">
+            <div className="flex  gap-7">
                 <button className="w-9 h-9 flex justify-center items-center bg-[#FFF0C4] rounded-full">
                     <img src={NightMode} className="w-7 h-7" />
                 </button>
@@ -55,8 +55,8 @@ function Header() {
                     <img src={Personne} className="w-7 h-7" />
                 </button>
                 <div className="flex flex-col items-center">
-                    <span className="capitalize">lokman tellai</span>
-                    <span className="capitalize">software engineer</span>
+                    <span className="capitalize font-medium">lokman tellai</span>
+                    <span className="capitalize text-sm">software engineer</span>
                 </div>
             </div>
         </header>
