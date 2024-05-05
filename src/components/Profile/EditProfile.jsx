@@ -1,4 +1,5 @@
 import Student from "../../assets/Profile/Student.json"
+import { Dropdown } from 'primereact/dropdown';
 import { useState } from "react"
 
 
@@ -22,7 +23,7 @@ export default function EditProfile({ data }) {
 
     return (
 
-        <div className="flex flex-col bg-[#FFFBED] rounded-[10px] 
+        <div className="flex flex-col bg-[#E8FBFF] rounded-[10px] 
         sm:mx-[25px] sm:my-[25px]   
         md:mx-[50px] md:my-[50px] ">
             <div className="flex flex-col mx-[100px] my-[50px] gap-[50px]">
@@ -38,22 +39,22 @@ export default function EditProfile({ data }) {
                         <div className="flex gap-[20px]">
                             <div className="flex flex-col justify-start items-start gap-[10px]">
                                 <h1 className="text-[#3D3700] text-[16px] font-medium ">Firstname</h1>
-                                <input className="w-[290px] bg-[#FFFFFC] text-[#3D3700] text-[16px] font-medium px-[20px] py-[20px] rounded-[10px]" type="text" value={Student.first_name} />
+                                <input className="w-[290px]  bg-[#FCFFFF] text-[#00333D] text-[16px] font-medium px-[20px] py-[20px] rounded-[10px]" type="text" value={Student.first_name} />
                             </div>
                             <div className="flex flex-col justify-start items-start gap-[10px]">
                                 <h1 className="text-[#3D3700] text-[16px] font-medium ">Lastname</h1>
-                                <input className="w-[290px] bg-[#FFFFFC] text-[#3D3700] text-[16px] font-medium px-[20px] py-[20px] rounded-[10px]" type="text" value={Student.last_name} />
+                                <input className="w-[290px] bg-[#FCFFFF] text-[#00333D] text-[16px] font-medium px-[20px] py-[20px] rounded-[10px]" type="text" value={Student.last_name} />
                             </div>
                         </div>
                         <div className="flex gap-[20px]">
                             <div className="flex flex-col justify-start items-start gap-[10px]">
                                 <h1 className="text-[#3D3700] text-[16px] font-medium ">Study year</h1>
-                                <input className=" w-[290px] bg-[#FFFFFC] text-[#3D3700] text-[16px] font-medium px-[20px] py-[20px] rounded-[10px]" type="text" value={Student.level} />
+                                <input className=" w-[290px] bg-[#FCFFFF] text-[#00333D] text-[16px] font-medium px-[20px] py-[20px] rounded-[10px]" type="text" value={Student.level} />
                             </div>
                             <div className="flex flex-col justify-start items-start gap-[10px]">
                                 <h1 className="text-[#3D3700] text-[16px] font-medium ">Lastname</h1>
                                 <Dropdown onChange={(e) => setselectedSpicality(e.value)} value={selectedSpicality} options={specialities} optionLabel="name"
-                                    placeholder="Select a Specilaity" className="w-full md:w-14rem  bg-[#E8FBFF] text-xl text-center py-5 px-4  " />
+                                    placeholder="Select a Specilaity" className="profile w-[290px]  bg-[#FCFFFF]  font-medium text-center   " style={{ fontSize: '16px' }} />
                             </div>
                         </div>
                     </div>

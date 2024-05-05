@@ -34,10 +34,10 @@ export default function Login() {
 
 
         axios.post("http://192.168.205.126:8000//users/login/", data)
-            .then(() => {
+            .then((res) => {
                 // If the request is successful, navigate to the home page
-                /* navigate("/"); */
-                navigate("/");
+                login(res.data)
+                navigate("/")
             })
             .catch((error) => {
                 // Handle the error here

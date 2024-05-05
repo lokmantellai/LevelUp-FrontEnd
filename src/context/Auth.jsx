@@ -8,6 +8,8 @@ export const ContextProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('jwt-token'));
     const [user, setUser] = useState(null);
     const login = (data) => {
+        console.log("from login")
+        console.log(data)
         localStorage.setItem('jwt-token-access', data.access_token);
         localStorage.setItem('jwt-token-refresh', data.refresh_token);
         setUser({ fullname: data.full_name, email: data.username });
@@ -18,14 +20,13 @@ export const ContextProvider = ({ children }) => {
         setUser(null)
     }
     const showToken = () => {
-        return(token);
+
+        return (localStorage.getItem('jwt-token-access'));
     }
-    if (user && (pathname.toLowerCase().startsWith("/login") || pathname.toLowerCase().startsWith("/signup"))) {
-        return <Navigate to={"/"} />;
-    }
+
     return (
-        <AuthContext.Provider value={{login,logout, showToken , user}}>
+        <AuthContext.Provider value={{ login, logout, showToken, user }}>
             {children}
         </AuthContext.Provider>
-   )%
+    )
 }

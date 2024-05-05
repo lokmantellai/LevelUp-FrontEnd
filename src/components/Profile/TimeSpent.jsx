@@ -1,6 +1,6 @@
 import TimeCounter from "./TimeCounter";
 
-export default function TimeSpent() {
+export default function TimeSpent({ data }) {
 
 
     return (
@@ -12,7 +12,7 @@ export default function TimeSpent() {
             <h1 className="text-[22px] text-[#00333D] font-medium my-[30px]">Time Spent</h1>
             <div className="flex gap-[150px] justify-center items-center">
                 <div className="flex flex-col  items-center gap-[30px]" >
-                    <TimeCounter spent={73} type={'daily'} />
+                    <TimeCounter spent={data?.DailyTimeSpent} type={'daily'} />
                     <div className="flex flex-col  items-center ">
                         <h1 className="text-[22px] text-[#00333D] font-medium">Daily</h1>
                         <h1 className="text-[22px] text-[#00333D] font-medium">(Goal : 2h)</h1>

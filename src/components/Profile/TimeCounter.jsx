@@ -4,7 +4,6 @@ const TimeCounter = ({ spent, type }) => {
 
     const percentage = parseInt(spent * 100 / goal)
 
-    console.log(goal)
     const circleWidth = 200;
     const radius = 85;
     const dashArray = radius * Math.PI * 2;

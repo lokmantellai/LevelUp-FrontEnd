@@ -83,9 +83,17 @@ input:-webkit-autofill:focus {
 }
 
 .p-inputtext {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #453507;
+}
+
+/* .p-inputtext {
     font-size: 1.3rem;
     color: black;
-}
+} */
 
 .p-dropdown-items-wrapper {
     overflow-y: auto !important;
