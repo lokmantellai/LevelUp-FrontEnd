@@ -3,6 +3,7 @@ import xp from "../../assets/Profile/XP.svg"
 import bdg1 from "../../assets/Profile/bdg1.svg"
 import bdg2 from "../../assets/Profile/bdg2.svg"
 import bdg3 from "../../assets/Profile/bdg3.svg"
+import _ from 'lodash'
 
 
 
@@ -20,10 +21,10 @@ export default function Infos({ data, onEditClick }) {
            xs:items-center xs:text-center
            sm:items-center
             md:items-start">
-                <h1 className="text-[22px] text-[#453507] font-medium">{data?.FirstName} {data?.LastName}</h1>
-                <h1 className="text-[18px] text-[#453507] font-regular">University : {data?.University}</h1>
-                <h1 className="text-[18px] text-[#453507] font-regular">Study Year : {Student?.level}</h1>
-                <h1 className="text-[18px] text-[#453507] font-regular">Speciality : {data?.Speciality}</h1>
+                <h1 className="text-[22px] text-[#453507] font-medium">{_.capitalize(data?.FirstName)} {_.capitalize(data?.LastName)}</h1>
+                <h1 className="text-[18px] text-[#453507] font-regular">University : {_.capitalize(data?.University)}</h1>
+                <h1 className="text-[18px] text-[#453507] font-regular">Degree : {_.capitalize(data?.Degree)}</h1>
+                <h1 className="text-[18px] text-[#453507] font-regular">Speciality : {_.capitalize(data?.Speciality)}</h1>
             </div>
             <div className="flex flex-col items-center justify-between h-[150px] ">
                 <div className="flex items-center gap-[10px]">
