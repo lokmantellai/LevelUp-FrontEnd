@@ -6,9 +6,10 @@ import Home from './pages/Home';
 import { ContextProvider } from './context/Auth';
 import { RegisterContextProvider } from './context/Register';
 import SignUpStep from './pages/SignStep';
-import CourseManager from './pages/CourseManager';
+import SpecialistDashboard from './pages/Specialist/SpecialistDashboard';
 import EmailVerification from './pages/EmailVerification';
 import Profile from './pages/Profile';
+import ManageCourses from './pages/Specialist/ManageCourses';
 
 function App() {
   // Check if the browser is Firefox
@@ -24,7 +25,8 @@ function App() {
           <Route path='/signup' element={<RegisterContextProvider><SignUp /></RegisterContextProvider>} />
           <Route path='/signup/step/:num' element={<RegisterContextProvider><SignUpStep /></RegisterContextProvider>} />
           <Route path='/emailverification' element={<RegisterContextProvider><EmailVerification /></RegisterContextProvider>} />
-          <Route path='/courses' element={<CourseManager />} />
+          <Route path='/dashboard' element={<SpecialistDashboard />} />
+          <Route path='/dashboard/courses' element={<ManageCourses />} />
           <Route path='/profile/:id' element={<Profile />} />
         </Routes>
       </ContextProvider>

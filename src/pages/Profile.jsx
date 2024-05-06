@@ -5,18 +5,13 @@ import Recent_Courses from "../components/Profile/Recent_Courses";
 import TimeSpent from "../components/Profile/TimeSpent";
 import EditProfile from "../components/Profile/EditProfile";
 import { useParams } from "react-router-dom";
-import { AuthContext } from "../context/Auth";
-import { useAuth } from "../context/hooks";
 import axios from 'axios'; // Import Axios
 
 
 export default function Profile() {
-    const auth = useAuth()
-
 
     const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(true); // Add loading state
-
     const [userData, setUserData] = useState(null);
     const [originalUserData, setOriginalUserData] = useState(null)
     const [refresh, setRefresh] = useState(localStorage.getItem("jwt-token-refresh"))
