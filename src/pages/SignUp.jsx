@@ -62,7 +62,6 @@ export default function SignUp() {
             message: "Password must contain at least 8 characters"
         },
     };
-
     //check match password 
     const validationConfirmPassword = {
         required: "Please fill out all fields",

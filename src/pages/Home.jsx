@@ -10,22 +10,7 @@ import Stories from "../components/Landing/Stories";
 import { useAuth } from "../context/hooks";
 
 export default function Home() {
-   /*  const Auth = useAuth();
-    const jwtToken = Auth.showToken();
-    console.log("jwt  " + jwtToken)
-    const axiosInstance = axios.create({
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}` // Include the JWT token in the Authorization header
-        }
-    });
-    axiosInstance.get('http://127.0.0.1:8000/users/protected/')
-  .then(response => {
-    console.log('Response:', response.data);
-  })
-  .catch(error => {
-    console.error('Error:', error.response.data);
-  }); */
+    console.log(useAuth().token )
     return (
         <div id="home" className='home bg-[#FFFFFC] overflow-hidden' >
             <div className="container1  mx-[auto] my-[0] xl:w-[100%]">
