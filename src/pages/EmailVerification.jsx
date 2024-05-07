@@ -45,7 +45,7 @@ function useOtpInput() {
 
     // Submit OTP to server
     const email = registerForm.data.user.email;
-    axios.post("http://127.0.0.1:8000/users/verify/otp/", { otp, email })
+    axios.post("http://localhost:8000/users/verify/otp/", { otp, email })
         .then((response) => {
           // Handle response from server
           console.log(response)

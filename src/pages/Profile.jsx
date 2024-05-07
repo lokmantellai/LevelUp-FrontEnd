@@ -5,7 +5,6 @@ import Recent_Courses from "../components/Profile/Recent_Courses";
 import TimeSpent from "../components/Profile/TimeSpent";
 import EditProfile from "../components/Profile/EditProfile";
 import { useParams } from "react-router-dom";
-import { AuthContext } from "../context/Auth";
 import { useAuth } from "../context/hooks";
 import axios from 'axios'; // Import Axios
 
