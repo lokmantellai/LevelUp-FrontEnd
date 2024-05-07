@@ -6,14 +6,18 @@ import Home from './pages/Home';
 import { ContextProvider } from './context/Auth';
 import { RegisterContextProvider } from './context/Register';
 import SignUpStep from './pages/SignStep';
-import CourseManager from './pages/CourseManager';
+import SpecialistDashboard from './pages/Specialist/SpecialistDashboard';
 import EmailVerification from './pages/EmailVerification';
 import Profile from './pages/Profile';
+
 import AuthRedirectHandler from './context/RedirectAuth';
 import NotFound from './pages/NotFound';
 import Dashboard from './pages/Dashboard ';
 import ForgetPassword from './pages/ForgetPassword';
 import ResetPassword from './pages/ResetPassword';
+
+import ManageCourses from './pages/Specialist/ManageCourses';
+
 
 function App() {
   // Check if the browser is Firefox
@@ -23,9 +27,12 @@ function App() {
   return (
     <>
       <ContextProvider>
+
         <AuthRedirectHandler>
           <Routes>
-            <Route path='/dashboard' element={<Dashboard />} />
+       <Route path='/dashboard' element={<SpecialistDashboard />} />
+          <Route path='/dashboard/courses' element={<ManageCourses />} />
+
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/login/forget-password' element={<ForgetPassword />} />
@@ -38,6 +45,7 @@ function App() {
             <Route path='*' element={<NotFound />} /> {/* Catch all other routes */}
           </Routes>
         </AuthRedirectHandler>
+
       </ContextProvider>
     </>
   )

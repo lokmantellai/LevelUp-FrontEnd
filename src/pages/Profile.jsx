@@ -10,14 +10,13 @@ import axios from 'axios'; // Import Axios
 
 
 export default function Profile() {
-    const auth = useAuth()
-
 
     const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(true); // Add loading state
-
     const [userData, setUserData] = useState(null);
+    const [originalUserData, setOriginalUserData] = useState(null)
     const [refresh, setRefresh] = useState(localStorage.getItem("jwt-token-refresh"))
+
 
     const { id } = useParams()
 
@@ -26,17 +25,12 @@ export default function Profile() {
 
     useEffect(() => {
         const fetchUserData = async () => {
-
             try {
-
-
                 const token = localStorage.getItem('jwt-token-access');
                 if (!token) {
                     // Handle case when token is missing
-
                     return;
                 }
-
                 const axiosInstance = axios.create({
                     baseURL: 'http://192.168.205.126:8000',
                     headers: {
@@ -44,11 +38,10 @@ export default function Profile() {
                         'Content-Type': 'application/json'
                     }
                 });
-
                 const response = await axiosInstance.get(`/users/profile/${id}`);
-
                 if (response.status === 200) {
                     setUserData(response.data);
+                    setOriginalUserData(response.data);
                 } else {
                     console.error('Error fetching user data:', response.statusText);
                 }
@@ -69,13 +62,9 @@ export default function Profile() {
                 // Set loading state to false regardless of success or failure
                 setIsLoading(false);
             }
-
         };
-
         fetchUserData();
     }, [id, refresh]); // Include id as a dependency
-
-
 
     if (isLoading) {
         return <div>Loading ..</div>;
@@ -87,10 +76,49 @@ export default function Profile() {
     };
 
 
+    const handleSave = (updatedInfo) => {
+
+
+        const updatedData = {
+            first_name: updatedInfo.FirstName,
+            last_name: updatedInfo.LastName,
+            speciality: updatedInfo.Speciality,
+            degree: updatedInfo.Degree
+        };
+        console.log("from the update methode : ", updatedData)
+        const token = localStorage.getItem('jwt-token-access');
+
+        // Send updated profile data to Django backend
+        axios.put('http://192.168.205.126:8000/users/api/profile/update/', updatedData,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+
+            }
+        )
+        setUserData(updatedInfo);
+        setOriginalUserData(updatedInfo);
+        // Exit edit mode
+        setIsEditing(false);
+
+
+    };
+
+
+    const handleDiscardChanges = () => {
+        // Reset profileInfo back to its original state
+        setUserData(originalUserData);
+        setIsEditing(false);
+    };
+
+
+
     return (
         <div id="Profile" className="Profile ">
             <Navbar />
-            {isEditing ? (<EditProfile data={userData} />) : (<Infos data={userData} onEditClick={handleEditButtonClick} />)}
+            {isEditing ? (<EditProfile data={userData} onSave={handleSave} onDiscard={handleDiscardChanges} />) : (<Infos data={userData} onEditClick={handleEditButtonClick} />)}
 
             <TimeSpent data={userData} />
             <Recent_Courses />
