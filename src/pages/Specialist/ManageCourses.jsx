@@ -3,11 +3,11 @@ import filter from '../../assets/SpecialistDashboard/filter.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faArrowDownWideShort, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect } from "react";
-import axios from 'axios'; // Import Axios
 import PaginationButtons from "../../components/PaginationButtons";
 import CoursesList from "../../components/SpecialistDashboard/CoursesList";
 import Sort from "../../components/SpecialistDashboard/Sort";
 import _ from 'lodash'
+import useAxios from "../../api/useAxios";
 
 
 
@@ -37,6 +37,8 @@ export default function ManageCourses() {
     const [sortOpen, setSortOpen] = useState(false)
 
 
+    const { privateAxios } = useAxios();
+
 
 
     console.log("sort : ", sort, "order :", order)
@@ -58,19 +60,7 @@ export default function ManageCourses() {
     const fetchCourses = async () => {
         setIsLoading(true)
         try {
-            const token = localStorage.getItem('jwt-token-access');
-            if (!token) {
-                // Handle case when token is missing
-                return;
-            }
-            const axiosInstance = axios.create({
-                baseURL: 'http://192.168.205.126:8000',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-            const response = await axiosInstance.get(`/users/courses/?page=${currentPage}&ordering=${_.lowerCase(sort)}&order_direction=${_.lowerCase(order)}`);
+            const response = await privateAxios.get(`/users/courses/?page=${currentPage}&ordering=${_.lowerCase(sort)}&order_direction=${_.lowerCase(order)}`);
             if (response.status === 200) {
                 const responseData = response.data;
                 setCourses(responseData.results);
@@ -79,19 +69,6 @@ export default function ManageCourses() {
 
             } else {
                 console.error('Error fetching courses:', response.statusText);
-            }
-        } catch (error) {
-            if (error.message === "Request failed with status code 401") {
-                axios.post('http://192.168.205.126:8000/users/api/token/refresh/', {
-                    refresh: localStorage.getItem("jwt-token-refresh")
-                })
-                    .then(res => {
-                        localStorage.setItem('jwt-token-access', res.data.access);
-                        setRefresh(res.data.access);
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
             }
         } finally {
             // Set loading state to false regardless of success or failure

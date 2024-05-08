@@ -31,22 +31,6 @@ export default function Profile() {
                 } else {
                     console.error('Error fetching user data:', response.statusText);
                 }
-            }
-            finally {
-
-            } catch (error) {
-                if (error.message == "Request failed with status code 401") {
-                    axios.post('http://192.168.143.156:8000/users/api/token/refresh/', {
-                        refresh: localStorage.getItem("jwt-token-refresh")
-                    })
-                        .then(res => {
-                            localStorage.setItem('jwt-token-access', res.data.access);
-                            setRefresh(res.data.access)
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                        })
-                }
             } finally {
                 // Set loading state to false regardless of success or failure
                 setIsLoading(false);

@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const baseURL = "http://localhost:8000";
+const baseURL = "http://192.168.205.126:8000";
 const TOKEN_ACCESS_KEY = "jwt-token-access";
 const TOKEN_REFRESH_KEY = "jwt-token-refresh";
 
@@ -21,7 +21,7 @@ const useAxios = () => {
         const user = jwtDecode(token);
         const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
         if (!isExpired) return req;
-        
+
         await refreshAccessToken(setToken, setUser, navigate);
         req.headers.Authorization = `Bearer ${token}`;
         return req;
@@ -40,7 +40,6 @@ const refreshAccessToken = async (setToken, setUser, navigate) => {
         setUser(jwtDecode(response.data.access));
     } catch (error) {
         console.error("Error refreshing access token:", error);
-        navigate('/login');
     }
 };
 

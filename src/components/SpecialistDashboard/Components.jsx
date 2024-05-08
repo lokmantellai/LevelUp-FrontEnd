@@ -8,6 +8,7 @@ import { faXmark, faListUl, faPenToSquare, faTrash } from '@fortawesome/free-sol
 import { useState } from "react";
 import Backdrop from '@mui/material/Backdrop';
 import axios from 'axios'; // Import Axios
+import useAxios from "../../api/useAxios";
 
 
 
@@ -27,21 +28,21 @@ function SideBar() {
             <Link to={"/"}>
                 <img src={Logo} className="w-48 mb-24" />
             </Link>
-            <ul className="w-full flex flex-col gap-10 font-medium text-lg ">
+            <ul className="w-full flex flex-col gap-10 font-medium text-lg text-[#FFFFFC] ">
                 <Link to={"/dashboard"}>
-                    <li className={`relative text-center w-full py-[2rem] transition-all z-10 ${isActivePage('/dashboard') ? '' : 'hover:text-black group'} `}>
+                    <li className={`relative text-center w-full py-[2rem] transition-all z-10 ${isActivePage('/dashboard') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
                         <span className="relative z-10">Dashboard</span>
                         <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC] opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard') ? 'opacity-100 text-[#00333D]' : ' '} `}></span>
                     </li>
                 </Link>
                 <Link to={"/dashboard/courses"} className="relative z-10">
-                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? '' : 'hover:text-black group'} `}>
+                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
                         <span className="relative z-10">Courses</span>
                         <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
                     </li>
                 </Link>
                 <Link to={"/dashboard/notifactions"} className="relative z-10">
-                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/notifications') ? '' : 'hover:text-black group'} `}>
+                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/notifications') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
                         <span className="relative z-10">Notifactions</span>
                         <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/notifications') ? 'opacity-100 text-[#00333D]' : ''} `} ></span>
                     </li>
@@ -88,7 +89,7 @@ function Header() {
 function DeleteDialogue({ e, cancel, onDelete }) {
 
     const [showModal, setShowModal] = useState(true);
-
+    const { privateAxios } = useAxios();
 
     const handleCancel = () => {
         cancel()
@@ -100,7 +101,7 @@ function DeleteDialogue({ e, cancel, onDelete }) {
     const handleDelete = () => {
 
 
-        axios.delete(`http://192.168.205.126:8000/users/course/delete/${e.id}`)
+        privateAxios.delete(`/users/course/delete/${e.id}`)
             .then(response => {
                 if (response.ok) {
                     setMessage('Course deleted successfully.');
