@@ -8,12 +8,12 @@ import animation from "../assets/animation.json"
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import ErrorMessage from '../components/ErrorMessage';
-import axios from 'axios';
 import { useAuth } from '../context/hooks';
-
+import useAxios from '../api/useAxios';
 
 export default function Login() {
     const { login } = useAuth();
+    const { publicAxios } = useAxios();
     const navigate = useNavigate();
     const { register, handleSubmit, formState } = useForm();
     const { errors } = formState;
@@ -31,15 +31,13 @@ export default function Login() {
         required: "Please fill out all fields",
     };
     const fetchToAuth = (data) => {
-
-
-        axios.post("http://localhost:8000//users/login/", data)
+        publicAxios.post("/users/login/", data)
             .then((res) => {
                 // If the request is successful, navigate to the home page
                 login(res.data)
                 navigate("/")
             })
-            .catch((error) => {
+             .catch((error) => {
                 // Handle the error here
                 if (error.response.status === 401) {
                     // Handle 401 Unauthorized error
@@ -49,7 +47,8 @@ export default function Login() {
                     // Handle other errors
                     console.log("An error occurred:", error.message);
                 }
-            });
+            }); 
+         
     }
     useEffect(() => {
         const instance = lottie.loadAnimation({

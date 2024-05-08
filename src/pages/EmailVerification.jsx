@@ -67,7 +67,7 @@ function useOtpInput() {
 function EmailVerification() {
   const { inputRefs, handleChange, handleKeyDown } = useOtpInput();
   const [seconds, setSeconds] = useState(600); // 10 minutes in seconds
-
+  const registerForm = useRegister();
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -95,7 +95,7 @@ function EmailVerification() {
         <h2 className="font-bold text-3xl text-[#0095B2] ">
           Confirm Email Address
         </h2>
-        <p className="font-medium text-lg text-center mt-4">
+        <p className="font-medium text-lg text-center mt-4 text-[#00333D]">
           Please verify your account by entering the one-time password (OTP)
           sent to your email address. If you haven't received it, click "Resend
           OTP." Enter the OTP within 10 minutes to confirm your account and
@@ -119,8 +119,14 @@ function EmailVerification() {
         Code Expires in : {minutes}:{remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}
         </p>
         <div className="w-full mt-4 h-[2px] bg-[#00333D]"></div>
-        <p className="text-lg font-medium mt-4 mb-7">
-          If you haven't received the OTP, <button className="text-[#0095B2] underline font-semibold">Resend OTP .</button> 
+        <p className="text-lg font-medium mt-4 mb-7 text-[#00333D]">
+          If you haven't received the OTP,
+          <button onClick={() => {
+            axios.post("http://localhost:8000/users/resend/otp/", {
+              "email": registerForm.data.user.email
+            })
+          }} className="text-[#0095B2] underline font-semibold">Resend OTP .
+          </button> 
         </p>
       </div>
     </div>

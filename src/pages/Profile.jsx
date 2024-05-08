@@ -5,17 +5,15 @@ import Recent_Courses from "../components/Profile/Recent_Courses";
 import TimeSpent from "../components/Profile/TimeSpent";
 import EditProfile from "../components/Profile/EditProfile";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../context/hooks";
-import axios from 'axios'; // Import Axios
+import useAxios from "../api/useAxios";
 
 
 export default function Profile() {
-
+    const { privateAxios } = useAxios();
     const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(true); // Add loading state
     const [userData, setUserData] = useState(null);
     const [originalUserData, setOriginalUserData] = useState(null)
-    const [refresh, setRefresh] = useState(localStorage.getItem("jwt-token-refresh"))
 
 
     const { id } = useParams()
@@ -26,25 +24,16 @@ export default function Profile() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const token = localStorage.getItem('jwt-token-access');
-                if (!token) {
-                    // Handle case when token is missing
-                    return;
-                }
-                const axiosInstance = axios.create({
-                    baseURL: 'http://192.168.143.156:8000',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const response = await axiosInstance.get(`/users/profile/${id}`);
+                const response = await privateAxios.get(`/users/profile/${id}`);
                 if (response.status === 200) {
                     setUserData(response.data);
                     setOriginalUserData(response.data);
                 } else {
                     console.error('Error fetching user data:', response.statusText);
                 }
+            }
+            finally {
+
             } catch (error) {
                 if (error.message == "Request failed with status code 401") {
                     axios.post('http://192.168.143.156:8000/users/api/token/refresh/', {
@@ -64,7 +53,7 @@ export default function Profile() {
             }
         };
         fetchUserData();
-    }, [id, refresh]); // Include id as a dependency
+    }, [id]); // Include id as a dependency
 
     if (isLoading) {
         return <div>Loading ..</div>;
@@ -85,25 +74,12 @@ export default function Profile() {
             speciality: updatedInfo.Speciality,
             degree: updatedInfo.Degree
         };
-        console.log("from the update methode : ", updatedData)
-        const token = localStorage.getItem('jwt-token-access');
-
         // Send updated profile data to Django backend
-        axios.put('http://192.168.143.156:8000/users/api/profile/update/', updatedData,
-            {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-
-            }
-        )
+        privateAxios.put('/users/api/profile/update/', updatedData)
         setUserData(updatedInfo);
         setOriginalUserData(updatedInfo);
         // Exit edit mode
         setIsEditing(false);
-
-
     };
 
 

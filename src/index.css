@@ -163,6 +163,8 @@ input:-webkit-autofill:focus {
     font-weight: 500;
 }
 
-button.selected {
-    background-color: red !important;
-}
+.forget-password {
+    height: calc(100vh - 164px);
+    align-items: center;
+
+

@@ -12,7 +12,6 @@ import Profile from './pages/Profile';
 
 import AuthRedirectHandler from './context/RedirectAuth';
 import NotFound from './pages/NotFound';
-import Dashboard from './pages/Dashboard ';
 import ForgetPassword from './pages/ForgetPassword';
 import ResetPassword from './pages/ResetPassword';
 
@@ -29,6 +28,7 @@ function App() {
       <ContextProvider>
 
         <AuthRedirectHandler>
+
           <Routes>
             <Route path='/dashboard' element={<SpecialistDashboard />} />
             <Route path='/dashboard/courses' element={<ManageCourses />} />

@@ -6,6 +6,7 @@ import Btn from '../components/Btn';
 import { useRegister } from '../context/hooks';
 import axios from 'axios';
 function ModuleSelection() {
+  console.log("TEAAAAACHER")
   function splitArrayToChunks(arr, size1, size2) {
     console.log(size1, size2)
     const result = [];
@@ -50,7 +51,7 @@ function ModuleSelection() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let res = await fetch('http://192.168.205.126:8000/users/courses/', {
+      let res = await fetch('http://localhost:8000/users/courses/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +85,7 @@ function ModuleSelection() {
       registerForm.save("courses_of_interest", result);
     registerForm.save("university", "University Abdel El Hamid Mehri");
     try {
-      const response = await axios.post(`http://192.168.205.126:8000/users/register/${registerForm.data.role.toLowerCase()}/`,
+      const response = await axios.post(`http://localhost:8000/users/register/${registerForm.data.role.toLowerCase()}/`,
         registerForm.extract(), {
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +93,7 @@ function ModuleSelection() {
       }).then((res) => {
         console.log(res.data.teacher_id + "Teacher id")
         if (registerForm.data.role == "Teacher" && registerForm.data.courses_of_interest ) {
-          axios.post(`http://192.168.205.126:8000/users/courses/assignement/`,
+          axios.post(`http://localhost:8000/users/courses/assignement/`,
             {
               "course_names": registerForm.data.courses_of_interest.join("#"),
               "teacher_id": res.data.id
