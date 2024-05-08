@@ -15,6 +15,7 @@ import NotFound from './NotFound';
         const navigate = useNavigate();
         const { register, handleSubmit, formState , watch } = useForm();
         const { errors } = formState;
+        const [successfulReset, setSusuccessfulReset] = useState(false);
         const [otherError, setOtherError] = useState("");
         const [errorNotFound, setErrorNotFound] = useState(false)
         const [loading, setLoading] = useState(true); // Manage loading state
@@ -71,38 +72,44 @@ import NotFound from './NotFound';
             <div className="bg-[#0095B2] items-center flex flex-col align-top pt-[7rem]">
                 <Link to="/">
                     <img src={logo} alt="Logo"
-                        className='w-[18rem]'
+                        className='w-[14rem]'
                     />
                 </Link>
-                <h3 className='font-medium text-4xl text-white mt-16'>
+                <h3 className='font-medium text-4xl text-white mt-24'>
                     Reset Password
                 </h3>
-                <form className='w-[89%] max-w-[25rem] mt-10 flex flex-col gap-1' onSubmit={handleSubmit((data) => {
-                    data["uidb64"] = uidb64;
-                    data["token"] = token;
-                    axios.patch('http://localhost:8000/users/set_new_password', data)
-                .then(response => {
-                    // Handle successful response
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    // Handle error response
-                    console.error(error);
-                });
-                })}>
-                    <ErrorMessage errors={errors} others={otherError} />
-                    <InputField setToForm={{ ...register("password", validationPassword) }} type="password" placeholder="New Password" />
-                    <InputField setToForm={{ ...register("confirm_password", validationConfirmPassword) }} type="password" placeholder="Confirm New Password" />
-                    <div className='flex justify-center text-white font-medium text-lg'>
-                        <Btn text="Reset My Password" type="submit" style={" w-full"} />
-                    </div>
-                    <div className='w-[100%] h-1 bg-white ml-auto mr-auto mt-5'></div>
-                    <div className='text-white font-medium text-lg ml-auto mr-auto mt-5 mb-20'>
-                        Don’t have an account ? <Link className='font-bold text-[#FCEE65] relative' to='/signup'>Sign-Up .
-                            <span className='absolute left-0 bottom-[-3px] w-full h-[2px] bg-[#FCEE65]'></span>
-                        </Link>
-                    </div>
-                </form>
+                {
+                    successfulReset ?
+                        <p className='text-xl text-white w-[87%] text-center'>
+                    Your password has been successfully reset
+                        </p>
+                        :
+                        <form className='w-[89%] max-w-[25rem] mt-10 flex flex-col gap-1' onSubmit={handleSubmit((data) => {
+                            data["uidb64"] = uidb64;
+                            data["token"] = token;
+                            axios.patch('http://localhost:8000/users/set_new_password', data)
+                        .then(response => {
+                          setSusuccessfulReset(true)  
+                        })
+                        .catch(error => {
+                            // Handle error response
+                            console.error(error);
+                        });
+                        })}>
+                            <ErrorMessage errors={errors} others={otherError} />
+                            <InputField setToForm={{ ...register("password", validationPassword) }} type="password" placeholder="New Password" />
+                            <InputField setToForm={{ ...register("confirm_password", validationConfirmPassword) }} type="password" placeholder="Confirm New Password" />
+                            <div className='flex justify-center text-white font-medium text-lg'>
+                                <Btn text="Reset My Password" type="submit" style={" w-full"} />
+                            </div>
+                            <div className='w-[100%] h-1 bg-white ml-auto mr-auto mt-5'></div>
+                            <div className='text-white font-medium text-lg ml-auto mr-auto mt-5 mb-20'>
+                                Don’t have an account ? <Link className='font-bold text-[#FCEE65] relative' to='/signup'>Sign-Up .
+                                    <span className='absolute left-0 bottom-[-3px] w-full h-[2px] bg-[#FCEE65]'></span>
+                                </Link>
+                            </div>
+                        </form>
+                }
             </div>
         </div>
     )

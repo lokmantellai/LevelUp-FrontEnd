@@ -70,7 +70,7 @@ export default function SignUp() {
     //Check If Email Already Used 
     const emailIsUsed = async (email) => {
         await axios.post(
-            'http://192.168.205.126:8000/users/validate/email/',
+            'http://localhost:8000/users/validate/email/',
             { email },
             { headers: { 'Content-Type': 'application/json' } }
         );
@@ -85,7 +85,7 @@ export default function SignUp() {
             <div className="bg-[#0095B2] items-center flex flex-col align-top pt-[6rem]">
                 <Link to="/">
                     <img src={logo} alt="Logo"
-                        className='w-[18rem]'
+                        className='w-[15rem]'
                     />
                 </Link>
                 <h3 className='font-medium text-4xl text-white mt-16'>

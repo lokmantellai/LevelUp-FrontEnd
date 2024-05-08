@@ -162,3 +162,7 @@ input:-webkit-autofill:focus {
     font-size: 22px;
     font-weight: 500;
 }
+.forget-password {
+    height: calc(100vh - 164px);
+    align-items: center;
+}
