@@ -1,7 +1,13 @@
 import { createContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useAuth } from './hooks';
 
 export const RegisterContext = createContext(null);
 export const RegisterContextProvider = ({ children }) => {
+    // Rules to Enter Registre Paths
+    const { pathname } = useLocation();
+    const {user}= useAuth();
+console.log("user" , user)
     // set Data will be sent to api #registre
     const [data, setData] = useState({});
     const [all, setAll] = useState();

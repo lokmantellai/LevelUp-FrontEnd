@@ -1,31 +1,21 @@
 import { createContext, useState } from "react"
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext(null);
 export const ContextProvider = ({ children }) => {
-    const { pathname } = useLocation();
-    const navigate = useNavigate();
-    const [token, setToken] = useState(localStorage.getItem('jwt-token'));
-    const [user, setUser] = useState(null);
+    const [token, setToken] = useState(localStorage.getItem('jwt-token-access'));
     const login = (data) => {
-        console.log("from login")
-        console.log(data)
         localStorage.setItem('jwt-token-access', data.access_token);
         localStorage.setItem('jwt-token-refresh', data.refresh_token);
-        setUser({ fullname: data.full_name, email: data.username });
+        console.log(data.access_token)
         setToken(data.access_token);
     }
     const logout = () => {
-        setToken(null)
-        setUser(null)
+        setToken(null);
+        localStorage.removeItem('jwt-token-access');
+        localStorage.removeItem('jwt-token-refresh');
     }
-    const showToken = () => {
-
-        return (localStorage.getItem('jwt-token-access'));
-    }
-
     return (
-        <AuthContext.Provider value={{ login, logout, showToken, user }}>
+        <AuthContext.Provider value={{ login, logout, token}}>
             {children}
         </AuthContext.Provider>
     )

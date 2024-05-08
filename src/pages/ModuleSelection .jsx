@@ -6,7 +6,6 @@ import Btn from '../components/Btn';
 import { useRegister } from '../context/hooks';
 import axios from 'axios';
 function ModuleSelection() {
-  console.log(useRegister().ModulesSelected)
   function splitArrayToChunks(arr, size1, size2) {
     console.log(size1, size2)
     const result = [];
@@ -84,7 +83,6 @@ function ModuleSelection() {
     else
       registerForm.save("courses_of_interest", result);
     registerForm.save("university", "University Abdel El Hamid Mehri");
-    console.log(registerForm.data.role.toLowerCase() + " Heyyy")
     try {
       const response = await axios.post(`http://192.168.205.126:8000/users/register/${registerForm.data.role.toLowerCase()}/`,
         registerForm.extract(), {
@@ -93,12 +91,11 @@ function ModuleSelection() {
         }
       }).then((res) => {
         console.log(res.data.teacher_id + "Teacher id")
-        if (registerForm.data.role == "Teacher") {
-          axios.post(`http://192.168.205.126:8000/users/register/${registerForm.data.role.toLowerCase()}/`,
+        if (registerForm.data.role == "Teacher" && registerForm.data.courses_of_interest ) {
+          axios.post(`http://192.168.205.126:8000/users/courses/assignement/`,
             {
-              "course_names": registerForm.data.courses_of_interest,
-              "teacher_id": res.data.teacher_id 
-      
+              "course_names": registerForm.data.courses_of_interest.join("#"),
+              "teacher_id": res.data.id
             }, {
         headers: {
           'Content-Type': 'application/json',
@@ -107,9 +104,7 @@ function ModuleSelection() {
         }
             
       })
-        
-      console.log(response);
-      //navigate("/emailverification");
+      navigate("/emailverification");
       return response;
     } catch (error) {
       console.log(error.message);
