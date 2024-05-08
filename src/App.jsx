@@ -30,8 +30,8 @@ function App() {
 
         <AuthRedirectHandler>
           <Routes>
-       <Route path='/dashboard' element={<SpecialistDashboard />} />
-          <Route path='/dashboard/courses' element={<ManageCourses />} />
+            <Route path='/dashboard' element={<SpecialistDashboard />} />
+            <Route path='/dashboard/courses' element={<ManageCourses />} />
 
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
@@ -40,7 +40,6 @@ function App() {
             <Route path='/signup' element={<RegisterContextProvider><SignUp /></RegisterContextProvider>} />
             <Route path='/signup/step/:num' element={<RegisterContextProvider><SignUpStep /></RegisterContextProvider>} />
             <Route path='/emailverification' element={<RegisterContextProvider><EmailVerification /></RegisterContextProvider>} />
-            <Route path='/courses' element={<CourseManager />} />
             <Route path='/profile/:id' element={<Profile />} />
             <Route path='*' element={<NotFound />} /> {/* Catch all other routes */}
           </Routes>
