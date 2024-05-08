@@ -5,12 +5,17 @@ import Personne from "../../assets/Vector.svg";
 import Search from '../../assets/Landing/Search.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark, faListUl, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { useState } from "react";
+import Backdrop from '@mui/material/Backdrop';
+import axios from 'axios'; // Import Axios
+
 
 
 export { SideBar as SideBar, Header as Header, CoursInfo as CoursInfo };
 function SideBar() {
 
     const location = useLocation();
+
 
     const isActivePage = (pathname) => {
         return location.pathname === pathname;
@@ -67,17 +72,93 @@ function Header() {
                     <img src={Personne} className="w-7 h-7" />
                 </button>
                 <div className="flex flex-col items-center">
-                    <span className="capitalize font-medium">lokman tellai</span>
+                    <span className="capitalize font-medium">lokmane tellai</span>
                     <span className="capitalize text-sm">specialist</span>
                 </div>
             </div>
         </header>
     )
 }
-function CoursInfo({ data, closeClick }) {
 
-    console.log(data.title)
-    console.log('hi')
+
+
+
+
+
+function DeleteDialogue({ e, cancel, onDelete }) {
+
+    const [showModal, setShowModal] = useState(true);
+
+
+    const handleCancel = () => {
+        cancel()
+        setShowModal(false); // Close modal without confirmation
+    };
+
+    const [message, setMessage] = useState('');
+
+    const handleDelete = () => {
+
+
+        axios.delete(`http://192.168.205.126:8000/users/course/delete/${e.id}`)
+            .then(response => {
+                if (response.ok) {
+                    setMessage('Course deleted successfully.');
+                    // Optionally, you can perform additional actions after successful deletion
+                } else {
+                    setMessage('Error deleting course.');
+                    // Optionally, you can handle different types of errors here
+                }
+                onDelete()
+            })
+            .catch(error => {
+                setMessage('Network error. Please try again.');
+                console.error('Error:', error);
+            });
+
+    };
+
+    const handleConfirm = () => {
+        console.log('delete')
+        handleDelete();
+        // Handle confirmation logic
+        setShowModal(false); // Close modal after confirmation
+    };
+
+
+
+    return (
+
+        <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={showModal}
+            onClick={handleCancel}
+        >
+
+            <div className={`fixed top-2/4 left-2/4 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-between items-center w-[500px] h-[200px] py-[40px] px-[40px] bg-[#FFFFFC] text-center rounded-2xl [box-shadow:0px_0px_10px_rgba(0,_0,_0,_0.3)] `}>  <h1 className="text-[#3D3700] text-[16px] font-medium"> Are You Really Want To Delete {e.title} Cours ?</h1>
+                <div className="flex w-[250px] justify-between items-center">
+                    <button className="flex items-center justify-center px-[20px] py-[20px] w-[100px] h-[30px] bg-[#FFEBEB] text-[#3D3700] text-[16px] font-medium rounded-[8px]" onClick={handleCancel} >Cancel</button>
+                    <button className="flex items-center justify-center px-[20px] py-[20px] w-[100px] h-[30px] bg-[#FFEBEB] text-[#3D3700] text-[16px] font-medium rounded-[8px]" onClick={handleConfirm}>Delete</button>
+                </div>
+            </div>
+        </Backdrop>
+
+    )
+}
+
+function CoursInfo({ data, closeClick, onDelete }) {
+    const [deleteWarn, setDeleteWarn] = useState(false);
+
+
+    const handleDeleteWarn = () => {
+        setDeleteWarn(true)
+    }
+    const handleCancelWarn = () => {
+        console.log("cancled")
+        setDeleteWarn(false)
+    }
+
+
     return (
         <div className="flex flex-col gap-[50px] w-[30%] bg-[#FFFDE8] py-[30px] px-[30px]">
             <div className="flex justify-end">
@@ -97,7 +178,7 @@ function CoursInfo({ data, closeClick }) {
                 <button className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
                     <FontAwesomeIcon size="lg" icon={faPenToSquare} />
                 </button>
-                <button className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FFB8B8] text-[#730303] text-[16px] font-medium rounded-[8px]  hover:bg-[#AD0202] hover:text-[#FFEBEB]" >
+                <button onClick={handleDeleteWarn} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FFB8B8] text-[#730303] text-[16px] font-medium rounded-[8px]  hover:bg-[#AD0202] hover:text-[#FFEBEB]" >
                     <FontAwesomeIcon size="lg" icon={faTrash} />
                 </button>
             </div>
@@ -123,6 +204,7 @@ function CoursInfo({ data, closeClick }) {
                 <h1 className="text-[18px] text-[#3D3700] font-medium ">Number Of Enrollments</h1>
                 <h1 className="text-[18px] text-[#3D3700] font-regular ">19506 Enrollment</h1>
             </div>
+            {deleteWarn && <DeleteDialogue e={data} cancel={handleCancelWarn} onDelete={onDelete} />}
         </div>
     )
 }
