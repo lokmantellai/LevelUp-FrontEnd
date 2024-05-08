@@ -31,7 +31,7 @@ export default function Profile() {
                     return;
                 }
                 const axiosInstance = axios.create({
-                    baseURL: 'http://192.168.205.126:8000',
+                    baseURL: 'http://192.168.143.156:8000',
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ export default function Profile() {
                 }
             } catch (error) {
                 if (error.message == "Request failed with status code 401") {
-                    axios.post('http://192.168.205.126:8000/users/api/token/refresh/', {
+                    axios.post('http://192.168.143.156:8000/users/api/token/refresh/', {
                         refresh: localStorage.getItem("jwt-token-refresh")
                     })
                         .then(res => {
@@ -88,7 +88,7 @@ export default function Profile() {
         const token = localStorage.getItem('jwt-token-access');
 
         // Send updated profile data to Django backend
-        axios.put('http://192.168.205.126:8000/users/api/profile/update/', updatedData,
+        axios.put('http://192.168.143.156:8000/users/api/profile/update/', updatedData,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`,
