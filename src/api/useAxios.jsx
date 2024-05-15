@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const baseURL = "http://192.168.205.126:8000";
+const baseURL = "http://localhost:8000";
 const TOKEN_ACCESS_KEY = "jwt-token-access";
 const TOKEN_REFRESH_KEY = "jwt-token-refresh";
 
@@ -27,7 +27,7 @@ const useAxios = () => {
         return req;
     });
 
-    return { privateAxios, publicAxios };
+    return { privateAxios, publicAxios, baseURL };
 };
 
 const refreshAccessToken = async (setToken, setUser, navigate) => {

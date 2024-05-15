@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Link, useLocation } from "react-router-dom"
 import Logo from "../../assets/Logo.png"
 import NightMode from "../../assets/night-mode.svg"
@@ -5,16 +6,16 @@ import Personne from "../../assets/Vector.svg";
 import Search from '../../assets/Landing/Search.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark, faListUl, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Backdrop from '@mui/material/Backdrop';
-import axios from 'axios'; // Import Axios
 import useAxios from "../../api/useAxios";
+import { useAuth } from "../../context/hooks";
 
 
 
-export { SideBar as SideBar, Header as Header, CoursInfo as CoursInfo };
+export { SideBar as SideBar, Header as Header, CoursInfo as CoursInfo , UserInfo};
 function SideBar() {
-
+    const { role } = useAuth();
     const location = useLocation();
 
 
@@ -35,12 +36,22 @@ function SideBar() {
                         <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC] opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard') ? 'opacity-100 text-[#00333D]' : ' '} `}></span>
                     </li>
                 </Link>
-                <Link to={"/dashboard/courses"} className="relative z-10">
-                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
-                        <span className="relative z-10">Courses</span>
-                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
-                    </li>
-                </Link>
+                {role == "admin" && 
+                  <Link to={"/dashboard/users"} className="relative z-10">
+                  <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
+                      <span className="relative z-10">Users</span>
+                      <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
+                  </li>
+              </Link>
+                }
+                {role == "specialist" && 
+                  <Link to={"/dashboard/courses"} className="relative z-10">
+                  <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
+                      <span className="relative z-10">Courses</span>
+                      <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
+                  </li>
+              </Link>
+                }
                 <Link to={"/dashboard/notifactions"} className="relative z-10">
                     <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/notifications') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
                         <span className="relative z-10">Notifactions</span>
@@ -150,7 +161,6 @@ function DeleteDialogue({ e, cancel, onDelete }) {
 function CoursInfo({ data, closeClick, onDelete }) {
     const [deleteWarn, setDeleteWarn] = useState(false);
 
-
     const handleDeleteWarn = () => {
         setDeleteWarn(true)
     }
@@ -206,6 +216,133 @@ function CoursInfo({ data, closeClick, onDelete }) {
                 <h1 className="text-[18px] text-[#3D3700] font-regular ">19506 Enrollment</h1>
             </div>
             {deleteWarn && <DeleteDialogue e={data} cancel={handleCancelWarn} onDelete={onDelete} />}
+        </div>
+    )
+}
+function UserInfo({ data, closeClick, onDelete, baseURL, SelfId }) {
+    const { privateAxios } = useAxios();
+    const [deleteWarn, setDeleteWarn] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [userInfo, setUserInfo] = useState();
+
+    const handleDeleteWarn = () => {
+        setDeleteWarn(true)
+    }
+    const handleCancelWarn = () => {
+        console.log("cancled")
+        setDeleteWarn(false)
+    }
+    useEffect(() => {
+        // Create a signal for aborting the Axios request
+        if (data.role != "admin") {
+            const abortController = new AbortController();
+            const signal = abortController.signal;
+            setUserInfo()
+            setIsLoading(true)
+            privateAxios.get(`users/profile/${data?.id}`,{signal})
+                .then(res => {
+                        console.log("i am inside ", data.id)
+                        setUserInfo(res.data)
+                        setIsLoading(false)
+                })
+                return () => {
+                    abortController.abort();
+                };
+        }
+    }, [data])
+    console.log(data)
+    return (
+        <div className="flex flex-col gap-[21px]  w-[30%] bg-[#FFFDE8] py-[30px] px-[30px] capitalize sideBarInfo">
+            <div className="flex justify-end">
+                <button className=" text-[#3D3700] " onClick={closeClick}>
+                    <FontAwesomeIcon size="2xl" icon={faXmark} />
+                </button>
+            </div>
+            <img src={data?.img ? baseURL + data?.img : (baseURL + "/media/images/defaultPersone.png")} alt="" className="w-[160px] rounded-full mx-auto" />
+            <div className="flex flex-col text-center gap-[10px]">
+                <h1 className="text-[22px] text-[#3D3700] font-medium ">{data?.title}</h1>
+                <h1 className="text-[18px] text-[#3D3700] font-medium ">{data?.level}</h1>
+            </div>
+            <div className="flex justify-around items-center">
+                <Link to={`/profile/${data?.id}`} target="_blank" className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
+                    <FontAwesomeIcon size="lg" icon={faListUl} />
+                </Link>
+                <button className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
+                    <FontAwesomeIcon size="lg" icon={faPenToSquare} />
+                </button>
+                {
+                    ((data.role == "admin" && data.id != SelfId) || data.role == "specialist") &&
+                    <button onClick={handleDeleteWarn} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FFB8B8] text-[#730303] text-[16px] font-medium rounded-[8px]  hover:bg-[#AD0202] hover:text-[#FFEBEB]" >
+                        <FontAwesomeIcon size="lg" icon={faTrash} />
+                    </button>
+                }
+               
+            </div>
+            <div className="flex gap-[40px]">
+                <div className="w-[115px]">
+                    <h1 className="text-[18px] text-[#3D3700] font-medium ">Full Name</h1>
+                    <p className="text-[14px] text-[#3D3700] font-medium capitalize">{data?.first_name + " "+ data?.last_name}</p>
+                </div>
+                <div >
+                    <h1 className="text-[18px] text-[#3D3700] font-medium">Joined</h1>
+                    <span className="text-[14px] text-[#3D3700] font-medium">{data?.date_joined?.split("T")[0]}</span>
+                </div>
+            </div>
+            <div className="flex  items-center gap-[40px]">
+                <div>
+                    <h1 className="text-[18px] text-[#3D3700] font-medium w-[115px]">Id</h1>
+                    <p className="text-[14px] text-[#3D3700] font-medium ">{data?.id}</p>
+                </div>
+                <div>
+                    <h1 className="text-[18px] text-[#3D3700] font-medium ">Status</h1>
+                    <p className="text-[14px] text-[#3D3700] font-medium ">{data?.is_active ? "Online" : "Offline"}</p>
+                </div>
+            </div>
+            {
+                isLoading ? <div className="h-[132px] flex justify-center items-center"> <div className="loading-circle"></div> </div>
+                    : 
+                    <>
+                        {data?.role == "student" && <StudentInfo userInfo={userInfo}/>}
+                        {data?.role == "teacher" && <TeacherInfo userInfo={userInfo}/>}
+                    </>
+            }
+           {deleteWarn && <DeleteDialogue e={data} cancel={handleCancelWarn} onDelete={onDelete} />}
+        </div>
+    )
+}
+
+/* 
+{"University":"Constantine","Score":0,"EnrollCourse":[],"CanEdit":false,"img":"/images/defaultPersone.png"}
+*/
+function StudentInfo({userInfo}) {
+    return (
+        <>
+        <div className="flex  items-center justify-between">
+                        <div>
+                            <h1 className="text-[18px] text-[#3D3700] font-medium">Degree</h1>
+                            <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.Degree}</p>
+                        </div>    
+                        <div> 
+                            <h1 className="text-[18px] text-[#3D3700] font-medium ">Speciality</h1>
+                            <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.Speciality}</p>
+                        </div>
+            </div>
+        <div>
+            <h1 className="text-[18px] text-[#3D3700] font-medium ">University</h1>
+            <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.University}</p>
+        </div>
+        </>
+    )
+}
+function TeacherInfo({ userInfo }) {
+    return (
+        <div className="flex justify-between items-center">
+            <div>
+                <h1 className="text-[18px] text-[#3D3700] font-medium ">Courses</h1>
+                <p className="text-[14px] text-[#3D3700] font-medium ">
+                    {userInfo?.Courses?.map(el => el.title).join(', ')}
+                </p>    
+            </div>
         </div>
     )
 }

@@ -1,4 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
+import { Header, SideBar } from "./components/SpecialistDashboard/Components";
+
 import './App.css'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp';
@@ -16,23 +18,30 @@ import ForgetPassword from './pages/ForgetPassword';
 import ResetPassword from './pages/ResetPassword';
 
 import ManageCourses from './pages/Specialist/ManageCourses';
+import { Outlet } from 'react-router-dom/dist';
+import { useAuth } from './context/hooks';
+import ManageUsers from './pages/Admin/ManageUsers';
 
 
 function App() {
+  const { role } = useAuth(); 
   // Check if the browser is Firefox
   var isFirefox = typeof InstallTrigger !== 'undefined';
   if (isFirefox)
     document.documentElement.style.fontSize = "14px";
   return (
     <>
-      <ContextProvider>
-
         <AuthRedirectHandler>
-
           <Routes>
-            <Route path='/dashboard' element={<SpecialistDashboard />} />
-            <Route path='/dashboard/courses' element={<ManageCourses />} />
-
+            { 
+              <Route path='/dashboard' element={<DashboardLayout />}>
+                <Route path='' element={<>Hi</>} />
+                {role == "admin" && <Route path='users' element={<ManageUsers />}/>}
+                {role == "specialist" && <Route path='courses' element={<ManageCourses />}/>}
+                <Route path='notifactions' element={<>Notification</>} />
+                <Route path='setting' element={<>Setting</>} />
+              </Route>
+            }
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/login/forget-password' element={<ForgetPassword />} />
@@ -44,10 +53,21 @@ function App() {
             <Route path='*' element={<NotFound />} /> {/* Catch all other routes */}
           </Routes>
         </AuthRedirectHandler>
-
-      </ContextProvider>
     </>
   )
 }
 
 export default App;
+
+
+function DashboardLayout() {
+  return (
+  <div className="flex  bg-[#FFFFFC]" >
+      <SideBar />
+      <div className=" flex flex-col flex-1 pb-[20] ">
+        <Header />
+        <Outlet />
+      </div>
+  </div>
+  )
+}

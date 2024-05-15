@@ -1,5 +1,4 @@
-import { Header, SideBar, CoursInfo } from "../../components/SpecialistDashboard/Components";
-import filter from '../../assets/SpecialistDashboard/filter.svg'
+import {CoursInfo, UserInfo } from "../../components/SpecialistDashboard/Components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faArrowDownWideShort, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect } from "react";
@@ -8,15 +7,17 @@ import CoursesList from "../../components/SpecialistDashboard/CoursesList";
 import Sort from "../../components/SpecialistDashboard/Sort";
 import _ from 'lodash'
 import useAxios from "../../api/useAxios";
+import UsersList from "../../components/AdminDashboard/UsersList";
+import { useAuth } from "../../context/hooks";
 
 
 
 
-export default function ManageCourses() {
+export default function ManageUsers() {
 
 
     const [isLoading, setIsLoading] = useState(false);
-    const [courses, setCourses] = useState([])
+    const [users, setUsers] = useState([])
     const [refresh, setRefresh] = useState(localStorage.getItem("jwt-token-refresh"))
     const [deleted, setDeleted] = useState(false)
 
@@ -26,7 +27,7 @@ export default function ManageCourses() {
     const [records, setRecords] = useState(0)
     const lastRecord = currentPage === totalPages ? records : currentPage * 8;
     const firstRecord = (currentPage * 8) - 7;
-    const [selectedCours, setSelectedCours] = useState()
+    const [selectedUser, setSelectedUser] = useState()
 
 
     const [sort, setSort] = useState('id')
@@ -37,9 +38,9 @@ export default function ManageCourses() {
     const [sortOpen, setSortOpen] = useState(false)
 
 
-    const { privateAxios } = useAxios();
+    const { privateAxios, baseURL } = useAxios();
 
-
+    const { user } = useAuth();
 
     console.log("sort : ", sort, "order :", order)
 
@@ -51,22 +52,21 @@ export default function ManageCourses() {
     useEffect(() => {
         if (deleted) {
             setDeleted(false); // Reset the deleted state after fetching
-            setSelectedCours()
+            setSelectedUser()
         }
-        fetchCourses();
+        fetchUsers();
     }, [refresh, currentPage, deleted, sort, order]);
 
 
-    const fetchCourses = async () => {
+    const fetchUsers = async () => {
         setIsLoading(true)
         try {
-            const response = await privateAxios.get(`/users/courses/?page=${currentPage}&ordering=${_.lowerCase(sort)}&order_direction=${_.lowerCase(order)}`);
+            const response = await privateAxios.get(`/users/usersList?page=${currentPage}&ordering=${_.lowerCase(sort)}&order_direction=${_.lowerCase(order)}`);
             if (response.status === 200) {
                 const responseData = response.data;
-                setCourses(responseData.results);
+                setUsers(responseData.results);
                 setTotalPages(responseData.total_pages);
                 setRecords(responseData.count)
-
             } else {
                 console.error('Error fetching courses:', response.statusText);
             }
@@ -83,10 +83,10 @@ export default function ManageCourses() {
     };
 
     const handleCourseClick = (course) => {
-        setSelectedCours(course);
+        setSelectedUser(course);
     };
     const handleClose = () => {
-        setSelectedCours()
+        setSelectedUser()
     }
 
 
@@ -97,7 +97,7 @@ export default function ManageCourses() {
                         <div className=" flex flex-col h-[100%] w-[100%] justify-between px-[50px] pb-[20px]">
                             <div className="flex flex-col  pt-[50px] pb-[30px] gap-[20px]">
                                 <div className="flex justify-between items-center w-[100%]">
-                                    <h1 className=" text-[30px] text-[#3D3700] font-medium  ">Courses</h1>
+                                    <h1 className=" text-[30px] text-[#3D3700] font-medium  ">Users</h1>
                                     <div className="relative flex gap-[20px]">
                                         <button onClick={() => { setSortOpen(true) }} className="flex items-center justify-around px-[20px] py-[20px] w-[120px] h-[50px] bg-[#FFF8B2] text-[#3D3700] text-[16px] font-medium rounded-[8px] hover:bg-[#FCE932] ">
                                             Sort
@@ -116,20 +116,20 @@ export default function ManageCourses() {
                                 </div>
                                 <div className="attributs">
                                     <div className=" grid grid-cols-9 gap-5">
-                                        <h1 className="text-[18px] col-span-3"> Title </h1>
-                                        <h1 className="text-[18px] col-span-2"> Id </h1>
-                                        <h1 className="text-[18px] col-span-2"> Degree </h1>
-                                        <h1 className="text-[18px] col-span-2"> Level </h1>
+                                        <h1 className="text-[18px] col-span-3 ps-3"> Name </h1>
+                                        <h1 className="text-[18px] col-span-1"> Id </h1>
+                                        <h1 className="text-[18px] col-span-3"> Email</h1>
+                                        <h1 className="text-[18px] col-span-2"> Role </h1>
                                     </div>
                                 </div>
-                                <CoursesList data={courses} onCourseClick={handleCourseClick} />
+                                <UsersList data={users} onCourseClick={handleCourseClick} />
                             </div>
                             <div className="pagination flex justify-between items-center ">
                                 <h1 className="text-[16px] text-[#3D3700]">{firstRecord} to {lastRecord} of {records}</h1>
                                 <PaginationButtons totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
                             </div>
                         </div>
-                        {selectedCours && <CoursInfo data={selectedCours} closeClick={handleClose} onDelete={onDelete} />}
+                        {selectedUser && <UserInfo SelfId={user.user_id} baseURL={baseURL} data={selectedUser} closeClick={handleClose} onDelete={onDelete} />}
                     </div>}
 
         </>

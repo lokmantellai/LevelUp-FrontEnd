@@ -167,3 +167,22 @@ input:-webkit-autofill:focus {
     height: calc(100vh - 164px);
     align-items: center;
 }
+.loading-circle {
+    border: 3px solid #fff8b2; /* Light grey */
+    border-top: 3px solid #fae200; /* Blue */
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    animation: spin 1s linear infinite;
+    margin-left: 2px;
+    margin-top: 4px;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.sideBarInfo {
+    height: calc(100vh - 84px);
+}
