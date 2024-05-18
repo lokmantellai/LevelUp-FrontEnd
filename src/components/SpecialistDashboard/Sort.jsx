@@ -51,7 +51,6 @@ export default function Sort({ handleClose, onSort, sorted, ordred, leveled, deg
     }
 
     const handleDegree = (e) => {
-
         setDegreeSel(e)
         setDegreeBy(!degreeBy)
     }
@@ -66,7 +65,7 @@ export default function Sort({ handleClose, onSort, sorted, ordred, leveled, deg
         <div ref={wrapperRef} style={{ boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.2)' }} className="absolute flex flex-col gap-[20px] w-[500px]  right-[26%] top-[0px] py-[20px] px-[20px] rounded-2xl rounded-t-none bg-[#FFFFFC] z-10 ">
             <div className="flex justify-between items-center">
                 <h1 className="text-[#3D3700] text-[18px] font-medium ">Sort & Filter</h1>
-                <button className=" text-[#3D3700] " onClick={handleClose}>
+                <button className=" text-[#3D3700] " onClick={() => { handleClose() }}>
                     <FontAwesomeIcon size="xl" icon={faXmark} />
                 </button>
             </div>

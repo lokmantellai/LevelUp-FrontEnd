@@ -114,7 +114,8 @@ export default function ManageCourses() {
                                         <div className="relative flex gap-[20px]">
                                             <button onClick={() => { setSortOpen(!sortOpen) }} className="flex items-center justify-around px-[20px] py-[20px] w-[200px] h-[50px] bg-[#FFF8B2] text-[#3D3700] text-[16px] font-medium rounded-[8px] hover:bg-[#FCE932] ">
                                                 Sort & Filter
-                                                <FontAwesomeIcon size="lg" icon={faArrowDownWideShort} />                                        </button>
+                                                <FontAwesomeIcon size="lg" icon={faArrowDownWideShort} />
+                                            </button>
                                             <button onClick={() => { setNewCourseOpen(true), setPath(path + ' / Add Course') }} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FAE200] text-[#3D3700] text-[16px] font-medium rounded-[8px] hover:bg-[#FFD24C]">
                                                 <FontAwesomeIcon size="lg" icon={faPlus} />
                                             </button>

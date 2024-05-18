@@ -20,7 +20,7 @@ const fetchCourseTitles = async () => {
 export default function Newcourse() {
 
     const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({ title: '', description: '' });
+    const [formData, setFormData] = useState({ title: '', description: '', degree: '', level: '', category: '' });
     const [errors, setErrors] = useState({});
     const [courseTitles, setCourseTitles] = useState([]);
 
@@ -49,6 +49,7 @@ export default function Newcourse() {
         // else if (step === 2) {}
         //     
         setErrors(newErrors);
+        console.log(newErrors)
         return Object.keys(newErrors).length === 0;
     }
 
@@ -124,7 +125,7 @@ export default function Newcourse() {
 
     return (
         <div>
-            <div className="Stepper flex flex-col  w-[100%] justify-center items-center gap-[20px] ">
+            <div className="Stepper flex flex-col  w-[100%]justify-center items-center gap-[20px] ">
                 <div className="flex justify-between items-center w-[70%]">
                     <div className="flex w-[50px] h-[50px] rounded-[50px] justify-center text-[#E8FBFF] text-[26px] items-center" style={{ backgroundColor: color }}>1</div>
                     <h1 className="text-[#0095B2] text-[28px]">Course setup</h1>
@@ -133,7 +134,7 @@ export default function Newcourse() {
                     <h1 className="text-[#0095B2] text-[28px]">Course content</h1>
                 </div>
 
-                <form className="flex flex-col justify-between items-center bg-[#FFFDE8] w-[100%] h-[63vh] rounded-[10px] px-[30px] py-[30px] ">
+                <form className="flex flex-col justify-between items-center bg-[#FFFDE8] w-[100%] h-[100%] rounded-[10px] px-[30px] py-[30px] gap-[30px]">
                     {renderStep()}
                     <div className="flex justify-between items-center w-[100%]">
                         <button type="button" className="flex justify-center items-center w-[120px] h-[50px] rounded-[5px] text-[18px] bg-[#FFF8B2]" onClick={handleSaveDraft}>Save Draft</button>
@@ -142,7 +143,6 @@ export default function Newcourse() {
                             {step < 2 && <button className="flex justify-center items-center w-[100px] h-[50px] rounded-[5px] text-[18px] bg-[#FCEE65] hover:bg-[#FAE200]" onClick={handleNextStep}>Next</button>}
                             {step === 2 && <button className="flex justify-center items-center w-[100px] h-[50px] rounded-[5px] text-[18px]" type="button" onClick={handleSubmit}>Submit</button>}
                         </div>
-
                     </div>
                 </form>
             </div>
