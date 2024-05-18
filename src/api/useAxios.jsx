@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const baseURL = "http://127.0.0.1:8000";
+const baseURL = "http://localhost:8000";
 const TOKEN_ACCESS_KEY = "jwt-token-access";
 const TOKEN_REFRESH_KEY = "jwt-token-refresh";
 
@@ -18,19 +18,22 @@ const useAxios = () => {
     const publicAxios = axios.create({ baseURL });
 
     privateAxios.interceptors.request.use(async req => {
+        console.log(req.url, " this reqesut excut from private Router");
         const user = jwtDecode(token);
         const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
         if (!isExpired) return req;
 
         await refreshAccessToken(setToken, setUser, navigate);
-        req.headers.Authorization = `Bearer ${token}`;
+        req.headers.Authorization = `Bearer ${localStorage.getItem("jwt-token-access")}`;
+        console.log('this is token from state', token)
+        console.log('this is token from LocalStorage', localStorage.getItem("jwt-token-access"))
         return req;
     });
 
-    return { privateAxios, publicAxios };
+    return { privateAxios, publicAxios, baseURL };
 };
 
-const refreshAccessToken = async (setToken, setUser, navigate) => {
+const refreshAccessToken = async (setToken, setUser) => {
     try {
         const response = await axios.post(`${baseURL}/users/api/token/refresh/`, {
             refresh: localStorage.getItem(TOKEN_REFRESH_KEY)
@@ -41,6 +44,7 @@ const refreshAccessToken = async (setToken, setUser, navigate) => {
     } catch (error) {
         console.error("Error refreshing access token:", error);
     }
+
 };
 
 export default useAxios;
