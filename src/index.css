@@ -95,12 +95,12 @@ input:-webkit-autofill:focus {
     color: black;
 } */
 
-.p-dropdown-items-wrapper {
+.user-form:not() .p-dropdown-items-wrapper {
     overflow-y: auto !important;
     max-height: 220px !important;
 }
 
-.p-dropdown-items-wrapper {
+.user-form:not() .p-dropdown-items-wrapper {
     padding-left: 1rem !important;
     padding-top: 0.7rem !important;
     font-size: 1.2rem !important;
@@ -114,32 +114,31 @@ input:-webkit-autofill:focus {
     overflow: hidden;
 }
 
-.p-dropdown-label.p-inputtext.p-placeholder {
+.user-form:not() .p-dropdown-label.p-inputtext.p-placeholder {
     font-size: 19px;
     font-family: Ubuntu !important;
     color: #6b7280;
     box-shadow: none !important;
 }
-
 .p-dropdown {
     box-shadow: none !important;
 }
 
-.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
+.user-form:not() .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
     background-color: transparent;
 }
 
-.p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled).p-focus {
+.user-form:not() .p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled).p-focus {
     color: #4b5563;
     background: transparent;
 }
 
-.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+.user-form:not() .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
     color: #4b5563;
     background: transparent;
 }
 
-.p-dropdown-item:hover .p-dropdown-item-label {
+.user-form:not() .p-dropdown-item:hover .p-dropdown-item-label {
     color: black;
 }
 
@@ -176,13 +175,43 @@ input:-webkit-autofill:focus {
     animation: spin 1s linear infinite;
     margin-left: 2px;
     margin-top: 4px;
-  }
-  
-  @keyframes spin {
+}
+@keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
 
 .sideBarInfo {
     height: calc(100vh - 84px);
+}
+.verified_icon {
+    background: radial-gradient(circle, rgba(255,255,255,1) 40%, rgba(2,0,36,0) 24%);
+}
+.inputAdd {
+    border: 1px solid #ccc7c7;
+    padding: 5px 6px;
+}
+.inputAdd::placeholder {
+    color: black;
+}
+#dropdown-basic-button {
+    display: block; 
+    padding: 0.625rem; 
+    padding-inline: 22px;
+    padding-left: 10px;
+    border-radius: 0.5rem; 
+    border-width: 1px; 
+    border-color: #D1D5DB; 
+    font-size: 0.875rem;
+    line-height: 1.25rem; 
+    color: #111827; 
+    background-color: #F9FAFB; 
+    width: 110px;
+    position: relative;
+}
+#dropdown-basic-button::after {
+    margin-left: 0px;
+    position: absolute;
+    top: 50%;
+    right: 15px;    
 }

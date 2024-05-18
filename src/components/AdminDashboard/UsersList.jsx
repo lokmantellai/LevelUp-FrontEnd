@@ -1,8 +1,8 @@
-import { useState } from "react"
 import User from "./User"
 
 
 export default function UsersList({ data, onCourseClick }) {
+    console.log("data for Users List",data)
     const handleClick = (e) => {
         onCourseClick(e)
     }

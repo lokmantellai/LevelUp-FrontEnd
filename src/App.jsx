@@ -1,14 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 import { Header, SideBar } from "./components/SpecialistDashboard/Components";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 
 import './App.css'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
-import { ContextProvider } from './context/Auth';
 import { RegisterContextProvider } from './context/Register';
 import SignUpStep from './pages/SignStep';
-import SpecialistDashboard from './pages/Specialist/SpecialistDashboard';
 import EmailVerification from './pages/EmailVerification';
 import Profile from './pages/Profile';
 
@@ -20,7 +20,10 @@ import ResetPassword from './pages/ResetPassword';
 import ManageCourses from './pages/Specialist/ManageCourses';
 import { Outlet } from 'react-router-dom/dist';
 import { useAuth } from './context/hooks';
+import { useState } from 'react';
 import ManageUsers from './pages/Admin/ManageUsers';
+
+
 
 
 function App() {
@@ -34,14 +37,14 @@ function App() {
         <AuthRedirectHandler>
           <Routes>
             { 
-              <Route path='/dashboard' element={<DashboardLayout />}>
-                <Route path='' element={<>Hi</>} />
+            <Route path='/dashboard' element={<DashboardLayout />}>
                 {role == "admin" && <Route path='users' element={<ManageUsers />}/>}
                 {role == "specialist" && <Route path='courses' element={<ManageCourses />}/>}
                 <Route path='notifactions' element={<>Notification</>} />
                 <Route path='setting' element={<>Setting</>} />
               </Route>
             }
+            <Route path='/test' element={<Test />} />
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/login/forget-password' element={<ForgetPassword />} />
@@ -69,5 +72,23 @@ function DashboardLayout() {
         <Outlet />
       </div>
   </div>
+  )
+}
+
+function Test() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [choosed, setChoosed] = useState("None")
+  function click() {
+    console.log("Hey dddccq");
+    console.log("Hey dddccq");
+    console.log("Hey dddccq");
+    console.log("Hey dddccq");
+  }
+  return (
+   <div>
+      <label>Test</label>
+      <br/>
+      <button onClick={click()} >Click </button>
+    </div>
   )
 }

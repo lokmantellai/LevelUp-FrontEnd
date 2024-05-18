@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { Link, useLocation } from "react-router-dom"
 import Logo from "../../assets/Logo.png"
@@ -10,6 +11,8 @@ import { useEffect, useState } from "react";
 import Backdrop from '@mui/material/Backdrop';
 import useAxios from "../../api/useAxios";
 import { useAuth } from "../../context/hooks";
+import Verified from "../../assets/verified(1).png"
+import toast from "react-hot-toast";
 
 
 
@@ -37,20 +40,20 @@ function SideBar() {
                     </li>
                 </Link>
                 {role == "admin" && 
-                  <Link to={"/dashboard/users"} className="relative z-10">
-                  <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
-                      <span className="relative z-10">Users</span>
-                      <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
-                  </li>
-              </Link>
+                <Link to={"/dashboard/users"} className="relative z-10">
+                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
+                        <span className="relative z-10">Users</span>
+                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
+                    </li>
+                </Link>
                 }
                 {role == "specialist" && 
-                  <Link to={"/dashboard/courses"} className="relative z-10">
-                  <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
-                      <span className="relative z-10">Courses</span>
-                      <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
-                  </li>
-              </Link>
+                    <Link to={"/dashboard/courses"} className="relative z-10">
+                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
+                        <span className="relative z-10">Courses</span>
+                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
+                    </li>
+                </Link>
                 }
                 <Link to={"/dashboard/notifactions"} className="relative z-10">
                     <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/notifications') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
@@ -62,7 +65,6 @@ function SideBar() {
                     <li className="relative text-center w-full py-[2rem] rounded-3xl transition-all hover:text-black group">
                         <span className="relative z-10">Setting</span>
                         <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC] opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/setting') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
-
                     </li>
                 </Link>
             </ul >
@@ -97,7 +99,7 @@ function Header() {
 
 
 
-function DeleteDialogue({ e, cancel, onDelete }) {
+function DeleteDialogue({ e, cancel, onDelete, url }) {
 
     const [showModal, setShowModal] = useState(true);
     const { privateAxios } = useAxios();
@@ -107,31 +109,19 @@ function DeleteDialogue({ e, cancel, onDelete }) {
         setShowModal(false); // Close modal without confirmation
     };
 
-    const [message, setMessage] = useState('');
 
-    const handleDelete = () => {
-
-
-        privateAxios.delete(`/users/course/delete/${e.id}`)
-            .then(response => {
-                if (response.ok) {
-                    setMessage('Course deleted successfully.');
-                    // Optionally, you can perform additional actions after successful deletion
-                } else {
-                    setMessage('Error deleting course.');
-                    // Optionally, you can handle different types of errors here
+    const handleDelete = async () => {
+        const req = url || `/users/course/delete/${e.id}`;
+        await toast.promise(
+            privateAxios.delete(req), {
+                loading: 'Loading',
+                success: () => { onDelete(); return 'User Deleted!'; },
+                error: 'Network Error!'
                 }
-                onDelete()
-            })
-            .catch(error => {
-                setMessage('Network error. Please try again.');
-                console.error('Error:', error);
-            });
-
+            );
     };
 
     const handleConfirm = () => {
-        console.log('delete')
         handleDelete();
         // Handle confirmation logic
         setShowModal(false); // Close modal after confirmation
@@ -219,7 +209,7 @@ function CoursInfo({ data, closeClick, onDelete }) {
         </div>
     )
 }
-function UserInfo({ data, closeClick, onDelete, baseURL, SelfId }) {
+function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, setAction }) {
     const { privateAxios } = useAxios();
     const [deleteWarn, setDeleteWarn] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -229,7 +219,6 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId }) {
         setDeleteWarn(true)
     }
     const handleCancelWarn = () => {
-        console.log("cancled")
         setDeleteWarn(false)
     }
     useEffect(() => {
@@ -241,16 +230,15 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId }) {
             setIsLoading(true)
             privateAxios.get(`users/profile/${data?.id}`,{signal})
                 .then(res => {
-                        console.log("i am inside ", data.id)
                         setUserInfo(res.data)
                         setIsLoading(false)
                 })
                 return () => {
                     abortController.abort();
                 };
-        }
+        } else 
+            setIsLoading(false)
     }, [data])
-    console.log(data)
     return (
         <div className="flex flex-col gap-[21px]  w-[30%] bg-[#FFFDE8] py-[30px] px-[30px] capitalize sideBarInfo">
             <div className="flex justify-end">
@@ -258,7 +246,10 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId }) {
                     <FontAwesomeIcon size="2xl" icon={faXmark} />
                 </button>
             </div>
-            <img src={data?.img ? baseURL + data?.img : (baseURL + "/media/images/defaultPersone.png")} alt="" className="w-[160px] rounded-full mx-auto" />
+            <div className="w-fit h-fit mx-auto relative">
+                <img src={data?.img ? baseURL + data?.img : (baseURL + "/media/images/defaultPersone.png")} alt="" className="w-[160px] rounded-full mx-auto" />
+                {data?.is_verified && <img src={Verified} className="verified_icon w-11 h-11 absolute bottom-0 right-3 rounded-full" />}
+            </div>
             <div className="flex flex-col text-center gap-[10px]">
                 <h1 className="text-[22px] text-[#3D3700] font-medium ">{data?.title}</h1>
                 <h1 className="text-[18px] text-[#3D3700] font-medium ">{data?.level}</h1>
@@ -267,9 +258,14 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId }) {
                 <Link to={`/profile/${data?.id}`} target="_blank" className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
                     <FontAwesomeIcon size="lg" icon={faListUl} />
                 </Link>
-                <button className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
-                    <FontAwesomeIcon size="lg" icon={faPenToSquare} />
-                </button>
+                {((data.role == "admin" && data.id != SelfId) || data.role == "specialist") &&
+                    <button onClick={() => {
+                        setAction("edit");
+                        toggleModal();
+                    }} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
+                        <FontAwesomeIcon size="lg" icon={faPenToSquare} />
+                    </button>  
+                }
                 {
                     ((data.role == "admin" && data.id != SelfId) || data.role == "specialist") &&
                     <button onClick={handleDeleteWarn} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FFB8B8] text-[#730303] text-[16px] font-medium rounded-[8px]  hover:bg-[#AD0202] hover:text-[#FFEBEB]" >
@@ -306,7 +302,7 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId }) {
                         {data?.role == "teacher" && <TeacherInfo userInfo={userInfo}/>}
                     </>
             }
-           {deleteWarn && <DeleteDialogue e={data} cancel={handleCancelWarn} onDelete={onDelete} />}
+           {deleteWarn && <DeleteDialogue e={data} cancel={handleCancelWarn} onDelete={onDelete} url={`users/user/delete/${data?.id}`} />}
         </div>
     )
 }

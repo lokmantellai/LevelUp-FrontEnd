@@ -18,19 +18,22 @@ const useAxios = () => {
     const publicAxios = axios.create({ baseURL });
 
     privateAxios.interceptors.request.use(async req => {
+        console.log(req.url, " this reqesut excut from private Router");
         const user = jwtDecode(token);
         const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
         if (!isExpired) return req;
 
         await refreshAccessToken(setToken, setUser, navigate);
-        req.headers.Authorization = `Bearer ${token}`;
+        req.headers.Authorization = `Bearer ${localStorage.getItem("jwt-token-access")}`;
+        console.log('this is token from state', token)
+        console.log('this is token from LocalStorage', localStorage.getItem("jwt-token-access"))
         return req;
     });
 
     return { privateAxios, publicAxios, baseURL };
 };
 
-const refreshAccessToken = async (setToken, setUser, navigate) => {
+const refreshAccessToken = async (setToken, setUser) => {
     try {
         const response = await axios.post(`${baseURL}/users/api/token/refresh/`, {
             refresh: localStorage.getItem(TOKEN_REFRESH_KEY)
@@ -41,6 +44,7 @@ const refreshAccessToken = async (setToken, setUser, navigate) => {
     } catch (error) {
         console.error("Error refreshing access token:", error);
     }
+
 };
 
 export default useAxios;
