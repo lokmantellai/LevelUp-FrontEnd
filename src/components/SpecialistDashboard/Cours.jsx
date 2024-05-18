@@ -7,8 +7,8 @@ import useAxios from "../../api/useAxios"
 
 export default function Cours({ data, index, onClick }) {
 
-    const { baseURL } = useAxios();
 
+    const { baseURL } = useAxios();
 
 
     let bgcolor = index % 2 === 0 ? '#FFFDE8' : '#FFFFFC'
@@ -29,7 +29,6 @@ export default function Cours({ data, index, onClick }) {
             <div className="px-[30px] flex  items-center">
                 <img src={baseURL + data?.img_url} alt="" className="col-span-1 w-[40px] " />
             </div>
-
             <h1 className="text-[16px] col-span-2 ">{data?.title}</h1>
             <h1 className="text-[16px] col-span-2">{data?.id}</h1>
             <h1 className="text-[16px] col-span-2">{data?.degree}</h1>
