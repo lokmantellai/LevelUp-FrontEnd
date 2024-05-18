@@ -7,7 +7,7 @@
 export default function Cours({ data, index, onClick }) {
 
 
-    const ip = "http://192.168.205.126:8000/media/"
+    const ip = "http://localhost:8000"
 
 
 
@@ -27,8 +27,8 @@ export default function Cours({ data, index, onClick }) {
 
 
         < button onClick={click} style={{ backgroundColor: bgcolor, }} className={`courseRow' w-[100%] grid grid-cols-9 gap-5    h-[70px] py-[5px] items-center text-start `} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = hvrcolor }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = bgcolor }}>
-            <div className="px-[30px] flex  items-center">
-                <img src={ip + data?.img_url + '.png'} alt="" className="col-span-1 w-[40px] " />
+            <div className="  flex  items-center justify-center col-span-1  ">
+                <img src={ip + data?.img_url} alt="" className="w-[50px] " />
             </div>
 
             <h1 className="text-[16px] col-span-2 ">{data?.title}</h1>

@@ -137,6 +137,7 @@ function DeleteDialogue({ e, cancel, onDelete }) {
         >
 
             <div className={`fixed top-2/4 left-2/4 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-between items-center w-[500px] h-[200px] py-[40px] px-[40px] bg-[#FFFFFC] text-center rounded-2xl [box-shadow:0px_0px_10px_rgba(0,_0,_0,_0.3)] `}>  <h1 className="text-[#3D3700] text-[16px] font-medium"> Are You Really Want To Delete {e.title} Cours ?</h1>
+
                 <div className="flex w-[250px] justify-between items-center">
                     <button className="flex items-center justify-center px-[20px] py-[20px] w-[100px] h-[30px] bg-[#FFEBEB] text-[#3D3700] text-[16px] font-medium rounded-[8px]" onClick={handleCancel} >Cancel</button>
                     <button className="flex items-center justify-center px-[20px] py-[20px] w-[100px] h-[30px] bg-[#FFEBEB] text-[#3D3700] text-[16px] font-medium rounded-[8px]" onClick={handleConfirm}>Delete</button>
@@ -151,6 +152,8 @@ function CoursInfo({ data, closeClick, onDelete }) {
     const [deleteWarn, setDeleteWarn] = useState(false);
 
 
+
+
     const handleDeleteWarn = () => {
         setDeleteWarn(true)
     }
@@ -161,13 +164,14 @@ function CoursInfo({ data, closeClick, onDelete }) {
 
 
     return (
-        <div className="flex flex-col gap-[50px] w-[30%] bg-[#FFFDE8] py-[30px] px-[30px]">
+        <div className="flex flex-col gap-[50px] w-[30%] h-[841px] bg-[#FFFDE8] py-[30px] px-[30px] overflow-auto" >
             <div className="flex justify-end">
                 <button className=" text-[#3D3700] " onClick={closeClick}>
                     <FontAwesomeIcon size="2xl" icon={faXmark} />
                 </button>
             </div>
-            <img src={data?.img_url} alt="" />
+            <div className="flex justify-center items-center"><img className=" w-[100px] h-[100px]" src={'http://localhost:8000' + data?.img_url} alt="" /></div>
+
             <div className="flex flex-col text-center gap-[10px]">
                 <h1 className="text-[22px] text-[#3D3700] font-medium ">{data?.title}</h1>
                 <h1 className="text-[18px] text-[#3D3700] font-medium ">{data?.level}</h1>

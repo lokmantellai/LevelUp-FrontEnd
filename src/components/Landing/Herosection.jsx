@@ -40,7 +40,7 @@ export default function Hero() {
 
     useEffect(() => {
         const instance = lottie.loadAnimation({
-            container: document.querySelector(" .rightside"),
+            container: document.querySelector(".rightside"),
             renderer: 'svg',
             loop: true,
             autoplay: true,
