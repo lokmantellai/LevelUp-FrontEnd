@@ -151,8 +151,7 @@ export default function ManageCourses() {
                         {selectedCours && <CoursInfo data={selectedCours} closeClick={handleClose} onDelete={onDelete} />}
                     </div>}
             </div>
-        </div >
-
+        </div>
     )
 
 

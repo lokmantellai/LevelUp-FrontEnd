@@ -1,3 +1,4 @@
+import useAxios from "../../api/useAxios"
 
 
 
@@ -7,13 +8,11 @@
 export default function Cours({ data, index, onClick }) {
 
 
-    const ip = "http://localhost:8000"
-
+    const { baseURL } = useAxios();
 
 
     let bgcolor = index % 2 === 0 ? '#FFFDE8' : '#FFFFFC'
     let hvrcolor = index % 2 === 0 ? '#FCEE65' : '#FFF8B2'
-
 
 
 
@@ -27,10 +26,9 @@ export default function Cours({ data, index, onClick }) {
 
 
         < button onClick={click} style={{ backgroundColor: bgcolor, }} className={`courseRow' w-[100%] grid grid-cols-9 gap-5    h-[70px] py-[5px] items-center text-start `} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = hvrcolor }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = bgcolor }}>
-            <div className="  flex  items-center justify-center col-span-1  ">
-                <img src={ip + data?.img_url} alt="" className="w-[50px] " />
+            <div className="px-[30px] flex  items-center">
+                <img src={baseURL + data?.img_url} alt="" className="col-span-1 w-[40px] " />
             </div>
-
             <h1 className="text-[16px] col-span-2 ">{data?.title}</h1>
             <h1 className="text-[16px] col-span-2">{data?.id}</h1>
             <h1 className="text-[16px] col-span-2">{data?.degree}</h1>

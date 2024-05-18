@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useRegister } from '../context/hooks';
+import { useAuth, useRegister } from '../context/hooks';
 import logo from '../assets/Logo.png';
 import google from '../assets/google.png';
 import Btn from '../components/Btn';
@@ -10,11 +10,12 @@ import animation from "../assets/animation.json"
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
 import ErrorMessage from '../components/ErrorMessage';
+import useAxios from '../api/useAxios';
 
 export default function SignUp() {
     const navigate = useNavigate();
     const registerForm = useRegister();
-    console.log(registerForm.data)
+    const { publicAxios } = useAxios();
     const { register, handleSubmit, formState, watch } = useForm({
         defaultValues: {
             first_name: registerForm.data?.user?.first_name || "",
@@ -69,7 +70,7 @@ export default function SignUp() {
     }
     //Check If Email Already Used 
     const emailIsUsed = async (email) => {
-        await axios.post(
+        await publicAxios.post(
             'http://localhost:8000/users/validate/email/',
             { email },
             { headers: { 'Content-Type': 'application/json' } }
