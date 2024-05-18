@@ -100,10 +100,8 @@ export default function ManageCourses() {
 
 
     return (
-        <div className="flex  bg-[#FFFFFC]" >
-            <SideBar />
+        <div className="flex  bg-[#FFFFFC] h-[100%]" >
             <div className=" flex flex-col flex-1 pb-[20] ">
-                <Header />
                 {isLoading ? <div className="flex text-[80px] h-[100%] justify-center py-[300px]"><div className="loading"></div></div> :
                     <div className="flex h-full">
                         <div className=" flex flex-col h-[100%] w-[100%] justify-between  px-[50px] pb-[20px]">
@@ -151,7 +149,8 @@ export default function ManageCourses() {
                         {selectedCours && <CoursInfo data={selectedCours} closeClick={handleClose} onDelete={onDelete} />}
                     </div>}
             </div>
-        </div>
+        </div >
+
     )
 
 

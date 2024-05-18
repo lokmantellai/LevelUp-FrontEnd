@@ -7,11 +7,11 @@ export const AuthContext = createContext(null);
 export const ContextProvider = ({ children }) => {
     const initialToken = localStorage.getItem('jwt-token-access');
     const initialUser = initialToken ? jwtDecode(initialToken) : {};
-    const role = "admin"
+    const role = "specialist"
     const [token, setToken] = useState(initialToken);
     const [user, setUser] = useState(initialUser);
     const navigate = useNavigate();
-    
+
     const login = (data) => {
         const { access_token, refresh_token } = data;
         localStorage.setItem('jwt-token-access', access_token);
@@ -31,7 +31,7 @@ export const ContextProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ login, logout, token, user ,setToken ,setUser, redirectToLogin, role}}>
+        <AuthContext.Provider value={{ login, logout, token, user, setToken, setUser, redirectToLogin, role }}>
             {children}
         </AuthContext.Provider>
     );

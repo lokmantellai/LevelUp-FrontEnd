@@ -8,7 +8,6 @@ function SpecialistDashboard() {
             <div className=" flex flex-col flex-1 pb-[20] ">
                 <Header />
             </div>
-
         </div>
 
     )
