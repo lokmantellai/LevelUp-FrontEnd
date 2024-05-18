@@ -166,7 +166,6 @@ function FormAddUser({ toggleModal, userInfo, action, setDataChanged,dataChanged
                 ["img"]: file,
             })
             reader.readAsDataURL(file);
-            
         }
     }
     const handleChange = (e) => {
