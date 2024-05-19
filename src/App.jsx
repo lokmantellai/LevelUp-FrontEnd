@@ -33,10 +33,9 @@ function App() {
   const { privateAxios } = useAxios();
   const [isLoading , setIsLoading] = useState(true)
   useEffect(() => {
-    console.log(user?.role)
+    setIsLoading(true);
     if (!user?.role) {
       setIsLoading(true);
-      console.log("fffff")
       privateAxios.post("users/userByToken/", { access_token: token })
       .then((res) => {
         console.log("this is res ",res.data);
@@ -69,18 +68,16 @@ function App() {
             <Route path='/' element={<DashboardLayout />}>
                 {user?.role == "admin" && <Route path='users' element={<ManageUsers />}/>}
                 {user?.role == "specialist" && <Route path='courses' element={<ManageCourses />}/>}
-                
                 <Route path='notifactions' element={<>Notification</>} />
                 <Route path='setting' element={<>Setting</>} />
             </Route>
           }
-          {(user && user?.role == "student") && 
+          {(user?.role == "student") && 
             <Route path='/' element={<DashboardStudentLayout />}>
               <Route path='' element={<>Dashboard</>} />
               <Route path='learn' element={<>Learn</>} />
             </Route>
           }
-
             <Route path='/test' element={<Test />} />
             <Route path='/login' element={<Login />} />
             <Route path='/login/forget-password' element={<ForgetPassword />} />
@@ -112,9 +109,11 @@ function DashboardLayout() {
 }
 function DashboardStudentLayout() {
   return (
-    <div className="flex  bg-[#FFFFFC]" >
+    <div className="flex flex-col  bg-[#FFFFFC]" >
       <Navbar />
+      <div>
       <Outlet />
+      </div>
   </div>
   )
 }
