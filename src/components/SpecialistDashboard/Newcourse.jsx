@@ -20,7 +20,7 @@ const fetchCourseTitles = async () => {
 export default function Newcourse() {
 
     const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({ title: '', description: '', degree: '', level: '', category: '' });
+    const [formData, setFormData] = useState({ title: '', img: '', description: '', degree: '', level: '', category: '' });
     const [errors, setErrors] = useState({});
     const [courseTitles, setCourseTitles] = useState([]);
 
@@ -65,22 +65,23 @@ export default function Newcourse() {
     };
 
     const handleSaveDraft = async () => {
+        console.log(formData)
         // Replace with your actual API call to save the draft
-        try {
-            const response = await fetch('http://localhost:8000/users/courses/drafts', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            console.log('Draft saved successfully');
-        } catch (error) {
-            console.error('Error saving draft:', error);
-        }
+        // try {
+        //     const response = await fetch('http://localhost:8000/users/courses/drafts', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(formData),
+        //     });
+        //     if (!response.ok) {
+        //         throw new Error('Network response was not ok');
+        //     }
+        //     console.log('Draft saved successfully');
+        // } catch (error) {
+        //     console.error('Error saving draft:', error);
+        // }
     };
 
     const handleSubmit = async (e) => {

@@ -1,13 +1,13 @@
-import { Header, SideBar } from "../../components/SpecialistDashboard/Components";
+
+import { useState } from "react";
 
 
 function SpecialistDashboard() {
+
+
     return (
-        <div className="flex  bg-[#FFFFFC]">
-            <SideBar />
-            <div className=" flex flex-col flex-1 pb-[20] ">
-                <Header />
-            </div>
+        <div className="flex  bg-[#FFFFFC] h-[100%]">
+
         </div>
 
     )

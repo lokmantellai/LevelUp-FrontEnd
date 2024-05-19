@@ -22,6 +22,7 @@ import { Outlet } from 'react-router-dom/dist';
 import { useAuth } from './context/hooks';
 import { useEffect, useState } from 'react';
 import ManageUsers from './pages/Admin/ManageUsers';
+import SpecialistDashboard from './pages/Specialist/SpecialistDashboard';
 import useAxios from './api/useAxios';
 import Loading from './components/Loading';
 import Navbar from './components/Profile/Navbar';
@@ -98,7 +99,7 @@ export default App;
 
 function DashboardLayout() {
   return (
-  <div className="flex  bg-[#FFFFFC]" >
+    <div className="flex  bg-[#FFFFFC]" >
       <SideBar />
       <div className=" flex flex-col flex-1 pb-[20] ">
         <Header />
@@ -114,18 +115,38 @@ function DashboardStudentLayout() {
       <div>
       <Outlet />
       </div>
-  </div>
+    </div>
   )
 }
 
 function Test() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [choosed, setChoosed] = useState("None")
-  function click() {
-    console.log("Hey dddccq");
-    console.log("Hey dddccq");
-    console.log("Hey dddccq");
-    console.log("Hey dddccq");
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const [selectedImage, setSelectedImage] = useState(null)
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+
   }
   return (
     <div>
@@ -133,5 +154,6 @@ function Test() {
       <br/>
       <button onClick={click()} >Click </button>
     </div>
+
   )
 }

@@ -43,7 +43,13 @@ export default function ManageCourses() {
     const [sortOpen, setSortOpen] = useState(false)
 
 
+
+
+
     const { privateAxios } = useAxios();
+
+
+
 
 
 
@@ -116,6 +122,7 @@ export default function ManageCourses() {
                                                 <FontAwesomeIcon size="lg" icon={faPlus} />
                                             </button>
                                             {sortOpen && <Sort className="ease-in opacity-0 transition-opacity duration-500" onOutsideClick={() => { setSortOpen(!sortOpen) }} sorted={sort} leveled={level} degreed={degree} ordred={order} onSort={(e) => { setSort(e.sort), setOrder(e.order), setLevel(e.level), setDegree(e.degree) }} handleClose={() => { setSortOpen(false) }} />}
+
                                         </div>
                                     }
                                 </div>
