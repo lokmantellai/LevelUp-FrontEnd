@@ -1,13 +1,12 @@
+import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { createContext, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
 export const AuthContext = createContext(null);
 
 export const ContextProvider = ({ children }) => {
     const initialToken = localStorage.getItem('jwt-token-access');
     const initialUser = initialToken ? jwtDecode(initialToken) : {};
-    const role = "specialist"
     const [token, setToken] = useState(initialToken);
     const [user, setUser] = useState(initialUser);
     const navigate = useNavigate();
@@ -25,13 +24,22 @@ export const ContextProvider = ({ children }) => {
         setUser(null);
         localStorage.removeItem('jwt-token-access');
         localStorage.removeItem('jwt-token-refresh');
+        setTimeout(navigate("/login"), 600);
+        
     };
     const redirectToLogin = () => {
         navigate("/login");
     }
+    
+    const setUserInfo = (data) => {
+        setUser(prevUser => ({
+            ...prevUser,
+            ...data
+        }));
+    };
 
     return (
-        <AuthContext.Provider value={{ login, logout, token, user, setToken, setUser, redirectToLogin, role }}>
+        <AuthContext.Provider value={{ login, logout, token, user, setToken, setUser, redirectToLogin, setUserInfo }}>
             {children}
         </AuthContext.Provider>
     );

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import Logo from "../../assets/Logo.png"
 import NightMode from "../../assets/night-mode.svg"
 import Personne from "../../assets/Vector.svg";
@@ -18,7 +18,7 @@ import toast from "react-hot-toast";
 
 export { SideBar as SideBar, Header as Header, CoursInfo as CoursInfo , UserInfo};
 function SideBar() {
-    const { role } = useAuth();
+    const { user } = useAuth();
     const location = useLocation();
 
 
@@ -39,7 +39,7 @@ function SideBar() {
                         <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC] opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard') ? 'opacity-100 text-[#00333D]' : ' '} `}></span>
                     </li>
                 </Link>
-                {role == "admin" && 
+                {user.role == "admin" && 
                 <Link to={"/dashboard/users"} className="relative z-10">
                     <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
                         <span className="relative z-10">Users</span>
@@ -47,7 +47,7 @@ function SideBar() {
                     </li>
                 </Link>
                 }
-                {role == "specialist" && 
+                {user.role == "specialist" && 
                     <Link to={"/dashboard/courses"} className="relative z-10">
                     <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
                         <span className="relative z-10">Courses</span>
@@ -72,23 +72,33 @@ function SideBar() {
     )
 }
 function Header() {
+    const { user, logout } = useAuth() 
+    const nav = useNavigate();
     return (
-        <header className="flex justify-between flex-row shadow-lg bg-[#FFFFFC] color-[#FFFDE8] ps-36 px-28 py-6 h-24 border relative z-10"  >
+        <header className="flex justify-between flex-row shadow-lg bg-[#FFFFFC] color-[#FFFDE8] ps-36 px-28 py-6 h-[74px] border relative z-10"  >
             <div className="flex justify-between items-center py-[5px] px-[20px]  bg-[#FFFDE8] w-[500px] h-[40px] rounded-[20px]">
                 <img src={Search} alt="" className="h-[25px] " />
                 <input placeholder="Search For Courses. . ." className="bg-[#FFFDE8] w-[400px] flex justify-center text-center focus:outline-none placeholder:text-[#453507] text-xl" />
             </div>
             <div className="flex  gap-7">
-                <button className="w-9 h-9 flex justify-center items-center bg-[#FFF0C4] rounded-full">
+                <button className="w-10 h-10 flex justify-center items-center bg-[#FFF0C4] rounded-full">
                     <img src={NightMode} className="w-7 h-7" />
                 </button>
-                <button className="w-9 h-9 flex justify-center items-center bg-[#FFF0C4] rounded-full">
-                    <img src={Personne} className="w-7 h-7" />
-                </button>
-                <div className="flex flex-col items-center">
-                    <span className="capitalize font-medium">lokmane tellai</span>
-                    <span className="capitalize text-sm">specialist</span>
+                <div className="relative">
+                    <button onClick={() => {
+                        document.getElementById("MenuBar").classList.toggle("hidden")
+                    }} className="w-10 h-10 flex justify-center items-center bg-[#FFF0C4] rounded-full">
+                        <img src={Personne} className="w-7 h-7" />
+                    </button>
                 </div>
+                <div className="flex flex-col items-center">
+                    <span className="capitalize font-medium">{user?.firstname + " " + user?.lastname}</span>
+                    <span className="capitalize text-sm">{user?.role}</span>
+                </div>
+            </div>
+            <div id="MenuBar" className="hidden flex flex-col py-2 px-4 font-normal bg-[#FFF0C4] absolute -bottom-0 translate-y-[80%] right-[206px] gap-1 rounded-md">
+                <button onClick={() => { nav("/setting") }}>Setting</button>
+                <button onClick={logout}>Logout</button>
             </div>
         </header>
     )

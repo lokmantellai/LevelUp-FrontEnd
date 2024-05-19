@@ -6,10 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../context/hooks';
 
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { logout }= useAuth();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -56,7 +58,7 @@ export default function Navbar() {
                 xs:hidden
                 sm:hidden
                 md:block' />
-                <div className='bg-[#FAE200] w-[25px] h-[25px] rounded-[100px]  justify-center items-center
+                <div className='bg-[#FAE200] w-[30px] h-[25px] rounded-[100px]  justify-center items-center
                 xs:hidden
                 sm:hidden
                 md:flex'>
@@ -76,7 +78,7 @@ export default function Navbar() {
                         {window.innerWidth < 991 && <Link to="/"><li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'>Notifications </li></Link >}
 
                         <li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> <Link to="/">Setting</Link > </li>
-                        <li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> <Link to="/">Logout</Link > </li>
+                        <li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> <button onClick={logout}>Logout</button> </li>
                     </ul>
                 </div>
             )}

@@ -1,7 +1,7 @@
-import { Header, SideBar, CoursInfo } from "../../components/SpecialistDashboard/Components";
+import { CoursInfo } from "../../components/SpecialistDashboard/Components";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faArrowDownWideShort, faFilter } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect, useRef } from "react";
 import PaginationButtons from "../../components/PaginationButtons";
 import CoursesList from "../../components/SpecialistDashboard/CoursesList";
@@ -10,8 +10,6 @@ import Sort from "../../components/SpecialistDashboard/Sort";
 import _ from 'lodash'
 import useAxios from "../../api/useAxios";
 import Newcourse from "../../components/SpecialistDashboard/Newcourse";
-
-
 
 
 

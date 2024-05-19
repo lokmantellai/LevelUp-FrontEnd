@@ -24,10 +24,10 @@ export default function SpecialitySelection() {
     return (
         <main className='specialitySelection w-[24rem] mx-auto flex-col mt-28 mb-10'>
           <h2 className='lg:text-3xl text-2xl max-[568px]:text-2xl font-medium max-[568px]:max-w-[360px] text-center w-full'>
-          What’s your speciality ?
-            </h2>
+            What’s your speciality ?
+          </h2>
           <div className="options w-full flex items-start mt-8 flex-col">
-                    <h4 className="text-2xl mt-24 mb-1">Speciality</h4> 
+            <h4 className="text-2xl mt-24 mb-1">Speciality</h4> 
           <form className="w-full mx-auto" onSubmit={(ev) => {
             ev.preventDefault();
             if (selectedSpicality) {

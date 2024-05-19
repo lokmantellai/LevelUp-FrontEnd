@@ -20,38 +20,74 @@ import ResetPassword from './pages/ResetPassword';
 import ManageCourses from './pages/Specialist/ManageCourses';
 import { Outlet } from 'react-router-dom/dist';
 import { useAuth } from './context/hooks';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ManageUsers from './pages/Admin/ManageUsers';
-
+import useAxios from './api/useAxios';
+import Loading from './components/Loading';
+import Navbar from './components/Profile/Navbar';
 
 
 
 function App() {
-  const { role } = useAuth(); 
+  const { token, setUserInfo, user } = useAuth(); 
+  const { privateAxios } = useAxios();
+  const [isLoading , setIsLoading] = useState(true)
+  useEffect(() => {
+    console.log(user?.role)
+    if (!user?.role) {
+      setIsLoading(true);
+      console.log("fffff")
+      privateAxios.post("users/userByToken/", { access_token: token })
+      .then((res) => {
+        console.log("this is res ",res.data);
+        setUserInfo(res.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      })
+    } else 
+      setIsLoading(false)
+  }, [user]);
+
   // Check if the browser is Firefox
   var isFirefox = typeof InstallTrigger !== 'undefined';
   if (isFirefox)
     document.documentElement.style.fontSize = "14px";
+  if (isLoading)
+    return (
+     <Loading />
+    )
   return (
     <>
         <AuthRedirectHandler>
           <Routes>
-            { 
-            <Route path='/dashboard' element={<DashboardLayout />}>
-                {role == "admin" && <Route path='users' element={<ManageUsers />}/>}
-                {role == "specialist" && <Route path='courses' element={<ManageCourses />}/>}
+          {!user?.role && <Route path='/' element={<Home />} />}
+          {(user && user?.role != "student")  &&
+            <Route path='/' element={<DashboardLayout />}>
+                {user?.role == "admin" && <Route path='users' element={<ManageUsers />}/>}
+                {user?.role == "specialist" && <Route path='courses' element={<ManageCourses />}/>}
+                
                 <Route path='notifactions' element={<>Notification</>} />
                 <Route path='setting' element={<>Setting</>} />
-              </Route>
-            }
+            </Route>
+          }
+          {(user && user?.role == "student") && 
+            <Route path='/' element={<DashboardStudentLayout />}>
+              <Route path='' element={<>Dashboard</>} />
+              <Route path='learn' element={<>Learn</>} />
+            </Route>
+          }
+
             <Route path='/test' element={<Test />} />
-            <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/login/forget-password' element={<ForgetPassword />} />
             <Route path="/password_reset/:uidb64/:token" element={<ResetPassword />} />
             <Route path='/signup' element={<RegisterContextProvider><SignUp /></RegisterContextProvider>} />
             <Route path='/signup/step/:num' element={<RegisterContextProvider><SignUpStep /></RegisterContextProvider>} />
-            <Route path='/emailverification' element={<RegisterContextProvider><EmailVerification /></RegisterContextProvider>} />
+            <Route path='/emailverification' element={<EmailVerification />} />
             <Route path='/profile/:id' element={<Profile />} />
             <Route path='*' element={<NotFound />} /> {/* Catch all other routes */}
           </Routes>
@@ -74,6 +110,14 @@ function DashboardLayout() {
   </div>
   )
 }
+function DashboardStudentLayout() {
+  return (
+    <div className="flex  bg-[#FFFFFC]" >
+      <Navbar />
+      <Outlet />
+  </div>
+  )
+}
 
 function Test() {
   const [isOpen, setIsOpen] = useState(false);
@@ -85,7 +129,7 @@ function Test() {
     console.log("Hey dddccq");
   }
   return (
-   <div>
+    <div>
       <label>Test</label>
       <br/>
       <button onClick={click()} >Click </button>

@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import ModulesBox from "../components/ModulesBox";
 import { useState } from "react";
 import Btn from '../components/Btn';
-import { useRegister } from '../context/hooks';
+import { useAuth, useRegister } from '../context/hooks';
 import axios from 'axios';
 import useAxios from '../api/useAxios';
 function ModuleSelection() {
   const { publicAxios } = useAxios()
+  const { login } = useAuth();
   function splitArrayToChunks(arr, size1, size2) {
     console.log(size1, size2)
     const result = [];
@@ -52,8 +53,8 @@ function ModuleSelection() {
 
   useEffect(() => {
     const fetchData = async () => {
-      publicAxios.get('/users/courses/')
-      return res.json();
+      const res = await publicAxios.get('/users/courses/')
+      return res.data;
     };
     // Update result whenever size changes
     fetchData().then(res => {
@@ -82,8 +83,10 @@ function ModuleSelection() {
     registerForm.save("university", "University Abdel El Hamid Mehri");
     try {
       publicAxios.post(`users/register/${registerForm.data.role.toLowerCase()}/`,
-        registerForm.extract()).then((res) => {
-          console.log(res.data.teacher_id + "Teacher id")
+        registerForm.extract())
+        .then((res) => {
+          login(res.data) 
+
           if (registerForm.data.role == "Teacher" && registerForm.data.courses_of_interest) {
             axios.post(`http://localhost:8000/users/courses/assignement/`,
               {
@@ -98,7 +101,6 @@ function ModuleSelection() {
 
         })
       navigate("/emailverification");
-      return response;
     } catch (error) {
       console.log(error.message);
     }

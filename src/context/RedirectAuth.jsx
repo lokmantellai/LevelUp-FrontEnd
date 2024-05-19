@@ -14,7 +14,7 @@ function AuthRedirectHandler({ children }) {
         const isBlocked = pathsAuth.some((path) => location.pathname.toLowerCase().startsWith(path));
         
         // Set block state based on authentication status and path
-        setBlock(auth.token && isBlocked);
+      //  setBlock(auth.token && isBlocked);
     }, [auth.token, location.pathname]);
 
     // Redirect if the user is authenticated and the current path is in pathsAuth
