@@ -32,12 +32,12 @@ export default function Navbar() {
             xs:gap-[25px]
             sm:gap-[25px]
             md:gap-[50px] '>
-                <button className=' text-[#fffffc] text-[14px] font-bold
+                <Link to="/" className=' text-[#fffffc] text-[14px] font-bold
                 xs:hidden
-                sm:block'>Dashboard</button>
-                <button className=' text-[#fffffc] text-[14px] font-bold
+                sm:block'>Dashboard</Link>
+                <Link to="/Learn" className=' text-[#fffffc] text-[14px] font-bold
                 xs:hidden
-                sm:block'>Learn</button>
+                sm:block'>Learn</Link>
             </div>
             <div className=' gap-[30%] items-center bg-[#00B7DB] w-[30%] h-[30px] rounded-[50px] px-[10px]
             xs:hidden
@@ -74,8 +74,8 @@ export default function Navbar() {
                 md:right-[100px]  ">
                     <ul className='w-[100%] text-center'>
                         {window.innerWidth < 640 && <Link to="/"> <li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> Dashboard </li></Link >}
-                        {window.innerWidth < 640 && <Link to="/"><li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> Learn </li></Link >}
-                        {window.innerWidth < 991 && <Link to="/"><li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'>Notifications </li></Link >}
+                        {window.innerWidth < 640 && <Link to="/Learn"><li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> Learn </li></Link >}
+                        {window.innerWidth < 991 && <Link to="/Notification"><li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'>Notifications </li></Link >}
 
                         <li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> <Link to="/">Setting</Link > </li>
                         <li className='p-[10px] hover:bg-[#00B7DB] hover:text-[#E8FBFF] rounded-[8px]'> <button onClick={logout}>Logout</button> </li>

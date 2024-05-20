@@ -80,7 +80,6 @@ function useOtpInput() {
     publicAxios.post("users/verify/otp/", { otp, email })
         .then((response) => {
           // Handle response from server
-          console.log(response)
           navigate("/");
         })
       .catch((error) => {

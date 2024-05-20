@@ -26,6 +26,7 @@ import SpecialistDashboard from './pages/Specialist/SpecialistDashboard';
 import useAxios from './api/useAxios';
 import Loading from './components/Loading';
 import Navbar from './components/Profile/Navbar';
+import Learn from './pages/Student/Learn';
 
 
 
@@ -39,7 +40,6 @@ function App() {
       setIsLoading(true);
       privateAxios.post("users/userByToken/", { access_token: token })
       .then((res) => {
-        console.log("this is res ",res.data);
         setUserInfo(res.data);
       })
       .catch((error) => {
@@ -60,7 +60,6 @@ function App() {
     return (
      <Loading />
     )
-  console.log(user.role);
   return (
     <>
         <AuthRedirectHandler>
@@ -77,7 +76,7 @@ function App() {
           {(user?.role == "student") && 
             <Route path='/' element={<DashboardStudentLayout />}>
               <Route path='' element={<>Dashboard</>} />
-              <Route path='learn' element={<>Learn</>} />
+              <Route path='learn' element={<Learn />} />
             </Route>
           }
             <Route path='/test' element={<Test />} />
@@ -151,9 +150,7 @@ function Test() {
   }
   return (
     <div>
-      <label>Test</label>
-      <br/>
-      <button onClick={click()} >Click </button>
+      <input type='text' defaultValue={5}/>
     </div>
 
   )

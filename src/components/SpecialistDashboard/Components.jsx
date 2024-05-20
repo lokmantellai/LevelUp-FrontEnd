@@ -33,38 +33,38 @@ function SideBar() {
                 <img src={Logo} className="w-48 mb-24" />
             </Link>
             <ul className="w-full flex flex-col gap-10 font-medium text-lg text-[#FFFFFC] ">
-                <Link to={"/dashboard"}>
-                    <li className={`relative text-center w-full py-[2rem] transition-all z-10 ${isActivePage('/dashboard') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
+                <Link to={"/"}>
+                    <li className={`relative text-center w-full py-[2rem] transition-all z-10 ${isActivePage('/') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
                         <span className="relative z-10">Dashboard</span>
-                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC] opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard') ? 'opacity-100 text-[#00333D]' : ' '} `}></span>
+                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC] opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/') ? 'opacity-100 text-[#00333D]' : ' '} `}></span>
                     </li>
                 </Link>
                 {user.role == "admin" && 
-                <Link to={"/dashboard/users"} className="relative z-10">
-                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
+                <Link to={"/users"} className="relative z-10">
+                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
                         <span className="relative z-10">Users</span>
-                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
+                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
                     </li>
                 </Link>
                 }
                 {user.role == "specialist" && 
-                    <Link to={"/dashboard/courses"} className="relative z-10">
-                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
+                    <Link to={"/courses"} className="relative z-10">
+                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
                         <span className="relative z-10">Courses</span>
-                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
+                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
                     </li>
                 </Link>
                 }
-                <Link to={"/dashboard/notifactions"} className="relative z-10">
-                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/notifications') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
+                <Link to={"/notifactions"} className="relative z-10">
+                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/notifications') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
                         <span className="relative z-10">Notifactions</span>
-                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/notifications') ? 'opacity-100 text-[#00333D]' : ''} `} ></span>
+                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/notifications') ? 'opacity-100 text-[#00333D]' : ''} `} ></span>
                     </li>
                 </Link>
-                <Link to={"/dashboard/setting"} className="relative z-10">
+                <Link to={"/setting"} className="relative z-10">
                     <li className="relative text-center w-full py-[2rem] rounded-3xl transition-all hover:text-black group">
                         <span className="relative z-10">Setting</span>
-                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC] opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/setting') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
+                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC] opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/setting') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
                     </li>
                 </Link>
             </ul >
@@ -166,7 +166,6 @@ function CoursInfo({ data, closeClick, onDelete }) {
         setDeleteWarn(true)
     }
     const handleCancelWarn = () => {
-        console.log("cancled")
         setDeleteWarn(false)
     }
 
