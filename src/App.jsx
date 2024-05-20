@@ -60,6 +60,7 @@ function App() {
     return (
      <Loading />
     )
+  console.log(user.role);
   return (
     <>
         <AuthRedirectHandler>
@@ -68,7 +69,7 @@ function App() {
           {(user && user?.role != "student")  &&
             <Route path='/' element={<DashboardLayout />}>
                 {user?.role == "admin" && <Route path='users' element={<ManageUsers />}/>}
-                {user?.role == "specialist" && <Route path='courses' element={<ManageCourses />}/>}
+                {user?.role == "specialist" &&  <Route path='courses' element={<ManageCourses />}/>}
                 <Route path='notifactions' element={<>Notification</>} />
                 <Route path='setting' element={<>Setting</>} />
             </Route>
