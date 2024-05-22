@@ -10,7 +10,7 @@ export default function Quests() {
 
 
     return (
-        <div className="bg-[#006073] py-[100px] px-[100px] flex flex-col gap-[50px] 
+        <div id="quest" className="bg-[#006073] py-[100px] px-[100px] flex flex-col gap-[50px] 
         xs:py-[50px] xs:px-[50px]
         sm:py-[50px] sm:px-[50px]
         md:py-[100px] md:px-[100px]

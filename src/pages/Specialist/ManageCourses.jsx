@@ -1,4 +1,4 @@
-import { Header, SideBar, CoursInfo } from "../../components/SpecialistDashboard/Components";
+import { CoursInfo } from "../../components/SpecialistDashboard/Components";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faArrowDownWideShort, faXmark } from '@fortawesome/free-solid-svg-icons'

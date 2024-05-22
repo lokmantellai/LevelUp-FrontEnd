@@ -6,6 +6,7 @@ import TimeSpent from "../components/Profile/TimeSpent";
 import EditProfile from "../components/Profile/EditProfile";
 import { useParams } from "react-router-dom";
 import useAxios from "../api/useAxios";
+import Loading from "../components/Loading";
 
 
 export default function Profile() {
@@ -14,14 +15,10 @@ export default function Profile() {
     const [isLoading, setIsLoading] = useState(true); // Add loading state
     const [userData, setUserData] = useState(null);
     const [originalUserData, setOriginalUserData] = useState(null)
-
-
     const { id } = useParams()
 
-
-
-
     useEffect(() => {
+        console.log("Hello From Pofile!");
         const fetchUserData = async () => {
             try {
                 const response = await privateAxios.get(`/users/profile/${id}`);
@@ -40,7 +37,7 @@ export default function Profile() {
     }, [id]); // Include id as a dependency
 
     if (isLoading) {
-        return <div>Loading ..</div>;
+        return <Loading />;
     }
 
 

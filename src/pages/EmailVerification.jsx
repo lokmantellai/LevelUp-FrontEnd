@@ -1,13 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { useRegister } from "../context/hooks";
+import { useAuth, useRegister } from "../context/hooks";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
+import useAxios from "../api/useAxios";
 
 function useOtpInput() {
+  const { publicAxios } = useAxios();
   const navigate = useNavigate();
   const inputRefs = useRef([]);
+  const { user } = useAuth();
   const registerForm = useRegister();
+  console.log(registerForm);
+  const email = registerForm?.data?.user?.email
+
 
   // Listen for the browser's history change event
   if (inputRefs.current.length === 0) {
@@ -36,39 +41,75 @@ function useOtpInput() {
       inputRefs.current[index - 1].current.focus();
     }
   };
-
-  const handleSubmit = () => {
+  const handlePaste = (event) => {
+    event.preventDefault();
+    const paste = event.clipboardData.getData('text');
+    const pasteData = paste.split('').filter(char => !isNaN(char) && char !== ' ');
+  
+    // Ensure exactly 6 digits are pasted
+    if (pasteData.length !== 6) {
+      toast.error("Please paste exactly 6 numeric digits for OTP.");
+      return;
+    }
+  
+    pasteData.forEach((char, index) => {
+      if (inputRefs.current[index]) {
+        inputRefs.current[index].current.value = char;
+      }
+    });
+  
+    // Manually trigger change event for each input after paste
+    inputRefs.current.forEach((ref, index) => {
+      if (ref.current) {
+        const event = new Event('input', { bubbles: true });
+        ref.current.dispatchEvent(event);
+      }
+    });
+  
+    const isAllFilled = inputRefs.current.every(
+      (ref) => ref.current && ref.current.value
+    );
+  
+    if (isAllFilled) {
+      handleSubmit();
+    }
+  };
+  const handleSubmit = async () => {
     // Gather OTP from all input fields
     const otp = inputRefs.current
         .map((ref) => ref.current.value)
         .join("");
-
     // Submit OTP to server
-    const email = registerForm.data.user.email;
-    axios.post("http://localhost:8000/users/verify/otp/", { otp, email })
-        .then((response) => {
-          // Handle response from server
-          console.log(response)
-          navigate("/");
-        })
-      .catch((error) => {
-        // Handle error response from server
-        if (error.response.data.message === "Invalid OTP code")
-          toast.error("Invalid OTP code");
-        else 
+    console.log(email);
+    await toast.promise(
+      publicAxios.post("users/verify/otp/", { otp, email })
+      .then((response) => {
+        // Handle response from server
+        navigate("/");
+      }),
+      {
+        success: "Email Verified!",
+        error: (error) => {
+          if(error.response.data.message === "Invalid OTP code")
+            return "Invalid OTP code";
+          else 
           toast.error("An error occurred. Please try again later.");
-
-      });
-    
+         
+            
+        },
+        loading: "... loading"
+      }
+    )
 };
-  return { inputRefs, handleChange, handleKeyDown };
+  return { inputRefs, handleChange, handleKeyDown, handlePaste };
 }
 
 function EmailVerification() {
-  const { inputRefs, handleChange, handleKeyDown } = useOtpInput();
+  const { publicAxios } = useAxios();
+  const { inputRefs, handleChange, handleKeyDown, handlePaste } = useOtpInput();
   const [seconds, setSeconds] = useState(600); // 10 minutes in seconds
+  const { user } = useAuth();
   const registerForm = useRegister();
-  
   useEffect(() => {
     const interval = setInterval(() => {
       setSeconds((prevSeconds) => {
@@ -112,6 +153,7 @@ function EmailVerification() {
               ref={ref}
               onChange={(event) => handleChange(index, event)}
               onKeyDown={(event) => handleKeyDown(index, event)}
+              onPaste={handlePaste}
             />
           ))}
         </form>
@@ -122,8 +164,8 @@ function EmailVerification() {
         <p className="text-lg font-medium mt-4 mb-7 text-[#00333D]">
           If you haven't received the OTP,
           <button onClick={() => {
-            axios.post("http://localhost:8000/users/resend/otp/", {
-              "email": registerForm.data.user.email
+            publicAxios.post("users/resend/otp/", {
+              "email": registerForm?.data?.user?.email
             })
           }} className="text-[#0095B2] underline font-semibold">Resend OTP .
           </button> 

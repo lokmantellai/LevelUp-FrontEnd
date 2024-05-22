@@ -76,20 +76,15 @@ export default function Login() {
                 <h3 className='font-medium text-4xl text-white mt-16'>
                     Log in to Levelup
                 </h3>
-                <button className='mt-7 max-w-[25rem] w-[90%]  py-3 bg-[#B2F2FF] rounded-xl text-[#006073] flex justify-center items-center hover:bg-[#65E3FC] transition-all ease-in-out duration-200'>
+              {/*   <button className='mt-7 max-w-[25rem] w-[90%]  py-3 bg-[#B2F2FF] rounded-xl text-[#006073] flex justify-center items-center hover:bg-[#65E3FC] transition-all ease-in-out duration-200'>
                     <div className='flex items-center lg:gap-10 gap-5 '>
                         <img className='w-7 h-7' src={google} alt="Logo" />
                         <span className='font-medium lg:text-xl text-lg'>
                             Login With Google
                         </span>
                     </div>
-                </button>
-                <div className='flex items-center mt-7'>
-                    <div className='max-w-[11rem] w-[39vw] h-1 bg-white'></div>
-                    <span className='px-3 font-bold text-xl text-white'>Or</span>
-                    <div className='max-w-[11rem] w-[39vw] h-1 bg-white'></div>
-                </div>
-                <form className='w-[89%] max-w-[25rem] mt-7 flex flex-col' onSubmit={handleSubmit((data) => {
+                </button> */}   
+                <form className='w-[89%] max-w-[25rem] mt-10 flex flex-col' onSubmit={handleSubmit((data) => {
                     fetchToAuth(data);
                 })}>
                     <ErrorMessage errors={errors} others={otherError} />

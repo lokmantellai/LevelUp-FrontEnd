@@ -1,4 +1,6 @@
 function ErrorMessage({ errors, others }) {
+    errors = {}
+    console.log(errors,'erro');
     // Handling Errors 
     let message;
     if (others == "")        

@@ -23,8 +23,8 @@ function RoleSelection() {
           }
           }) } className='lg:w-[30rem] w-[25rem] max-[568px]:w-72 mt-28 flex flex-col gap-7 '>
           <ChoiceBtn setToForm={{ ...register("role") }} text="Teacher" name="role" defaultValue={registerForm.data?.role} /> 
-            <ChoiceBtn setToForm={{...register("role")}} text="Student" name="role" defaultValue={registerForm.data?.role}/>  
-            <Btn text="Next" type="submit" style={"w-44 h-16 text-xl bottom-10 right-24 max-[568px]:w-36 "}  />
+          <ChoiceBtn setToForm={{...register("role")}} text="Student" name="role" defaultValue={registerForm.data?.role}/>  
+            <Btn text="Next" type="submit" style={"text-xl  !h-[44px] w-[115px] absolute bottom-[45px] right-[205px]"}  />
           </form>
     </main>
       </>

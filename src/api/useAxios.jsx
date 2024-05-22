@@ -22,11 +22,8 @@ const useAxios = () => {
         const user = jwtDecode(token);
         const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
         if (!isExpired) return req;
-
         await refreshAccessToken(setToken, setUser, navigate);
         req.headers.Authorization = `Bearer ${localStorage.getItem("jwt-token-access")}`;
-        console.log('this is token from state', token)
-        console.log('this is token from LocalStorage', localStorage.getItem("jwt-token-access"))
         return req;
     });
 
