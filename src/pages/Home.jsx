@@ -7,10 +7,8 @@ import JoinUs from "../components/Landing/JoinUs";
 import Navbar from "../components/Landing/Navbar";
 import Quests from "../components/Landing/Quests";
 import Stories from "../components/Landing/Stories";
-import { useAuth } from "../context/hooks";
 
 export default function Home() {
-    console.log(useAuth().token )
     return (
         <div id="home" className='home bg-[#FFFFFC] overflow-hidden' >
             <div className="container1  mx-[auto] my-[0] xl:w-[100%]">

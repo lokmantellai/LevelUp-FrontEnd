@@ -7,12 +7,11 @@ export default function Navbar() {
     const auth = useAuth();
     const navigate = useNavigate();
     const logout = () => {
-        console.log("logout");
         auth.logout();
         navigate("/login")
     }
     return (
-        <div className='flex flex-row items-center justify-between py-[25px] 
+        <div className='flex flex-row items-center justify-between py-[25px]
         xs:mx-[50px]
         sm:mx-[50px]
         md:mx-[100px] '>
@@ -32,8 +31,6 @@ export default function Navbar() {
                 '>Login</button>
                 </Link>
                 }
-                
-
             </div>
         </div>
     )

@@ -17,6 +17,7 @@ import img3 from "../../assets/Landing/img3.svg"
 import img4 from "../../assets/Landing/img4.svg"
 import img5 from "../../assets/Landing/img5.svg"
 import img6 from "../../assets/Landing/LogoA.svg"
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -24,7 +25,7 @@ import img6 from "../../assets/Landing/LogoA.svg"
 export default function Hero() {
 
     const isMediumScreen = useMediaQuery({ minWidth: 991 });
-
+    const nav = useNavigate();
 
     const words = ['Gamified', 'Interactive', 'Engaging']
     const [word, setWord] = useState(words[0]);
@@ -82,8 +83,8 @@ export default function Hero() {
                     xs:justify-center
                     sm:justify-center
                     md:justify-start'>
-                        <button className='w-[150px] h-[50px] bg-[#FFF0C4] text-[#3D3700] rounded-[8px] text-[14px] font-bold [transition:background-color_0.3s_ease,_box-shadow_0.3s_ease] hover:bg-[#FFE9A6] hover:[box-shadow:0px_4px_10px_2px_rgba(0,_0,_0,_0.25)]'>View More</button>
-                        <button className='w-[150px] h-[50px] bg-[#FCEE65] text-[#3D3700] rounded-[8px] text-[14px] font-bold [transition:background-color_0.3s_ease,_box-shadow_0.3s_ease] hover:bg-[#FAE200] hover:[box-shadow:0px_4px_10px_2px_rgba(0,_0,_0,_0.25)]'>Get Started</button>
+                        <a href='#quest'><button className='w-[150px] h-[50px] bg-[#FFF0C4] text-[#3D3700] rounded-[8px] text-[14px] font-bold [transition:background-color_0.3s_ease,_box-shadow_0.3s_ease] hover:bg-[#FFE9A6] hover:[box-shadow:0px_4px_10px_2px_rgba(0,_0,_0,_0.25)]'>View More</button></a>
+                        <button onClick={()=> {nav("/learn")}} className='w-[150px] h-[50px] bg-[#FCEE65] text-[#3D3700] rounded-[8px] text-[14px] font-bold [transition:background-color_0.3s_ease,_box-shadow_0.3s_ease] hover:bg-[#FAE200] hover:[box-shadow:0px_4px_10px_2px_rgba(0,_0,_0,_0.25)]'>Get Started</button>
                     </div>
                 </div>
                 <div className=' col-span-1'></div>

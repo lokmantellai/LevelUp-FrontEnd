@@ -92,20 +92,20 @@ export default function SignUp() {
                 <h3 className='font-medium text-4xl text-white mt-16'>
                     Sign up to Levelup
                 </h3>
-                <button className='mt-7 max-w-[25rem] w-[90%]  py-3 bg-[#B2F2FF] rounded-xl text-[#006073] flex justify-center items-center hover:bg-[#65E3FC] transition-all ease-in-out duration-200'>
+               {/*  <button className='mt-7 max-w-[25rem] w-[90%]  py-3 bg-[#B2F2FF] rounded-xl text-[#006073] flex justify-center items-center hover:bg-[#65E3FC] transition-all ease-in-out duration-200'>
                     <div className='flex items-center lg:gap-10 gap-5 '>
                         <img className='w-7 h-7' src={google} alt="Logo" />
                         <span className='font-medium lg:text-xl text-lg'>
                             Sign up With Google
                         </span>
                     </div>
-                </button>
-                <div className='flex items-center mt-5'>
+                </button> */}
+               {/*  <div className='flex items-center mt-5'>
                     <div className='max-w-[11rem] w-[39vw] h-1 bg-white'></div>
                     <span className='px-3 font-bold text-xl text-white'>Or</span>
                     <div className='max-w-[11rem] w-[39vw] h-1 bg-white'></div>
-                </div>
-                <form className='w-[89%] max-w-[25rem] mt-4 flex flex-col' onSubmit={handleSubmit((data) => {
+                </div> */}
+                <form className='w-[89%] max-w-[25rem] mt-8 flex flex-col' onSubmit={handleSubmit((data) => {
                     if (data["confirmPassword"] === data.password) {
                         emailIsUsed(data.email)
                             .then(() => {
@@ -126,10 +126,10 @@ export default function SignUp() {
                     <InputField setToForm={{ ...register("password", validationPassword) }} type="password" placeholder="Password" />
                     <InputField setToForm={{ ...register("confirmPassword", validationConfirmPassword) }} type="password" placeholder="Confirm Password" />
                     <div className='flex justify-end text-white font-medium text-lg'>
-                        <Btn text="Sign Up" type="submit" style={"mb-4 px-7 py-[0.7rem]"} />
+                        <Btn text="Sign Up" type="submit" />
                     </div>
-                    <div className='w-[100%] h-1 bg-white ml-auto mr-auto mt-'></div>
-                    <div className='text-white font-medium text-lg ml-auto mr-auto mt-5 mb-10'>
+                    <div className='w-[100%] h-1 bg-white ml-auto mr-auto mt-[23px]'></div>
+                    <div className='text-white font-medium text-lg ml-auto mr-auto mt-4 mb-10'>
                         Already have an account ? <Link className='font-bold text-[#FCEE65] relative' to='/Login'> Login .
                             <span className='absolute left-0 bottom-[-3px] w-full h-[2px] bg-[#FCEE65]'></span>
                         </Link>

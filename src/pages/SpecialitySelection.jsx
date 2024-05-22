@@ -27,17 +27,17 @@ export default function SpecialitySelection() {
             What’s your speciality ?
           </h2>
           <div className="options w-full flex items-start mt-8 flex-col">
-            <h4 className="text-2xl mt-24 mb-1">Speciality</h4> 
-          <form className="w-full mx-auto" onSubmit={(ev) => {
+          <form className="w-[90%] mx-auto" onSubmit={(ev) => {
             ev.preventDefault();
             if (selectedSpicality) {
               registerForm.save("speciality", selectedSpicality.name);
               navigate("/signup/step/4");
             }
           }}>
+            <h4 className="text-2xl mt-24 mb-1">Speciality</h4> 
             <Dropdown  onChange={(e) => setSelectedSpicality(e.value)} value={selectedSpicality} options={specialities} optionLabel="name" 
-                placeholder="Select a Specilaity" className="w-full md:w-14rem  bg-[#E8FBFF] text-xl text-center py-5 px-4  " />
-                <Btn text="Next" type="submit" style={"w-44 h-16 text-xl max-[568px]:w-36 mt-6 absolute bottom-10 right-10"}  />
+                placeholder="Select a Specilaity" className="w-full md:w-14rem  bg-[#E8FBFF] text-xl text-center py-5 px-4 " />
+                <Btn text="Next" type="submit" style={"w-44 h-16 text-xl max-[568px]:w-36 mt-6 !h-[44px] w-[115px] absolute bottom-[45px] right-[205px]"}  />
           </form>
         </div>
       </main>

@@ -9,6 +9,10 @@ function useOtpInput() {
   const navigate = useNavigate();
   const inputRefs = useRef([]);
   const { user } = useAuth();
+  const registerForm = useRegister();
+  console.log(registerForm);
+  const email = registerForm?.data?.user?.email
+
 
   // Listen for the browser's history change event
   if (inputRefs.current.length === 0) {
@@ -70,27 +74,32 @@ function useOtpInput() {
       handleSubmit();
     }
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Gather OTP from all input fields
     const otp = inputRefs.current
         .map((ref) => ref.current.value)
         .join("");
     // Submit OTP to server
-    const email = user.email;
-    publicAxios.post("users/verify/otp/", { otp, email })
-        .then((response) => {
-          // Handle response from server
-          navigate("/");
-        })
-      .catch((error) => {
-        // Handle error response from server
-        if (error.response.data.message === "Invalid OTP code")
-          toast.error("Invalid OTP code");
-        else 
+    console.log(email);
+    await toast.promise(
+      publicAxios.post("users/verify/otp/", { otp, email })
+      .then((response) => {
+        // Handle response from server
+        navigate("/");
+      }),
+      {
+        success: "Email Verified!",
+        error: (error) => {
+          if(error.response.data.message === "Invalid OTP code")
+            return "Invalid OTP code";
+          else 
           toast.error("An error occurred. Please try again later.");
-
-      });
-    
+         
+            
+        },
+        loading: "... loading"
+      }
+    )
 };
   return { inputRefs, handleChange, handleKeyDown, handlePaste };
 }
@@ -100,7 +109,7 @@ function EmailVerification() {
   const { inputRefs, handleChange, handleKeyDown, handlePaste } = useOtpInput();
   const [seconds, setSeconds] = useState(600); // 10 minutes in seconds
   const { user } = useAuth();
-
+  const registerForm = useRegister();
   useEffect(() => {
     const interval = setInterval(() => {
       setSeconds((prevSeconds) => {
@@ -156,7 +165,7 @@ function EmailVerification() {
           If you haven't received the OTP,
           <button onClick={() => {
             publicAxios.post("users/resend/otp/", {
-              "email": user.email
+              "email": registerForm?.data?.user?.email
             })
           }} className="text-[#0095B2] underline font-semibold">Resend OTP .
           </button> 

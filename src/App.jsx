@@ -27,6 +27,12 @@ import useAxios from './api/useAxios';
 import Loading from './components/Loading';
 import Navbar from './components/Profile/Navbar';
 import Learn from './pages/Student/Learn';
+import toast, { Toaster } from 'react-hot-toast';
+import { Toast } from 'bootstrap';
+import Course from './pages/Student/Course';
+import ScrollToTop from './components/ScrollToTop';
+import EnrollCourse from './pages/EnrollCourse';
+import { EnrollCourseProvider } from './context/CourseStep';
 
 
 
@@ -63,31 +69,35 @@ function App() {
   return (
     <>
         <AuthRedirectHandler>
+          <ScrollToTop />        
           <Routes>
-          {!user?.role && <Route path='/' element={<Home />} />}
-          {(user && user?.role != "student")  &&
-            <Route path='/' element={<DashboardLayout />}>
-                {user?.role == "admin" && <Route path='users' element={<ManageUsers />}/>}
-                {user?.role == "specialist" &&  <Route path='courses' element={<ManageCourses />}/>}
-                <Route path='notifactions' element={<>Notification</>} />
-                <Route path='setting' element={<>Setting</>} />
-            </Route>
+            {!user?.role && <Route path='/' element={<Home />} />}
+            {(user && user?.role != "student")  &&
+              <Route path='/' element={<DashboardLayout />}>
+                  {user?.role == "admin" && <Route path='users' element={<ManageUsers />}/>}
+                  {user?.role == "specialist" &&  <Route path='courses' element={<ManageCourses />}/>}
+                  <Route path='notifactions' element={<>Notification</>} />
+                  <Route path='setting' element={<>Setting</>} />
+              </Route>
+            }
+            {(user?.role == "student") && 
+              <Route path='/' element={<DashboardStudentLayout />}>
+                <Route path='' element={<>Dashboard</>} />
+                <Route path='learn' element={<Learn />} />
+                <Route path="/course/:course_name" element={<Course />} />
+              </Route>
           }
-          {(user?.role == "student") && 
-            <Route path='/' element={<DashboardStudentLayout />}>
-              <Route path='' element={<>Dashboard</>} />
-              <Route path='learn' element={<Learn />} />
-            </Route>
-          }
+            <Route path="/course/:course_name/enroll/:lessonId/step/:num" element={<EnrollCourseProvider> <EnrollCourse /> </EnrollCourseProvider>} />
             <Route path='/test' element={<Test />} />
             <Route path='/login' element={<Login />} />
             <Route path='/login/forget-password' element={<ForgetPassword />} />
             <Route path="/password_reset/:uidb64/:token" element={<ResetPassword />} />
             <Route path='/signup' element={<RegisterContextProvider><SignUp /></RegisterContextProvider>} />
             <Route path='/signup/step/:num' element={<RegisterContextProvider><SignUpStep /></RegisterContextProvider>} />
-            <Route path='/emailverification' element={<EmailVerification />} />
+            <Route path='/emailverification' element={<RegisterContextProvider><EmailVerification /></RegisterContextProvider>} />
             <Route path='/profile/:id' element={<Profile />} />
-            <Route path='*' element={<NotFound />} /> {/* Catch all other routes */}
+            <Route path='learn' element={<Learn />} />
+            <Route path='*' element={<NotFound />} /> 
           </Routes>
         </AuthRedirectHandler>
     </>
@@ -120,38 +130,10 @@ function DashboardStudentLayout() {
 }
 
 function Test() {
-  const [imagePreview, setImagePreview] = useState(null);
+  const clientId = "781321486377-n1eiqu7n4s91qe66pnvc597h0eg19r15.apps.googleusercontent.com";
 
-  const [selectedImage, setSelectedImage] = useState(null)
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-
-  }
   return (
-    <div>
-      <input type='text' defaultValue={5}/>
-    </div>
+<></>
 
   )
 }

@@ -85,8 +85,6 @@ function ModuleSelection() {
       publicAxios.post(`users/register/${registerForm.data.role.toLowerCase()}/`,
         registerForm.extract())
         .then((res) => {
-          login(res.data) 
-
           if (registerForm.data.role == "Teacher" && registerForm.data.courses_of_interest) {
             axios.post(`http://localhost:8000/users/courses/assignement/`,
               {
@@ -99,14 +97,14 @@ function ModuleSelection() {
             })
           }
 
-        })
+        }) 
       navigate("/emailverification");
     } catch (error) {
       console.log(error.message);
     }
   };
   return (
-    <div className="container mx-auto py-12 px-5 relative bg-[#FFFFFC]">
+    <div className="ModuleSelection container mx-auto py-12 px-5 bg-[#FFFFFC]">
       <main className='flex items-start flex-col mt-20 mb-10'>
         <h2 className='lg:text-4xl text-3xl  max-[440px]:max-w-[300px] font-medium text-center w-full mx-auto'>
           {registerForm.data.role == "Teacher" && "Which modules are you teaching ?"}
@@ -127,7 +125,7 @@ function ModuleSelection() {
               setResult(chunks);
             }} id="searchBar" type="text" placeholder="Search Something..." className="w-full outline-none bg-transparent placeholder:text-gray-200" />
           </div>
-          <div className="flex items-center justify-center mt-10">
+          <div className="flex items-center justify-center">
             <div className="Modules flex items-center flex-col h-[25rem] overflow-y-auto pe-24 overflow-x-hidden">
               {
                 result.map((el, ind) => {
@@ -135,7 +133,7 @@ function ModuleSelection() {
                 })
               }
             </div>
-            <Btn text="Next" style={"w-44 h-16 text-xl max-[568px]:w-36 mt-6 absolute bottom-10 right-10"} handleSubmit={handlerNextBtn} />
+            <Btn text="Next" style={"text-xl max-[568px]:w-36 mt-6 !h-[44px] w-[115px] absolute bottom-[45px] right-[205px]"} handleSubmit={handlerNextBtn} />
           </div>
         </div>
       </main>
