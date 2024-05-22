@@ -37,24 +37,24 @@ import { EnrollCourseProvider } from './context/CourseStep';
 
 
 function App() {
-  const { token, setUserInfo, user } = useAuth(); 
+  const { token, setUserInfo, user } = useAuth();
   const { privateAxios } = useAxios();
-  const [isLoading , setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     setIsLoading(true);
     if (!user?.role) {
       setIsLoading(true);
       privateAxios.post("users/userByToken/", { access_token: token })
-      .then((res) => {
-        setUserInfo(res.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      })
-    } else 
+        .then((res) => {
+          setUserInfo(res.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        })
+    } else
       setIsLoading(false)
   }, [user]);
 
@@ -64,42 +64,42 @@ function App() {
     document.documentElement.style.fontSize = "14px";
   if (isLoading)
     return (
-     <Loading />
+      <Loading />
     )
   return (
     <>
-        <AuthRedirectHandler>
-          <ScrollToTop />        
-          <Routes>
-            {!user?.role && <Route path='/' element={<Home />} />}
-            {(user && user?.role != "student")  &&
-              <Route path='/' element={<DashboardLayout />}>
-                  {user?.role == "admin" && <Route path='users' element={<ManageUsers />}/>}
-                  {user?.role == "specialist" &&  <Route path='courses' element={<ManageCourses />}/>}
-                  <Route path='notifactions' element={<>Notification</>} />
-                  <Route path='setting' element={<>Setting</>} />
-              </Route>
-            }
-            {(user?.role == "student") && 
-              <Route path='/' element={<DashboardStudentLayout />}>
-                <Route path='' element={<>Dashboard</>} />
-                <Route path='learn' element={<Learn />} />
-                <Route path="/course/:course_name" element={<Course />} />
-              </Route>
+      <AuthRedirectHandler>
+        <ScrollToTop />
+        <Routes>
+          {!user?.role && <Route path='/' element={<Home />} />}
+          {(user && user?.role != "student") &&
+            <Route path='/' element={<DashboardLayout />}>
+              {user?.role == "admin" && <Route path='users' element={<ManageUsers />} />}
+              {user?.role == "specialist" && <Route path='courses' element={<ManageCourses />} />}
+              <Route path='notifactions' element={<>Notification</>} />
+              <Route path='setting' element={<>Setting</>} />
+            </Route>
           }
-            <Route path="/course/:course_name/enroll/:lessonId/step/:num" element={<EnrollCourseProvider> <EnrollCourse /> </EnrollCourseProvider>} />
-            <Route path='/test' element={<Test />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/login/forget-password' element={<ForgetPassword />} />
-            <Route path="/password_reset/:uidb64/:token" element={<ResetPassword />} />
-            <Route path='/signup' element={<RegisterContextProvider><SignUp /></RegisterContextProvider>} />
-            <Route path='/signup/step/:num' element={<RegisterContextProvider><SignUpStep /></RegisterContextProvider>} />
-            <Route path='/emailverification' element={<RegisterContextProvider><EmailVerification /></RegisterContextProvider>} />
-            <Route path='/profile/:id' element={<Profile />} />
-            <Route path='learn' element={<Learn />} />
-            <Route path='*' element={<NotFound />} /> 
-          </Routes>
-        </AuthRedirectHandler>
+          {(user?.role == "student") &&
+            <Route path='/' element={<DashboardStudentLayout />}>
+              <Route path='' element={<>Dashboard</>} />
+              <Route path='learn' element={<Learn />} />
+              <Route path="/course/:course_name" element={<Course />} />
+            </Route>
+          }
+          <Route path="/course/:course_name/enroll/:lessonId/step/:num" element={<EnrollCourseProvider> <EnrollCourse /> </EnrollCourseProvider>} />
+          <Route path='/test' element={<Test />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/login/forget-password' element={<ForgetPassword />} />
+          <Route path="/password_reset/:uidb64/:token" element={<ResetPassword />} />
+          <Route path='/signup' element={<RegisterContextProvider><SignUp /></RegisterContextProvider>} />
+          <Route path='/signup/step/:num' element={<RegisterContextProvider><SignUpStep /></RegisterContextProvider>} />
+          <Route path='/emailverification' element={<RegisterContextProvider><EmailVerification /></RegisterContextProvider>} />
+          <Route path='/profile/:id' element={<Profile />} />
+          <Route path='learn' element={<Learn />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </AuthRedirectHandler>
     </>
   )
 }
@@ -115,7 +115,7 @@ function DashboardLayout() {
         <Header />
         <Outlet />
       </div>
-  </div>
+    </div>
   )
 }
 function DashboardStudentLayout() {
@@ -123,7 +123,7 @@ function DashboardStudentLayout() {
     <div className="flex flex-col  bg-[#FFFFFC]" >
       <Navbar />
       <div>
-      <Outlet />
+        <Outlet />
       </div>
     </div>
   )
@@ -133,7 +133,7 @@ function Test() {
   const clientId = "781321486377-n1eiqu7n4s91qe66pnvc597h0eg19r15.apps.googleusercontent.com";
 
   return (
-<></>
+    <></>
 
   )
 }
