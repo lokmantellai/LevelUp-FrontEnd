@@ -120,6 +120,7 @@ input:-webkit-autofill:focus {
     color: #6b7280;
     box-shadow: none !important;
 }
+
 .p-dropdown {
     box-shadow: none !important;
 }
@@ -166,9 +167,12 @@ input:-webkit-autofill:focus {
     height: calc(100vh - 164px);
     align-items: center;
 }
+
 .loading-circle {
-    border: 3px solid #fff8b2; /* Light grey */
-    border-top: 3px solid #fae200; /* Blue */
+    border: 3px solid #fff8b2;
+    /* Light grey */
+    border-top: 3px solid #fae200;
+    /* Blue */
     border-radius: 50%;
     width: 45px;
     height: 45px;
@@ -176,42 +180,53 @@ input:-webkit-autofill:focus {
     margin-left: 2px;
     margin-top: 4px;
 }
+
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 .sideBarInfo {
     height: calc(100vh - 84px);
 }
+
 .verified_icon {
-    background: radial-gradient(circle, rgba(255,255,255,1) 40%, rgba(2,0,36,0) 24%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 1) 40%, rgba(2, 0, 36, 0) 24%);
 }
+
 .inputAdd {
     border: 1px solid #ccc7c7;
     padding: 5px 6px;
 }
+
 .inputAdd::placeholder {
     color: black;
 }
+
 #dropdown-basic-button {
-    display: block; 
-    padding: 0.625rem; 
+    display: block;
+    padding: 0.625rem;
     padding-inline: 22px;
     padding-left: 10px;
-    border-radius: 0.5rem; 
-    border-width: 1px; 
-    border-color: #D1D5DB; 
+    border-radius: 0.5rem;
+    border-width: 1px;
+    border-color: #D1D5DB;
     font-size: 0.875rem;
-    line-height: 1.25rem; 
-    color: #111827; 
-    background-color: #F9FAFB; 
+    line-height: 1.25rem;
+    color: #111827;
+    background-color: #F9FAFB;
     width: 110px;
     position: relative;
 }
+
 #dropdown-basic-button::after {
     margin-left: 0px;
     position: absolute;
     top: 50%;
-    right: 15px;    
+    right: 15px;
 }

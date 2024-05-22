@@ -8,7 +8,8 @@ import Search from '../../assets/Landing/Search.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark, faListUl, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from "react";
-import Backdrop from '@mui/material/Backdrop';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, radioGroupClasses } from '@mui/material';
+
 import useAxios from "../../api/useAxios";
 import { useAuth } from "../../context/hooks";
 import Verified from "../../assets/verified(1).png"
@@ -16,7 +17,7 @@ import toast from "react-hot-toast";
 
 
 
-export { SideBar as SideBar, Header as Header, CoursInfo as CoursInfo , UserInfo};
+export { SideBar as SideBar, Header as Header, CoursInfo as CoursInfo, UserInfo };
 function SideBar() {
     const { role } = useAuth();
     const location = useLocation();
@@ -39,21 +40,21 @@ function SideBar() {
                         <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC] opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard') ? 'opacity-100 text-[#00333D]' : ' '} `}></span>
                     </li>
                 </Link>
-                {role == "admin" && 
-                <Link to={"/dashboard/users"} className="relative z-10">
-                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
-                        <span className="relative z-10">Users</span>
-                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
-                    </li>
-                </Link>
+                {role == "admin" &&
+                    <Link to={"/dashboard/users"} className="relative z-10">
+                        <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
+                            <span className="relative z-10">Users</span>
+                            <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
+                        </li>
+                    </Link>
                 }
-                {role == "specialist" && 
+                {role == "specialist" &&
                     <Link to={"/dashboard/courses"} className="relative z-10">
-                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
-                        <span className="relative z-10">Courses</span>
-                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
-                    </li>
-                </Link>
+                        <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
+                            <span className="relative z-10">Courses</span>
+                            <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/dashboard/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
+                        </li>
+                    </Link>
                 }
                 <Link to={"/dashboard/notifactions"} className="relative z-10">
                     <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/dashboard/notifications') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
@@ -100,25 +101,26 @@ function Header() {
 
 
 function DeleteDialogue({ e, cancel, onDelete, url }) {
-
     const [showModal, setShowModal] = useState(true);
     const { privateAxios } = useAxios();
-
     const handleCancel = () => {
-        cancel()
+        cancel();
         setShowModal(false); // Close modal without confirmation
     };
 
-
     const handleDelete = async () => {
         const req = url || `/users/course/delete/${e.id}`;
+        const message = url ? 'User Deleted!' : 'Course Deleted!';
+
         await toast.promise(
-            privateAxios.delete(req), {
+            privateAxios.delete(req),
+            {
                 loading: 'Loading',
-                success: () => { onDelete(); return 'User Deleted!'; },
+                success: () => { onDelete(); return message; },
                 error: 'Network Error!'
-                }
-            );
+            }
+        );
+
     };
 
     const handleConfirm = () => {
@@ -127,27 +129,42 @@ function DeleteDialogue({ e, cancel, onDelete, url }) {
         setShowModal(false); // Close modal after confirmation
     };
 
-
-
     return (
-
-        <Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        <Dialog
             open={showModal}
-            onClick={handleCancel}
+            onClose={handleCancel}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            PaperProps={{
+                style: {
+                    padding: '10px',
+                    borderRadius: '10px',
+                    backgroundColor: '#FFFDE8',
+                }
+            }}
+
         >
-
-            <div className={`fixed top-2/4 left-2/4 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-between items-center w-[500px] h-[200px] py-[40px] px-[40px] bg-[#FFFFFC] text-center rounded-2xl [box-shadow:0px_0px_10px_rgba(0,_0,_0,_0.3)] `}>  <h1 className="text-[#3D3700] text-[16px] font-medium"> Are You Really Want To Delete {e.title} Cours ?</h1>
-
-                <div className="flex w-[250px] justify-between items-center">
-                    <button className="flex items-center justify-center px-[20px] py-[20px] w-[100px] h-[30px] bg-[#FFEBEB] text-[#3D3700] text-[16px] font-medium rounded-[8px]" onClick={handleCancel} >Cancel</button>
-                    <button className="flex items-center justify-center px-[20px] py-[20px] w-[100px] h-[30px] bg-[#FFEBEB] text-[#3D3700] text-[16px] font-medium rounded-[8px]" onClick={handleConfirm}>Delete</button>
-                </div>
-            </div>
-        </Backdrop>
-
-    )
+            <DialogTitle className="text-center" id="alert-dialog-title">
+                {"Confirm Deletion"}
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Are you really want to delete {e.title} course?
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions style={{ display: 'flex', gap: '10px' }}>
+                <Button onClick={handleCancel} style={{ backgroundColor: '#FFEBEB', color: '#3D3700' }} >
+                    Cancel
+                </Button>
+                <Button onClick={handleConfirm} style={{ backgroundColor: '#FFEBEB', color: '#3D3700' }} autoFocus>
+                    Delete
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
 }
+
+export default DeleteDialogue;
 
 function CoursInfo({ data, closeClick, onDelete }) {
     const [deleteWarn, setDeleteWarn] = useState(false);
@@ -168,7 +185,7 @@ function CoursInfo({ data, closeClick, onDelete }) {
                     <FontAwesomeIcon size="2xl" icon={faXmark} />
                 </button>
             </div>
-            <div className="flex justify-center items-center"><img className=" w-[100px] h-[100px]" src={'http://localhost:8000' + data?.img_url} alt="" /></div>
+            <div className="flex justify-center items-center"><img className=" w-[100px] h-[100px]" src={'http://localhost:8000/' + data?.img_url} alt="" /></div>
 
             <div className="flex flex-col text-center gap-[10px]">
                 <h1 className="text-[22px] text-[#3D3700] font-medium ">{data?.title}</h1>
@@ -230,15 +247,15 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, se
             const signal = abortController.signal;
             setUserInfo()
             setIsLoading(true)
-            privateAxios.get(`users/profile/${data?.id}`,{signal})
+            privateAxios.get(`users/profile/${data?.id}`, { signal })
                 .then(res => {
-                        setUserInfo(res.data)
-                        setIsLoading(false)
+                    setUserInfo(res.data)
+                    setIsLoading(false)
                 })
-                return () => {
-                    abortController.abort();
-                };
-        } else 
+            return () => {
+                abortController.abort();
+            };
+        } else
             setIsLoading(false)
     }, [data])
     return (
@@ -266,7 +283,7 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, se
                         toggleModal();
                     }} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
                         <FontAwesomeIcon size="lg" icon={faPenToSquare} />
-                    </button>  
+                    </button>
                 }
                 {
                     ((data.role == "admin" && data.id != SelfId) || data.role == "specialist") &&
@@ -274,12 +291,12 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, se
                         <FontAwesomeIcon size="lg" icon={faTrash} />
                     </button>
                 }
-               
+
             </div>
             <div className="flex gap-[40px]">
                 <div className="w-[115px]">
                     <h1 className="text-[18px] text-[#3D3700] font-medium ">Full Name</h1>
-                    <p className="text-[14px] text-[#3D3700] font-medium capitalize">{data?.first_name + " "+ data?.last_name}</p>
+                    <p className="text-[14px] text-[#3D3700] font-medium capitalize">{data?.first_name + " " + data?.last_name}</p>
                 </div>
                 <div >
                     <h1 className="text-[18px] text-[#3D3700] font-medium">Joined</h1>
@@ -298,13 +315,13 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, se
             </div>
             {
                 isLoading ? <div className="h-[132px] flex justify-center items-center"> <div className="loading-circle"></div> </div>
-                    : 
+                    :
                     <>
-                        {data?.role == "student" && <StudentInfo userInfo={userInfo}/>}
-                        {data?.role == "teacher" && <TeacherInfo userInfo={userInfo}/>}
+                        {data?.role == "student" && <StudentInfo userInfo={userInfo} />}
+                        {data?.role == "teacher" && <TeacherInfo userInfo={userInfo} />}
                     </>
             }
-           {deleteWarn && <DeleteDialogue e={data} cancel={handleCancelWarn} onDelete={onDelete} url={`users/user/delete/${data?.id}`} />}
+            {deleteWarn && <DeleteDialogue e={data} cancel={handleCancelWarn} onDelete={onDelete} url={`users/user/delete/${data?.id}`} />}
         </div>
     )
 }
@@ -312,23 +329,23 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, se
 /* 
 {"University":"Constantine","Score":0,"EnrollCourse":[],"CanEdit":false,"img":"/images/defaultPersone.png"}
 */
-function StudentInfo({userInfo}) {
+function StudentInfo({ userInfo }) {
     return (
         <>
-        <div className="flex  items-center justify-between">
-                        <div>
-                            <h1 className="text-[18px] text-[#3D3700] font-medium">Degree</h1>
-                            <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.Degree}</p>
-                        </div>    
-                        <div> 
-                            <h1 className="text-[18px] text-[#3D3700] font-medium ">Speciality</h1>
-                            <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.Speciality}</p>
-                        </div>
+            <div className="flex  items-center justify-between">
+                <div>
+                    <h1 className="text-[18px] text-[#3D3700] font-medium">Degree</h1>
+                    <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.Degree}</p>
+                </div>
+                <div>
+                    <h1 className="text-[18px] text-[#3D3700] font-medium ">Speciality</h1>
+                    <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.Speciality}</p>
+                </div>
             </div>
-        <div>
-            <h1 className="text-[18px] text-[#3D3700] font-medium ">University</h1>
-            <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.University}</p>
-        </div>
+            <div>
+                <h1 className="text-[18px] text-[#3D3700] font-medium ">University</h1>
+                <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.University}</p>
+            </div>
         </>
     )
 }
@@ -339,7 +356,7 @@ function TeacherInfo({ userInfo }) {
                 <h1 className="text-[18px] text-[#3D3700] font-medium ">Courses</h1>
                 <p className="text-[14px] text-[#3D3700] font-medium ">
                     {userInfo?.Courses?.map(el => el.title).join(', ')}
-                </p>    
+                </p>
             </div>
         </div>
     )

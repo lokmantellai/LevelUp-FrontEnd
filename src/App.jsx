@@ -81,22 +81,6 @@ function DashboardLayout() {
 }
 
 function Test() {
-  const [imagePreview, setImagePreview] = useState(null);
-
-  const [selectedImage, setSelectedImage] = useState(null)
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
