@@ -162,14 +162,9 @@ function DashboardStudentLayout() {
 }
 
 function Test() {
-  const clientId =
-    "781321486377-n1eiqu7n4s91qe66pnvc597h0eg19r15.apps.googleusercontent.com";
 
   return (
     <div className="flex flex-col  bg-[#FFFFFC]">
-      <Navbar />
-      <div>
       </div>
-    </div>
   );
 }

@@ -10,6 +10,8 @@ export default function CoursesList({ data, onCourseClick }) {
         onCourseClick(e)
     }
 
+    console.log('data from courses list :', data)
+
     return (
         <div>
             {data.map((e, index) =>

@@ -9,6 +9,7 @@ import useAxios from "../api/useAxios";
 import { useEffect, useState } from "react";
 import { useEnroll } from "../context/hooks";
 
+
 function EnrollCourse() {
     const { course_name, lessonId, num } = useParams();
     const { pathname } = useLocation()
@@ -54,8 +55,9 @@ function EnrollCourse() {
                     <img src={personne} className="w-[27px] ml-[24px]" />
                 </div>
             </nav>
-            <div className="enroll-course flex items-start flex-col">
-            <div dangerouslySetInnerHTML={{ __html: content?.content }}  />          
+          <div className="enroll-course flex items-start flex-col">
+              <div>
+              </div>
               <button onClick={() => {
                     nav(`/course/${course_name}/enroll/${lessonId}/step/${(numInt) + 1}`)
               }}>
