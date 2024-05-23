@@ -1,8 +1,8 @@
 import { CoursInfo } from "../../components/SpecialistDashboard/Components";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faArrowDownWideShort, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { useState, useEffect, useRef, createContext } from "react";
+import { faPlus, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
+import { useState, useEffect, useRef } from "react";
 import PaginationButtons from "../../components/PaginationButtons";
 import CoursesList from "../../components/SpecialistDashboard/CoursesList";
 import Sort from "../../components/SpecialistDashboard/Sort";
@@ -10,11 +10,8 @@ import Sort from "../../components/SpecialistDashboard/Sort";
 import _ from 'lodash'
 import useAxios from "../../api/useAxios";
 import Newcourse from "../../components/SpecialistDashboard/Newcourse";
-import toast, { Toaster } from "react-hot-toast";
 
 
-
-export const GlobalContext = createContext();
 
 export default function ManageCourses() {
 
@@ -26,8 +23,6 @@ export default function ManageCourses() {
     const [xclicked, setXclicked] = useState(false)
     const [newCourseOpen, setNewCourseOpen] = useState(false)
 
-
-    const [isSaved, setIsSaved] = useState()
 
     const [isLoading, setIsLoading] = useState(false);
     const [courses, setCourses] = useState([])
@@ -47,6 +42,7 @@ export default function ManageCourses() {
     const [order, setOrder] = useState('asc')
     const [level, setLevel] = useState('')
     const [degree, setDegree] = useState('')
+
     const [sortOpen, setSortOpen] = useState(false)
 
     const [modifyData, setModifyData] = useState()

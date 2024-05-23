@@ -14,6 +14,7 @@ function EnrollCourse() {
     let numInt = Number(num);
     const { privateAxios } = useAxios();
     const { all, allContent } = useEnroll();
+    console.log(allContent,"all");
     if(allContent)
         console.log("Content ", allContent[num], "this is content");
     const nav = useNavigate(); 

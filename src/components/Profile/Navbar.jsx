@@ -6,20 +6,38 @@ import not from '../../assets/Profile/Not.svg'
 import per from '../../assets/Profile/Person.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/hooks';
+import axios from 'axios'
 
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isSearchOpen, setIsSearchOpen] = useState(false)
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [suggestions, setSuggestions] = useState([]);
     const { logout } = useAuth();
     const location = useLocation();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+    useEffect(() => {
+        // Fetch data from the backend
+        axios.get('http://localhost:8000/users/courses/')
+            .then(response => {
+                setSuggestions(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
+
+    const filteredSuggestions = suggestions.filter(suggestion =>
+        suggestion.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const linkStyle = 'text-[#fffffc] text-[17px] font-medium relative xs:hidden sm:block';
     const activeLinkStyle = 'text-[#FAE200] text-[17px] font-medium relative xs:hidden sm:block'; // example active style
@@ -50,32 +68,23 @@ export default function Navbar() {
                 </Link>
             </div>
             <div className='w-[28%] h-[40px] relative'>
-                <input onBlur={() => {
-                    setIsSearchOpen(false);
-                }} onFocus={() => {
-                    setIsSearchOpen(true);
-            }} type='search' className='gap-[30%] items-center bg-[#00B7DB]  w-full h-full rounded-[6px] pl-[42px] pr-[15px] focus-within:outline-none text-[#fffffc] placeholder:text-[#fffffc] placeholder:font-[Ubuntu]
+                <input  value={searchTerm} onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setIsDropdownOpen(e.target.value.length > 0);
+                    }}
+           type='search' className='gap-[30%] items-center bg-[#00B7DB]  w-full h-full rounded-[6px] pl-[42px] pr-[15px] focus-within:outline-none text-[#fffffc] placeholder:text-[#fffffc] placeholder:font-[Ubuntu]
             xs:hidden
             sm:flex ' />
                 <img src={search} className='w-[18px] h-[18px] absolute top-1/2 -translate-y-1/2 left-[10px]' />
-                { isSearchOpen &&
+                { isDropdownOpen &&
                 <ul className='absolute w-full  bg-[#00B7DB] top-[115%] rounded-[5px] text-[17px]'>
-                <li className='h-[50px] flex items-center font-medium text-[#00333D] py-[2px] px-[10px] gap-3 hover:bg-[#00aacb]'> 
+                 {filteredSuggestions.map((suggestion, index) => (
+                       <li key={index} className='h-[50px] flex items-center font-medium text-[#00333D] py-[2px] px-[10px] gap-3 hover:bg-[#00aacb]'> 
                     <img className='w-[33px] h-[33px]' src={learn} />
-                    <span>DataBase</span>
-                </li>
-                <li className='h-[50px] flex items-center font-medium text-[#00333D] py-[2px] px-[10px] gap-3 hover:bg-[#00aacb] pr-[15px]'> 
-                    <img className='w-[36px] h-[36px]' src={learn} />
-                    <div className='flex flex-1 justify-between'>
-                        <div>DataBase</div>
-                        <div className='text-[16px]'>Beginner</div>
-                    </div>
-
-                </li>
-                <li className='h-[50px] flex items-center font-medium text-[#00333D] py-[2px] px-[10px] gap-3 hover:bg-[#00aacb]'> 
-                    <img className='w-[36px] h-[36px]' src={learn} />
-                    <span>DataBase</span>
-                </li>
+                         <span>{suggestion.title}</span>
+                </li>    
+                     
+                        ))}
             </ul>
                 }
             </div>

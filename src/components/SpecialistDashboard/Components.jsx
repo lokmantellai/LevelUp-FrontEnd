@@ -8,8 +8,7 @@ import Search from '../../assets/Landing/Search.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark, faListUl, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from "react";
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, radioGroupClasses } from '@mui/material';
-
+import Backdrop from '@mui/material/Backdrop';
 import useAxios from "../../api/useAxios";
 import { useAuth } from "../../context/hooks";
 import Verified from "../../assets/verified(1).png"
@@ -73,37 +72,82 @@ function SideBar() {
         </div >
     )
 }
+
 function Header() {
-    const { user, logout } = useAuth()
+    const { user, logout } = useAuth();
     const nav = useNavigate();
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [suggestions, setSuggestions] = useState([]);
+
+    useEffect(() => {
+        // Fetch data from the backend
+        axios.get('http://localhost:8000/users/courses/')
+            .then(response => {
+                setSuggestions(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
+    const filteredSuggestions = suggestions.filter(suggestion =>
+        suggestion.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
-        <header className="flex justify-between flex-row shadow-lg bg-[#FFFFFC] color-[#FFFDE8] ps-36 px-28 py-6 h-[74px] border relative z-10"  >
-            <div className="flex justify-between items-center py-[5px] px-[20px]  bg-[#FFFDE8] w-[500px] h-[40px] rounded-[20px]">
-                <img src={Search} alt="" className="h-[25px] " />
-                <input placeholder="Search For Courses. . ." className="bg-[#FFFDE8] w-[400px] flex justify-center text-center focus:outline-none placeholder:text-[#453507] text-xl" />
+        <header className="flex justify-between flex-row shadow-lg bg-[#FFFFFC] color-[#FFFDE8] ps-36 px-28 py-6 h-[74px] border relative z-10">
+            <div className="relative flex justify-between items-center py-[5px] px-[20px] bg-[#FFFDE8] w-[500px] h-[40px] rounded-[20px]">
+                <img src={Search} alt="Search" className="h-[25px]" />
+                <input
+                    placeholder="Search For Courses. . ."
+                    className="bg-[#FFFDE8] w-[400px] flex justify-center text-center focus:outline-none placeholder:text-[#453507] text-xl"
+                    value={searchTerm}
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setIsDropdownOpen(e.target.value.length > 0);
+                    }}
+                />
+                {isDropdownOpen && (
+                    <ul className="absolute top-[110%] left-0 w-full bg-[#FFFDE8] border border-[#453507] rounded-md z-20">
+                        {filteredSuggestions.map((suggestion, index) => (
+                            <li
+                                key={index}
+                                className="py-2 px-4 hover:bg-[#FAE200] cursor-pointer"
+                                onClick={() => {
+                                    setSearchTerm(suggestion.title);
+                                    setIsDropdownOpen(false);
+                                    nav(`/course/${suggestion.title.toLowerCase().replace(/\s+/g, '-')}`);
+                                }}
+                            >
+                                {suggestion.title}
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
-            <div className="flex  gap-7">
+            <div className="flex gap-7">
                 <button className="w-10 h-10 flex justify-center items-center bg-[#FFF0C4] rounded-full">
-                    <img src={NightMode} className="w-7 h-7" />
+                    <img src={NightMode} className="w-7 h-7" alt="Night Mode" />
                 </button>
                 <div className="relative">
                     <button onClick={() => {
-                        document.getElementById("MenuBar").classList.toggle("hidden")
+                        document.getElementById("MenuBar").classList.toggle("hidden");
                     }} className="w-10 h-10 flex justify-center items-center bg-[#FFF0C4] rounded-full">
-                        <img src={Personne} className="w-7 h-7" />
+                        <img src={Personne} className="w-7 h-7" alt="User" />
                     </button>
+                    <div id="MenuBar" className="hidden flex flex-col py-2 px-4 font-normal bg-[#FFF0C4] absolute translate-y-[80%] right-0 gap-1 rounded-md">
+                        <button onClick={() => { nav("/setting"); }}>Setting</button>
+                        <button onClick={logout}>Logout</button>
+                    </div>
                 </div>
                 <div className="flex flex-col items-center">
                     <span className="capitalize font-medium">{user?.firstname + " " + user?.lastname}</span>
                     <span className="capitalize text-sm">{user?.role}</span>
                 </div>
             </div>
-            <div id="MenuBar" className="hidden flex flex-col py-2 px-4 font-normal bg-[#FFF0C4] absolute -bottom-0 translate-y-[80%] right-[206px] gap-1 rounded-md">
-                <button onClick={() => { nav("/setting") }}>Setting</button>
-                <button onClick={logout}>Logout</button>
-            </div>
         </header>
-    )
+    );
 }
 
 
@@ -111,27 +155,27 @@ function Header() {
 
 
 
+
 function DeleteDialogue({ e, cancel, onDelete, url }) {
+
     const [showModal, setShowModal] = useState(true);
     const { privateAxios } = useAxios();
+
     const handleCancel = () => {
-        cancel();
+        cancel()
         setShowModal(false); // Close modal without confirmation
     };
 
+
     const handleDelete = async () => {
         const req = url || `/users/course/delete/${e.id}`;
-        const message = url ? 'User Deleted!' : 'Course Deleted!';
-
         await toast.promise(
-            privateAxios.delete(req),
-            {
-                loading: 'Loading',
-                success: () => { onDelete(); return message; },
-                error: 'Network Error!'
-            }
+            privateAxios.delete(req), {
+            loading: 'Loading',
+            success: () => { onDelete(); return 'User Deleted!'; },
+            error: 'Network Error!'
+        }
         );
-
     };
 
     const handleConfirm = () => {
@@ -140,39 +184,26 @@ function DeleteDialogue({ e, cancel, onDelete, url }) {
         setShowModal(false); // Close modal after confirmation
     };
 
-    return (
-        <Dialog
-            open={showModal}
-            onClose={handleCancel}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-                style: {
-                    padding: '10px',
-                    borderRadius: '10px',
-                    backgroundColor: '#FFFDE8',
-                }
-            }}
 
+
+    return (
+
+        <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={showModal}
+            onClick={handleCancel}
         >
-            <DialogTitle className="text-center" id="alert-dialog-title">
-                {"Confirm Deletion"}
-            </DialogTitle>
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    Are you really want to delete {e.title} course?
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions style={{ display: 'flex', gap: '10px' }}>
-                <Button onClick={handleCancel} style={{ backgroundColor: '#FFEBEB', color: '#3D3700' }} >
-                    Cancel
-                </Button>
-                <Button onClick={handleConfirm} style={{ backgroundColor: '#FFEBEB', color: '#3D3700' }} autoFocus>
-                    Delete
-                </Button>
-            </DialogActions>
-        </Dialog>
-    );
+
+            <div className={`fixed top-2/4 left-2/4 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-between items-center w-[500px] h-[200px] py-[40px] px-[40px] bg-[#FFFFFC] text-center rounded-2xl [box-shadow:0px_0px_10px_rgba(0,_0,_0,_0.3)] `}>  <h1 className="text-[#3D3700] text-[16px] font-medium"> Are You Really Want To Delete {e.title} Cours ?</h1>
+
+                <div className="flex w-[250px] justify-between items-center">
+                    <button className="flex items-center justify-center px-[20px] py-[20px] w-[100px] h-[30px] bg-[#FFEBEB] text-[#3D3700] text-[16px] font-medium rounded-[8px]" onClick={handleCancel} >Cancel</button>
+                    <button className="flex items-center justify-center px-[20px] py-[20px] w-[100px] h-[30px] bg-[#FFEBEB] text-[#3D3700] text-[16px] font-medium rounded-[8px]" onClick={handleConfirm}>Delete</button>
+                </div>
+            </div>
+        </Backdrop>
+
+    )
 }
 
 export default DeleteDialogue;
@@ -205,7 +236,7 @@ function CoursInfo({ data, closeClick, onDelete, onModify, setModifyData, setPat
                     <FontAwesomeIcon size="2xl" icon={faXmark} />
                 </button>
             </div>
-            <div className="flex justify-center items-center"><img className=" w-[100px] h-[100px]" src={'http://localhost:8000/' + data?.img_url} alt="" /></div>
+            <div className="flex justify-center items-center"><img className=" w-[100px] h-[100px]" src={'http://localhost:8000' + data?.img_url} alt="" /></div>
 
             <div className="flex flex-col text-center gap-[10px]">
                 <h1 className="text-[22px] text-[#3D3700] font-medium ">{data?.title}</h1>
