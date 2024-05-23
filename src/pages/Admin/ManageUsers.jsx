@@ -217,7 +217,7 @@ function FormAddUser({ toggleModal, userInfo, action, setDataChanged,dataChanged
                 if (action == "add")
                     response = privateAxios.post(`users/register/${formData.role.toLowerCase()}/`, formDataToSubmit);
                 else if (action == "edit")
-                    response = privateAxios.put(`users/modify/${userInfo?.id}`, formDataToSubmit);
+                    response = privateAxios.put(`users/modify/${userInfo?.id}/`, formDataToSubmit);
                 await toast.promise(
                     response, {
                         loading: 'Loading',

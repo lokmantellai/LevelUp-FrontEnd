@@ -169,7 +169,6 @@ function Test() {
     <div className="flex flex-col  bg-[#FFFFFC]">
       <Navbar />
       <div>
-        <Report />
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import useAxios from "../../api/useAxios";
 import { useAuth } from "../../context/hooks";
 import Verified from "../../assets/verified(1).png"
 import toast from "react-hot-toast";
+import axios from "axios";
 
 
 
@@ -71,38 +72,84 @@ function SideBar() {
         </div >
     )
 }
+
 function Header() {
-    const { user, logout } = useAuth() 
+    const { user, logout } = useAuth();
     const nav = useNavigate();
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [suggestions, setSuggestions] = useState([]);
+
+    useEffect(() => {
+        // Fetch data from the backend
+        axios.get('http://localhost:8000/users/courses/')
+            .then(response => {
+                setSuggestions(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
+    const filteredSuggestions = suggestions.filter(suggestion =>
+        suggestion.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
-        <header className="flex justify-between flex-row shadow-lg bg-[#FFFFFC] color-[#FFFDE8] ps-36 px-28 py-6 h-[74px] border relative z-10"  >
-            <div className="flex justify-between items-center py-[5px] px-[20px]  bg-[#FFFDE8] w-[500px] h-[40px] rounded-[20px]">
-                <img src={Search} alt="" className="h-[25px] " />
-                <input placeholder="Search For Courses. . ." className="bg-[#FFFDE8] w-[400px] flex justify-center text-center focus:outline-none placeholder:text-[#453507] text-xl" />
+        <header className="flex justify-between flex-row shadow-lg bg-[#FFFFFC] color-[#FFFDE8] ps-36 px-28 py-6 h-[74px] border relative z-10">
+            <div className="relative flex justify-between items-center py-[5px] px-[20px] bg-[#FFFDE8] w-[500px] h-[40px] rounded-[20px]">
+                <img src={Search} alt="Search" className="h-[25px]" />
+                <input
+                    placeholder="Search For Courses. . ."
+                    className="bg-[#FFFDE8] w-[400px] flex justify-center text-center focus:outline-none placeholder:text-[#453507] text-xl"
+                    value={searchTerm}
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setIsDropdownOpen(e.target.value.length > 0);
+                    }}
+                />
+                {isDropdownOpen && (
+                    <ul className="absolute top-[110%] left-0 w-full bg-[#FFFDE8] border border-[#453507] rounded-md z-20">
+                        {filteredSuggestions.map((suggestion, index) => (
+                            <li
+                                key={index}
+                                className="py-2 px-4 hover:bg-[#FAE200] cursor-pointer"
+                                onClick={() => {
+                                    setSearchTerm(suggestion.title);
+                                    setIsDropdownOpen(false);
+                                    nav(`/course/${suggestion.title.toLowerCase().replace(/\s+/g, '-')}`);
+                                }}
+                            >
+                                {suggestion.title}
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
-            <div className="flex  gap-7">
+            <div className="flex gap-7">
                 <button className="w-10 h-10 flex justify-center items-center bg-[#FFF0C4] rounded-full">
-                    <img src={NightMode} className="w-7 h-7" />
+                    <img src={NightMode} className="w-7 h-7" alt="Night Mode" />
                 </button>
                 <div className="relative">
                     <button onClick={() => {
-                        document.getElementById("MenuBar").classList.toggle("hidden")
+                        document.getElementById("MenuBar").classList.toggle("hidden");
                     }} className="w-10 h-10 flex justify-center items-center bg-[#FFF0C4] rounded-full">
-                        <img src={Personne} className="w-7 h-7" />
+                        <img src={Personne} className="w-7 h-7" alt="User" />
                     </button>
+                    <div id="MenuBar" className="hidden flex flex-col py-2 px-4 font-normal bg-[#FFF0C4] absolute translate-y-[80%] right-0 gap-1 rounded-md">
+                        <button onClick={() => { nav("/setting"); }}>Setting</button>
+                        <button onClick={logout}>Logout</button>
+                    </div>
                 </div>
                 <div className="flex flex-col items-center">
                     <span className="capitalize font-medium">{user?.firstname + " " + user?.lastname}</span>
                     <span className="capitalize text-sm">{user?.role}</span>
                 </div>
             </div>
-            <div id="MenuBar" className="hidden flex flex-col py-2 px-4 font-normal bg-[#FFF0C4] absolute -bottom-0 translate-y-[80%] right-[206px] gap-1 rounded-md">
-                <button onClick={() => { nav("/setting") }}>Setting</button>
-                <button onClick={logout}>Logout</button>
-            </div>
         </header>
-    )
+    );
 }
+
 
 
 
