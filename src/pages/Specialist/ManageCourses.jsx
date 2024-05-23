@@ -22,7 +22,7 @@ export default function ManageCourses() {
 
     const [path, setPath] = useState('Courses')
     const [formData, setFormData] = useState({ title: '', img_url: null, description: '', degree: '', level: '', is_draft: false, lessons: [] });
-    const [lastForm, setLastForm] = useState({ title: '', img_url: null, description: '', degree: '', level: '', is_draft: false })
+    const [lastForm, setLastForm] = useState({ title: '', img_url: null, description: '', degree: '', level: '', is_draft: false, lessons: [] })
     const [xclicked, setXclicked] = useState(false)
     const [newCourseOpen, setNewCourseOpen] = useState(false)
 
@@ -48,6 +48,8 @@ export default function ManageCourses() {
     const [level, setLevel] = useState('')
     const [degree, setDegree] = useState('')
     const [sortOpen, setSortOpen] = useState(false)
+
+    const [modifyData, setModifyData] = useState()
 
 
     const newCourse = {
@@ -110,6 +112,7 @@ export default function ManageCourses() {
         }
     };
 
+    console.log("Xclicked : ", xclicked)
 
 
     const handlePageChange = (object, page) => {
@@ -123,80 +126,83 @@ export default function ManageCourses() {
         setSelectedCours()
     }
 
+    const handleModify = () => {
+        setNewCourseOpen(true)
+    }
 
 
-    try {
 
 
-        return (
 
-            <>
-                <Toaster />
-                <GlobalContext.Provider value={newCourse}>
-                    <div className="flex  bg-[#FFFFFC] h-[100%]" >
-                        <div className=" flex flex-col flex-1 pb-[20] ">
-                            {isLoading ? <div className="flex text-[80px] h-[100%] justify-center py-[300px]"><div className="loading"></div></div> :
-                                <div className="flex h-full">
-                                    <div className=" flex flex-col h-[100%] w-[100%] justify-between  px-[50px] pb-[20px]">
-                                        <div className="flex flex-col  pt-[50px] pb-[30px] gap-[20px]">
-                                            <div className="flex justify-between items-center w-[100%]">
-                                                <h1 className="flex justify-center items-center text-[30px] text-[#3D3700] font-medium h-[50px] ">{path}</h1>
-                                                {newCourseOpen &&
-                                                    <div onClick={() => { setXclicked(true) }} className="px-[10px]">
-                                                        <FontAwesomeIcon size="2xl" icon={faXmark} />
-                                                    </div>}
-                                                {!newCourseOpen &&
-                                                    <div className="relative flex gap-[20px]">
-                                                        <button onClick={() => { setSortOpen(!sortOpen) }} className="flex items-center justify-around px-[20px] py-[20px] w-[200px] h-[50px] bg-[#FFF8B2] text-[#3D3700] text-[16px] font-medium rounded-[8px] hover:bg-[#FCE932] ">
-                                                            Sort & Filter
-                                                            <FontAwesomeIcon size="lg" icon={faArrowDownWideShort} />
-                                                        </button>
-                                                        <button onClick={() => { setNewCourseOpen(true), setPath(path + ' / Add Course') }} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FAE200] text-[#3D3700] text-[16px] font-medium rounded-[8px] hover:bg-[#FFD24C]">
-                                                            <FontAwesomeIcon size="lg" icon={faPlus} />
-                                                        </button>
-                                                        {sortOpen && <Sort className="ease-in opacity-0 transition-opacity duration-500" onOutsideClick={() => { setSortOpen(!sortOpen) }} sorted={sort} leveled={level} degreed={degree} ordred={order} onSort={(e) => { setSort(e.sort), setOrder(e.order), setLevel(e.level), setDegree(e.degree) }} handleClose={() => { setSortOpen(false) }} />}
-                                                    </div>
-                                                }
-                                            </div>
-                                            <div className="w-[100%] h-[2px] bg-[#3D3700]">
-                                            </div>
-                                            {!newCourseOpen ?
-                                                <>
-                                                    <div className="attributs">
-                                                        <div className=" grid grid-cols-9 gap-5">
-                                                            <h1 className="text-[18px] col-span-3"> Title </h1>
-                                                            <h1 className="text-[18px] col-span-2"> Id </h1>
-                                                            <h1 className="text-[18px] col-span-2"> Degree </h1>
-                                                            <h1 className="text-[18px] col-span-2"> Level </h1>
-                                                        </div>
-                                                    </div>
-                                                    <CoursesList data={courses} onCourseClick={handleCourseClick} />
-                                                </> :
+    return (
 
-                                                <Newcourse />
-
+        <>
+            <Toaster />
+            <GlobalContext.Provider value={newCourse}>
+                <div className="flex  bg-[#FFFFFC] h-[100%]" >
+                    <div className=" flex flex-col flex-1 pb-[20] ">
+                        {isLoading ? <div className="flex text-[80px] h-[100%] justify-center py-[300px]"><div className="loading"></div></div> :
+                            <div className="flex h-full">
+                                <div className=" flex flex-col h-[100%] w-[100%] justify-between  px-[50px] pb-[20px]">
+                                    <div className="flex flex-col  pt-[50px] pb-[30px] gap-[20px]">
+                                        <div className="flex justify-between items-center w-[100%]">
+                                            <h1 className="flex justify-center items-center text-[30px] text-[#3D3700] font-medium h-[50px] ">{path}</h1>
+                                            {newCourseOpen &&
+                                                <div onClick={() => { setXclicked(true); setFormData({ title: '', img_url: null, description: '', degree: '', level: '', is_draft: false, lessons: [] }) }} className="px-[10px]">
+                                                    <FontAwesomeIcon size="2xl" icon={faXmark} />
+                                                </div>}
+                                            {!newCourseOpen &&
+                                                <div className="relative flex gap-[20px]">
+                                                    <button onClick={() => { setSortOpen(!sortOpen) }} className="flex items-center justify-around px-[20px] py-[20px] w-[200px] h-[50px] bg-[#FFF8B2] text-[#3D3700] text-[16px] font-medium rounded-[8px] hover:bg-[#FCE932] ">
+                                                        Sort & Filter
+                                                        <FontAwesomeIcon size="lg" icon={faArrowDownWideShort} />
+                                                    </button>
+                                                    <button onClick={() => { setNewCourseOpen(true), setPath(path + ' / Add Course') }} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FAE200] text-[#3D3700] text-[16px] font-medium rounded-[8px] hover:bg-[#FFD24C]">
+                                                        <FontAwesomeIcon size="lg" icon={faPlus} />
+                                                    </button>
+                                                    {sortOpen && <Sort className="ease-in opacity-0 transition-opacity duration-500" onOutsideClick={() => { setSortOpen(!sortOpen) }} sorted={sort} leveled={level} degreed={degree} ordred={order} onSort={(e) => { setSort(e.sort), setOrder(e.order), setLevel(e.level), setDegree(e.degree) }} handleClose={() => { setSortOpen(false) }} />}
+                                                </div>
                                             }
                                         </div>
-                                        {!newCourseOpen &&
-                                            <div className="pagination flex justify-between items-center ">
-                                                <h1 className="text-[16px] text-[#3D3700]">{firstRecord} to {lastRecord} of {records}</h1>
-                                                <PaginationButtons totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
-                                            </div>
+                                        <div className="w-[100%] h-[2px] bg-[#3D3700]">
+                                        </div>
+                                        {!newCourseOpen ?
+                                            <>
+                                                <div className="attributs">
+                                                    <div className=" grid grid-cols-9 gap-5">
+                                                        <h1 className="text-[18px] col-span-3"> Title </h1>
+                                                        <h1 className="text-[18px] col-span-2"> Id </h1>
+                                                        <h1 className="text-[18px] col-span-2"> Degree </h1>
+                                                        <h1 className="text-[18px] col-span-2"> Level </h1>
+                                                    </div>
+                                                </div>
+                                                <CoursesList data={courses} onCourseClick={handleCourseClick} />
+                                            </> :
+
+                                            <Newcourse data={modifyData} />
+
                                         }
                                     </div>
-                                    {selectedCours && !newCourseOpen && <CoursInfo data={selectedCours} closeClick={handleClose} onDelete={onDelete} />}
-                                </div>}
-                        </div>
-                    </div >
-                </GlobalContext.Provider>
-            </>
+                                    {!newCourseOpen &&
+                                        <div className="pagination flex justify-between items-center ">
+                                            <h1 className="text-[16px] text-[#3D3700]">{firstRecord} to {lastRecord} of {records}</h1>
+                                            <PaginationButtons totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
+                                        </div>
+                                    }
+                                </div>
+                                {selectedCours && !newCourseOpen && <CoursInfo data={selectedCours} closeClick={handleClose} onDelete={onDelete} onModify={handleModify} setModifyData={setModifyData} setPath={setPath} setFormData={setFormData} />}
+                            </div>}
+                    </div>
+                </div >
+            </GlobalContext.Provider>
+        </>
 
-        )
-    } catch (error) {
-        // Handle error appropriately
-        console.error(error);
-        return <div>An error occurred: {error.message}</div>;
-    }
+    )
+
+    // Handle error appropriately
+    console.error(error);
+    return <div>An error occurred: {error.message}</div>;
+
 
 
 }

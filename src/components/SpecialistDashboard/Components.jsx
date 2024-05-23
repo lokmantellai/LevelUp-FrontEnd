@@ -14,6 +14,7 @@ import useAxios from "../../api/useAxios";
 import { useAuth } from "../../context/hooks";
 import Verified from "../../assets/verified(1).png"
 import toast from "react-hot-toast";
+import Newcourse from "./Newcourse";
 
 
 
@@ -176,7 +177,10 @@ function DeleteDialogue({ e, cancel, onDelete, url }) {
 
 export default DeleteDialogue;
 
-function CoursInfo({ data, closeClick, onDelete }) {
+
+
+
+function CoursInfo({ data, closeClick, onDelete, onModify, setModifyData, setPath, setFormData }) {
     const [deleteWarn, setDeleteWarn] = useState(false);
 
     const handleDeleteWarn = () => {
@@ -184,6 +188,13 @@ function CoursInfo({ data, closeClick, onDelete }) {
     }
     const handleCancelWarn = () => {
         setDeleteWarn(false)
+    }
+
+    const handleModify = () => {
+        console.log('data :', data)
+        setPath(`Courses / ${data?.title} Course`)
+        setModifyData(data)
+        onModify()
     }
 
 
@@ -204,10 +215,10 @@ function CoursInfo({ data, closeClick, onDelete }) {
                 <button className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
                     <FontAwesomeIcon size="lg" icon={faListUl} />
                 </button>
-                <button className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
+                <button type="button" onClick={handleModify} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
                     <FontAwesomeIcon size="lg" icon={faPenToSquare} />
                 </button>
-                <button onClick={handleDeleteWarn} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FFB8B8] text-[#730303] text-[16px] font-medium rounded-[8px]  hover:bg-[#AD0202] hover:text-[#FFEBEB]" >
+                <button type="button" onClick={handleDeleteWarn} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FFB8B8] text-[#730303] text-[16px] font-medium rounded-[8px]  hover:bg-[#AD0202] hover:text-[#FFEBEB]" >
                     <FontAwesomeIcon size="lg" icon={faTrash} />
                 </button>
             </div>
@@ -237,6 +248,17 @@ function CoursInfo({ data, closeClick, onDelete }) {
         </div>
     )
 }
+
+
+
+
+
+
+
+
+
+
+
 function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, setAction }) {
     const { privateAxios } = useAxios();
     const [deleteWarn, setDeleteWarn] = useState(false);

@@ -30,7 +30,8 @@ const fetchCourseTitles = async () => {
 
 
 
-export default function Newcourse() {
+export default function Newcourse({ data }) {
+
 
     const {
         formData,
@@ -43,7 +44,8 @@ export default function Newcourse() {
         setNewCourseOpen
     } = useContext(GlobalContext)
 
-    const { publicAxios } = useAxios()
+
+
 
 
 
@@ -130,13 +132,13 @@ export default function Newcourse() {
             }
             try {
                 // Assuming the backend expects the formData in a specific format
-                const response = await publicAxios.post('/users/course/create/', form);
+                const response = await privateAxios.post('http://localhost:8000/users/courses/create/', form);
                 toast.success('Draft saved successfully!');
             } catch (error) {
-                toast.error(error.response.data)
                 toast.error('Failed to save draft. Please try again.');
             }
             setLastForm(formData)
+
         }
     };
 
@@ -186,10 +188,6 @@ export default function Newcourse() {
     console.log('from Outside : ', formData)
 
     const handleCancel = () => {
-
-        setShowModal(false)
-        setFormData({ title: '', img_url: null, description: '', degree: '', level: '', is_draft: false })
-        setLastForm({ title: '', img_url: null, description: '', degree: '', level: '', is_draft: false })
         setXclicked(false)
     }
 
@@ -202,7 +200,12 @@ export default function Newcourse() {
     }
 
 
-    function handleXclick() {
+    const handleXclick = () => {
+
+
+
+
+
         console.log('formData : ', formData)
         console.log('lastData : ', lastForm)
         console.log('Are they Equal : ', _.isEqual(formData, lastForm))
@@ -210,8 +213,8 @@ export default function Newcourse() {
             console.log('same')
             setPath('Courses')
             setNewCourseOpen(false)
-            setFormData({ title: '', img_url: null, description: '', degree: '', level: '', is_draft: false })
-            setLastForm({ title: '', img_url: null, description: '', degree: '', level: '', is_draft: false })
+            setFormData({ title: '', img_url: null, description: '', degree: '', level: '', is_draft: false, lessons: [] })
+            setLastForm({ title: '', img_url: null, description: '', degree: '', level: '', is_draft: false, lessons: [] })
             setXclicked(false)
         }
 
