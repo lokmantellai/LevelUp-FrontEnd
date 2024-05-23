@@ -13,11 +13,11 @@ import useAxios from "../../api/useAxios";
 import { useAuth } from "../../context/hooks";
 import Verified from "../../assets/verified(1).png"
 import toast from "react-hot-toast";
-import axios from "axios";
+import Newcourse from "./Newcourse";
 
 
 
-export { SideBar as SideBar, Header as Header, CoursInfo as CoursInfo , UserInfo};
+export { SideBar as SideBar, Header as Header, CoursInfo as CoursInfo, UserInfo };
 function SideBar() {
     const { user } = useAuth();
     const location = useLocation();
@@ -40,21 +40,21 @@ function SideBar() {
                         <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC] opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/') ? 'opacity-100 text-[#00333D]' : ' '} `}></span>
                     </li>
                 </Link>
-                {user.role == "admin" && 
-                <Link to={"/users"} className="relative z-10">
-                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
-                        <span className="relative z-10">Users</span>
-                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
-                    </li>
-                </Link>
+                {user.role == "admin" &&
+                    <Link to={"/users"} className="relative z-10">
+                        <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
+                            <span className="relative z-10">Users</span>
+                            <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
+                        </li>
+                    </Link>
                 }
-                {user.role == "specialist" && 
+                {user.role == "specialist" &&
                     <Link to={"/courses"} className="relative z-10">
-                    <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
-                        <span className="relative z-10">Courses</span>
-                        <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
-                    </li>
-                </Link>
+                        <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/courses') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
+                            <span className="relative z-10">Courses</span>
+                            <span className={`absolute rounded-[10px] rounded-e-none right-0 top-0 w-52 h-full bg-[#FFFFFC]  opacity-0 text-[#E8FBFF] group-hover:opacity-50 transition-opacity z-0 ${isActivePage('/courses') ? 'opacity-100 text-[#00333D]' : ''} `}></span>
+                        </li>
+                    </Link>
                 }
                 <Link to={"/notifactions"} className="relative z-10">
                     <li className={`relative text-center w-full py-[2rem] transition-all ${isActivePage('/notifications') ? 'text-[#0095B2]' : 'hover:text-black group'} `}>
@@ -171,11 +171,11 @@ function DeleteDialogue({ e, cancel, onDelete, url }) {
         const req = url || `/users/course/delete/${e.id}`;
         await toast.promise(
             privateAxios.delete(req), {
-                loading: 'Loading',
-                success: () => { onDelete(); return 'User Deleted!'; },
-                error: 'Network Error!'
-                }
-            );
+            loading: 'Loading',
+            success: () => { onDelete(); return 'User Deleted!'; },
+            error: 'Network Error!'
+        }
+        );
     };
 
     const handleConfirm = () => {
@@ -206,7 +206,12 @@ function DeleteDialogue({ e, cancel, onDelete, url }) {
     )
 }
 
-function CoursInfo({ data, closeClick, onDelete }) {
+export default DeleteDialogue;
+
+
+
+
+function CoursInfo({ data, closeClick, onDelete, onModify, setModifyData, setPath, setFormData }) {
     const [deleteWarn, setDeleteWarn] = useState(false);
 
     const handleDeleteWarn = () => {
@@ -214,6 +219,13 @@ function CoursInfo({ data, closeClick, onDelete }) {
     }
     const handleCancelWarn = () => {
         setDeleteWarn(false)
+    }
+
+    const handleModify = () => {
+        console.log('data :', data)
+        setPath(`Courses / ${data?.title} Course`)
+        setModifyData(data)
+        onModify()
     }
 
 
@@ -234,10 +246,10 @@ function CoursInfo({ data, closeClick, onDelete }) {
                 <button className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
                     <FontAwesomeIcon size="lg" icon={faListUl} />
                 </button>
-                <button className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
+                <button type="button" onClick={handleModify} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
                     <FontAwesomeIcon size="lg" icon={faPenToSquare} />
                 </button>
-                <button onClick={handleDeleteWarn} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FFB8B8] text-[#730303] text-[16px] font-medium rounded-[8px]  hover:bg-[#AD0202] hover:text-[#FFEBEB]" >
+                <button type="button" onClick={handleDeleteWarn} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FFB8B8] text-[#730303] text-[16px] font-medium rounded-[8px]  hover:bg-[#AD0202] hover:text-[#FFEBEB]" >
                     <FontAwesomeIcon size="lg" icon={faTrash} />
                 </button>
             </div>
@@ -267,6 +279,17 @@ function CoursInfo({ data, closeClick, onDelete }) {
         </div>
     )
 }
+
+
+
+
+
+
+
+
+
+
+
 function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, setAction }) {
     const { privateAxios } = useAxios();
     const [deleteWarn, setDeleteWarn] = useState(false);
@@ -286,15 +309,15 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, se
             const signal = abortController.signal;
             setUserInfo()
             setIsLoading(true)
-            privateAxios.get(`users/profile/${data?.id}`,{signal})
+            privateAxios.get(`users/profile/${data?.id}`, { signal })
                 .then(res => {
-                        setUserInfo(res.data)
-                        setIsLoading(false)
+                    setUserInfo(res.data)
+                    setIsLoading(false)
                 })
-                return () => {
-                    abortController.abort();
-                };
-        } else 
+            return () => {
+                abortController.abort();
+            };
+        } else
             setIsLoading(false)
     }, [data])
     return (
@@ -322,7 +345,7 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, se
                         toggleModal();
                     }} className="flex items-center justify-center px-[20px] py-[20px] w-[50px] h-[50px] bg-[#FCEE65] text-[#3D3700] text-[16px] font-medium rounded-[8px]  hover:bg-[#FFD24C]" >
                         <FontAwesomeIcon size="lg" icon={faPenToSquare} />
-                    </button>  
+                    </button>
                 }
                 {
                     ((data.role == "admin" && data.id != SelfId) || data.role == "specialist") &&
@@ -330,12 +353,12 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, se
                         <FontAwesomeIcon size="lg" icon={faTrash} />
                     </button>
                 }
-               
+
             </div>
             <div className="flex gap-[40px]">
                 <div className="w-[115px]">
                     <h1 className="text-[18px] text-[#3D3700] font-medium ">Full Name</h1>
-                    <p className="text-[14px] text-[#3D3700] font-medium capitalize">{data?.first_name + " "+ data?.last_name}</p>
+                    <p className="text-[14px] text-[#3D3700] font-medium capitalize">{data?.first_name + " " + data?.last_name}</p>
                 </div>
                 <div >
                     <h1 className="text-[18px] text-[#3D3700] font-medium">Joined</h1>
@@ -354,13 +377,13 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, se
             </div>
             {
                 isLoading ? <div className="h-[132px] flex justify-center items-center"> <div className="loading-circle"></div> </div>
-                    : 
+                    :
                     <>
-                        {data?.role == "student" && <StudentInfo userInfo={userInfo}/>}
-                        {data?.role == "teacher" && <TeacherInfo userInfo={userInfo}/>}
+                        {data?.role == "student" && <StudentInfo userInfo={userInfo} />}
+                        {data?.role == "teacher" && <TeacherInfo userInfo={userInfo} />}
                     </>
             }
-           {deleteWarn && <DeleteDialogue e={data} cancel={handleCancelWarn} onDelete={onDelete} url={`users/user/delete/${data?.id}`} />}
+            {deleteWarn && <DeleteDialogue e={data} cancel={handleCancelWarn} onDelete={onDelete} url={`users/user/delete/${data?.id}`} />}
         </div>
     )
 }
@@ -368,23 +391,23 @@ function UserInfo({ data, closeClick, onDelete, baseURL, SelfId, toggleModal, se
 /* 
 {"University":"Constantine","Score":0,"EnrollCourse":[],"CanEdit":false,"img":"/images/defaultPersone.png"}
 */
-function StudentInfo({userInfo}) {
+function StudentInfo({ userInfo }) {
     return (
         <>
-        <div className="flex  items-center justify-between">
-                        <div>
-                            <h1 className="text-[18px] text-[#3D3700] font-medium">Degree</h1>
-                            <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.Degree}</p>
-                        </div>    
-                        <div> 
-                            <h1 className="text-[18px] text-[#3D3700] font-medium ">Speciality</h1>
-                            <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.Speciality}</p>
-                        </div>
+            <div className="flex  items-center justify-between">
+                <div>
+                    <h1 className="text-[18px] text-[#3D3700] font-medium">Degree</h1>
+                    <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.Degree}</p>
+                </div>
+                <div>
+                    <h1 className="text-[18px] text-[#3D3700] font-medium ">Speciality</h1>
+                    <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.Speciality}</p>
+                </div>
             </div>
-        <div>
-            <h1 className="text-[18px] text-[#3D3700] font-medium ">University</h1>
-            <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.University}</p>
-        </div>
+            <div>
+                <h1 className="text-[18px] text-[#3D3700] font-medium ">University</h1>
+                <p className="text-[14px] text-[#3D3700] font-medium ">{userInfo?.University}</p>
+            </div>
         </>
     )
 }
@@ -395,7 +418,7 @@ function TeacherInfo({ userInfo }) {
                 <h1 className="text-[18px] text-[#3D3700] font-medium ">Courses</h1>
                 <p className="text-[14px] text-[#3D3700] font-medium ">
                     {userInfo?.Courses?.map(el => el.title).join(', ')}
-                </p>    
+                </p>
             </div>
         </div>
     )

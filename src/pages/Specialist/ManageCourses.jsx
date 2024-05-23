@@ -199,6 +199,11 @@ export default function ManageCourses() {
 
     )
 
+    // Handle error appropriately
+    console.error(error);
+    return <div>An error occurred: {error.message}</div>;
+
+
 
 
 
