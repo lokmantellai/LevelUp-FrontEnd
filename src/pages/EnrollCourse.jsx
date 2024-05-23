@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import ProgressBar from "../components/EnrollCourse/ProgressBar";
 import closeIcon from "../assets/close.svg"
 import Bars from "../assets/3Bars.svg"
@@ -11,14 +11,15 @@ import { useEnroll } from "../context/hooks";
 
 function EnrollCourse() {
     const { course_name, lessonId, num } = useParams();
+    const { pathname } = useLocation()
+    console.log(pathname);
     let numInt = Number(num);
     const { privateAxios } = useAxios();
     const { all, allContent } = useEnroll();
-    console.log(allContent,"all");
     if(allContent)
         console.log("Content ", allContent[num], "this is content");
     const nav = useNavigate(); 
-
+    let content =allContent ? allContent[num] : ""
   return (
     <div className="container h-screen mx-auto pe-10 px-0">
           <nav className="nav-enroll flex items-center justify-start px-[50px] py-[18px] ">
@@ -33,7 +34,7 @@ function EnrollCourse() {
               <div className="flex items-center justify-center flex-1">
                   <button onClick={() => {
                     if(numInt > 0 )
-                        nav(`/course/${course_name}/enroll/${lessonId}/step/${Number(numInt) - 1}`)
+                        nav(`/course/${course_name}/enroll/${lessonId}/step/${(numInt) - 1}`)
                   }} className={"mr-[37px]"}>
                     <img src={Arrow} />
                 </button>
@@ -54,9 +55,11 @@ function EnrollCourse() {
                 </div>
             </nav>
             <div className="enroll-course flex items-start flex-col">
-            <div dangerouslySetInnerHTML={{ __html: allContent[num].content }}  />          
-                <button>
-                    Start
+            <div dangerouslySetInnerHTML={{ __html: content?.content }}  />          
+              <button onClick={() => {
+                    nav(`/course/${course_name}/enroll/${lessonId}/step/${(numInt) + 1}`)
+              }}>
+                    {numInt == 0 ? "Start" : "Next"}
                 </button>
             </div>
     </div>

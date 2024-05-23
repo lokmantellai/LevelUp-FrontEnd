@@ -16,6 +16,8 @@ export const EnrollCourseProvider = ({ children }) => {
         setIsLoading(true)
         privateAxios.get(`users/lessons/${lessonId}/slides/`)
             .then((res) => {
+                console.log("Hello ");
+                console.log(res);
                 console.log("Content ", res.data);
                 setAllContent(res.data)
                 setAll(res.data.length - 1);
