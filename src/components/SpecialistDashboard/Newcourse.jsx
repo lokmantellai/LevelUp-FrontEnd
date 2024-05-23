@@ -42,7 +42,6 @@ export default function Newcourse({ data }) {
 
 
     const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({ title: '', img: '', description: '', degree: '', level: '', category: '' });
     const [errors, setErrors] = useState({});
     const [courseTitles, setCourseTitles] = useState([]);
 
