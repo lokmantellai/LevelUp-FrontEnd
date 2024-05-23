@@ -53,14 +53,9 @@ function EnrollCourse() {
                 </div>
             </nav>
             <div className="enroll-course flex items-start flex-col">
-{/*             <div dangerouslySetInnerHTML={{ __html: allContent[num].content }}  />          
- */}
-              <h2>Why are Databases Important?</h2>
-              <p><b>Databases</b> are crucial because they provide a structured way to store, manage, and retrieve large amounts of data efficiently</p>
-              <p>A library management system keeps track of the books available for checkout, patrons who use the library services, and the checkouts of books. The database is organized into three main tables: patrons, books, and checkouts. This organized structure ensures that information is easy to find and update.</p>
-              <img src="https://assets.datacamp.com/production/repositories/6051/datasets/d476071baaeef649e79ce6be4a991376fe5b5802/relational_database.png" width="520" height="370"/>
-              <button>
-                    {num == 0 ? "Start" : "Next"}
+            <div dangerouslySetInnerHTML={{ __html: allContent[num].content }}  />          
+                <button>
+                    Start
                 </button>
             </div>
     </div>

@@ -2,54 +2,40 @@
 import add from '../../assets/SpecialistDashboard/addimage.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { useState, useRef, useContext } from 'react'
+import { useState, useRef } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
-import { GlobalContext } from '../../pages/Specialist/ManageCourses';
-import Backdrop from '@mui/material/Backdrop';
 
-
-
-
-
-export default function Step1({ imagePreview, setImagePreview }) {
-
-
-    const {
-        formData,
-        setFormData,
-    } = useContext(GlobalContext)
+export default function Step1({ formData, setFormData, errors }) {
 
 
     const levelRef = useRef(null);
     const degreeRef = useRef(null)
     const categoryRef = useRef(null)
 
-    const [degree, setDegree] = useState(formData.degree)
-    const [level, setLevel] = useState(formData.level)
-    const [category, setCategory] = useState(formData.category)
-    const [selectedImage, setSelectedImage] = useState(formData.img_url ? imagePreview : null)
-    const [isHovered, setIsHovered] = useState(false);
+    const [degree, setDegree] = useState('')
+    const [level, setLevel] = useState('')
+    const [category, setCategory] = useState('')
+    const [selectedImage, setSelectedImage] = useState(add)
 
+    const [isHovered, setIsHovered] = useState(false);
 
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file != add) {
-            console.log('hi')
+
+
             if (file.type.startsWith('image/')) {
                 setSelectedImage(URL.createObjectURL(file));
-                setImagePreview(URL.createObjectURL(file))
                 toast.success('Upload successful! Your image has been successfully uploaded.')
             } else {
                 toast.error("Upload failed! Please make sure you select an image file.")
             }
         }
-        console.log('file : ', file)
-        setFormData({
-            ...formData,
-            ["img_url"]: file
-        })
+
     };
+
+
 
     const handleLevel = (e) => {
         setLevel(e)
@@ -60,11 +46,6 @@ export default function Step1({ imagePreview, setImagePreview }) {
                 levelRef.current.classList.toggle('hidden');
             }
         }
-        setFormData({
-            ...formData,
-            ["level"]: e
-        })
-
     }
 
     const handleDegree = (e) => {
@@ -76,28 +57,18 @@ export default function Step1({ imagePreview, setImagePreview }) {
                 degreeRef.current.classList.toggle('hidden');
             }
         }
-        setFormData({
-            ...formData,
-            ["degree"]: e
-        })
-
     }
 
     const handleCategory = (e) => {
         setCategory(e)
-        if (categoryRef.current) {
+        console.log(e)
+        if (degreeRef.current) {
             if (categoryRef.current.style.display == 'hidden') {
                 categoryRef.current.classList.toggle('flex');
             } else {
                 categoryRef.current.classList.toggle('hidden');
             }
         }
-        setFormData({
-            ...formData,
-            ["category"]: e
-        })
-
-
     }
 
 
@@ -107,14 +78,11 @@ export default function Step1({ imagePreview, setImagePreview }) {
             ...formData,
             ['level']: level,
             ['degree']: degree,
-            ['img_url']: formData.img_url,
+            ['category']: category,
+            ['img']: selectedImage,
             [name]: value
         });
-
-
     }
-
-
 
 
     return (<>
@@ -129,7 +97,7 @@ export default function Step1({ imagePreview, setImagePreview }) {
                     onMouseLeave={() => setIsHovered(false)}
                 >
                     <input id='picChooser' accept="image/*" type="file" className='hidden' onChange={handleImageChange} />
-                    {selectedImage ? <img className={`opacity-${isHovered ? 0 : 100} transition-all duration-300 `} src={imagePreview} alt="" /> : <img className={`opacity-${isHovered ? 0 : 100} transition-all duration-300 `} src={add} alt="" />}
+                    {selectedImage && <img className={`opacity-${isHovered ? 0 : 100} transition-all duration-300 `} src={selectedImage} alt="" />}
                     <img src={add} alt="" className={`absolute opacity-${isHovered ? 100 : 0} transition-all duration-300 `} />
                 </label>
             </div>
@@ -145,6 +113,7 @@ export default function Step1({ imagePreview, setImagePreview }) {
                 <label className='w-[31.5%]'>
                     <h1 className='text-[22px] text-[#3D3700]'>* Degree</h1>
                     <div className={`bg-[#FFFFFC] flex justify-between items-center h-[70px] w-[100%] py-[10px] px-[10px]  rounded-[10px] border`} onClick={() => {
+                        console.log('from  degree button')
                         if (degreeRef.current) {
                             if (degreeRef.current.style.display === 'hidden') {
                                 degreeRef.current.style.display = 'flex';
@@ -154,7 +123,7 @@ export default function Step1({ imagePreview, setImagePreview }) {
                         }
                     }} >{degree} <FontAwesomeIcon icon={faChevronDown} /></div>
                     <div ref={degreeRef} id='degree' className=' flex flex-col bg-[#FFFFFC] w-[100%] h-[100%] justify-between hidden'>
-                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2] hidden' onClick={() => { degreeRef.current.classList.toggle("hidden"); }}>Beginner</button>
+                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2] hidden' onChange={handleChange} onClick={() => { degreeRef.current.classList.toggle("hidden"); }}>Beginner</button>
                         <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onClick={() => { handleDegree('Bachelor 1st'); }}>Bachelor 1st</button>
                         <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onClick={() => { handleDegree('Bachelor 2nd'); }}>Bachelor 2nd</button>
                         <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onClick={() => { handleDegree('Bachelor 3rd'); }}>Bachelor 3rd</button>
@@ -165,6 +134,7 @@ export default function Step1({ imagePreview, setImagePreview }) {
                 <label className='w-[31.5%]'>
                     <h1 className='text-[22px] text-[#3D3700]'>* Level</h1>
                     <div className={`bg-[#FFFFFC] flex justify-between items-center h-[70px] w-[100%] py-[10px] px-[10px]  rounded-[10px] border`} onClick={() => {
+                        console.log('from  level button')
                         if (levelRef.current) {
                             if (levelRef.current.style.display === 'hidden') {
                                 levelRef.current.style.display = 'flex';
@@ -174,10 +144,10 @@ export default function Step1({ imagePreview, setImagePreview }) {
                         }
                     }} >{level} <FontAwesomeIcon icon={faChevronDown} /></div>
                     <div ref={levelRef} id='dropDown' className='flex  flex-col bg-[#FFFFFC] w-[100%] h-[100%] justify-between hidden'>
-                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2] hidden' onClick={() => { levelRef.current.classList.toggle("hidden") }}>Beginner</button>
-                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onChange={handleChange} onClick={() => { handleLevel('Beginner'); }}>Beginner</button>
-                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onChange={handleChange} onClick={() => { handleLevel('Intermediate'); }}>Intermediate</button>
-                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onChange={handleChange} onClick={() => { handleLevel('Advanced'); }}>Advanced</button>
+                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2] hidden' onChange={handleChange} onClick={() => { levelRef.current.classList.toggle("hidden") }}>Beginner</button>
+                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onClick={() => { handleLevel('Beginner'); }}>Beginner</button>
+                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onClick={() => { handleLevel('Intermidiate'); }}>Intermidiate</button>
+                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onClick={() => { handleLevel('Advanced'); }}>Advanced</button>
                     </div>
                 </label>
 
@@ -186,6 +156,7 @@ export default function Step1({ imagePreview, setImagePreview }) {
                 <label className='w-[31.5%]'>
                     <h1 className='text-[22px] text-[#3D3700]'>* Category</h1>
                     <div className={`bg-[#FFFFFC] flex justify-between items-center h-[70px] w-[100%] py-[10px] px-[10px]  rounded-[10px] border`} onClick={() => {
+                        console.log('from  category button')
                         if (categoryRef.current) {
                             if (categoryRef.current.style.display === 'hidden') {
                                 categoryRef.current.style.display = 'flex';
@@ -195,16 +166,15 @@ export default function Step1({ imagePreview, setImagePreview }) {
                         }
                     }} >{category} <FontAwesomeIcon icon={faChevronDown} /></div>
                     <div ref={categoryRef} className=' flex flex-col bg-[#FFFFFC] w-[100%] h-[100%] justify-between hidden'>
-                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2] hidden' onClick={() => { categoryRef.current.classList.toggle("hidden"); }}>Beginner</button>
-                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onChange={handleChange} onClick={() => { handleCategory('DataScience'); }}>DataScience</button>
-                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onChange={handleChange} onClick={() => { handleCategory('Math'); }}>Math</button>
-                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onChange={handleChange} onClick={() => { handleCategory('Networking') }}>Networking</button>
+                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2] hidden' onChange={handleChange} onClick={() => { categoryRef.current.classList.toggle("hidden"); }}>Beginner</button>
+                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onClick={() => { handleCategory('DataScience'); }}>DataScience</button>
+                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onClick={() => { handleCategory('Math'); }}>Math</button>
+                        <button type='button' className=' px-[10px] py-[10px] hover:bg-[#FFF8B2]' onClick={() => { handleCategory('Networking') }}>Networking</button>
                     </div>
                 </label>
 
             </div>
-
-
+            {errors.title && <span style={{ color: 'red' }}>{errors.title}</span>}
         </div >
     </>
     );
