@@ -7,16 +7,17 @@ import Arrow from "../../assets/StudentDashboard/Arrow.svg"
 import database from "../../assets/StudentDashboard/database.svg"
 import GamesIcon from "../../assets/StudentDashboard/games.svg"
 import { Link } from "react-router-dom";
+import axios, { Axios } from "axios";
 
 
 function Learn() {
   const [activeButton, setActiveButton] = useState("All");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [coursesForTestSearch, setCoursesForTestSearch] = useState([]);
   const [searchOutput, setSearchOutput] = useState([]);
 
-  const coursesForTestSearch = [
-    "Python", "OOP", "DataBase", "Algorithm", "Linux"
-  ]
+
+
   
   
   const coursesInProgress = [
@@ -46,6 +47,13 @@ function Learn() {
         autoplay: true,
         animationData: Animation
     })
+    axios.get('http://localhost:8000/users/courses/')
+    .then(response => {
+      setCoursesForTestSearch(response.data);
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
     return () => instance.destroy();
 }, [])
 
@@ -56,10 +64,10 @@ function Learn() {
           <h2 className='text-[36px] font-medium max-w-[450px] text-[#E8FBFF] opacity-70'>What do you want to learn today ?</h2>
               <div className="relative flex mt-[70px] items-center">
             <input  onChange={(e) => {
-    setSearchOutput(coursesForTestSearch.filter(el => el.toLowerCase().includes(e.target.value.toLowerCase())));
+    setSearchOutput(coursesForTestSearch.filter(el => el?.title?.toLowerCase()?.includes(e.target.value.toLowerCase())));
   }}
               onFocus={() => setShowDropdown(true)}
-              onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
+              onBlur={() => { setTimeout(() => setShowDropdown(false), 100)}}
               placeholder="Search for courses ..."
               className='text-[18px] w-[545px] h-[60px] bg-[#E8FBFF] rounded-[10px] ps-[100px] pe-[26px] py-[15px] placeholder:text-[18px] placeholder:text-[#00333D] placeholder:font-medium placeholder:opacity-50 focus-visible:outline-none' />                  
                 <button onClick={() => { console.log("Click it"); }}>
@@ -68,7 +76,7 @@ function Learn() {
             {showDropdown && (
               <ul className="absolute top-full mt-2 w-full bg-[#E8FBFF] rounded-[10px] shadow-lg max-h-[200px] overflow-y-auto z-10">
                 {searchOutput.map((el,ind) => (
-                  <li key={ind} className="text-[16px] px-4 py-2 cursor-pointer hover:bg-[#00333D] hover:text-[#E8FBFF]">{el}</li>
+                  <li key={ind} className="text-[16px] px-4 py-2 cursor-pointer hover:bg-[#00333D] hover:text-[#E8FBFF]">{el.title}</li>
                 ))}
                 
               </ul>
