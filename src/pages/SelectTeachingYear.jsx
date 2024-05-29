@@ -31,7 +31,7 @@ export default function SelectTeachingYear() {
               <ChoiceBtn setToForm={{...register("degree")}} text="Bachelor 3st Year" style={"max-[1120px]:text-2xl"}styleImg={"max-[1120px]:!w-[4.5rem] max-[1120px]:!h-[4.5rem]"} defaultValue={registerForm.data?.degree} />  
             </div>
             <h4 className="text-3xl mt-8 w-[90%]">Master</h4>
-            <div className='w-fit grid grid-cols-2 gap-6 mt-3'>
+            <div className='grid grid-cols-3 gap-6 mt-3 w-[900px]'>
             <ChoiceBtn setToForm={{...register("degree")}} text="Master 1st Year" style={"lg:h-20 lg:text-3xl w-[322px]"}styleImg={"lg:w-16 lg:h-16"} defaultValue={registerForm.data?.degree} /> 
             <ChoiceBtn setToForm={{...register("degree")}} text="Master 2st Year" style={"lg:h-20 lg:text-3xl w-[322px]"}styleImg={"lg:w-16 lg:h-16"} defaultValue={registerForm.data?.degree}/> 
           </div>

@@ -14,6 +14,7 @@ import { useAuth } from "../../context/hooks";
 import Verified from "../../assets/verified(1).png"
 import toast from "react-hot-toast";
 import Newcourse from "./Newcourse";
+import axios from "axios";
 
 
 
@@ -136,7 +137,7 @@ function Header() {
                     }} className="w-10 h-10 flex justify-center items-center bg-[#FFF0C4] rounded-full">
                         <img src={Personne} className="w-7 h-7" alt="User" />
                     </button>
-                    <div id="MenuBar" className="hidden flex flex-col py-2 px-4 font-normal bg-[#FFF0C4] absolute translate-y-[80%] right-0 gap-1 rounded-md">
+                    <div id="MenuBar" className="hidden flex flex-col py-2 px-4 font-normal bg-[#FFF0C4] absolute translate-y-[15%] right-0 gap-1 rounded-md">
                         <button onClick={() => { nav("/setting"); }}>Setting</button>
                         <button onClick={logout}>Logout</button>
                     </div>

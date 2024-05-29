@@ -106,7 +106,7 @@ export default function Navbar() {
                 xs:hidden
                 sm:hidden
                 md:flex'>
-                    <img src={per} alt="" className='w-[15px]' />
+                    <img onClick={()=> {}} src={per} alt="" className='w-[15px]' />
                 </div>
                 <div className='py-[10px] px-[10px]  flex justify-center items-center hover:cursor-pointer' onClick={toggleMenu}><FontAwesomeIcon className={`${isMenuOpen ? 'rotate-180 transition-transform duration-300 ease-out' : 'transition-transform duration-300 ease-out'}`} style={{ color: '#E8FBFF', height: '20px' }} icon={isMenuOpen ? faChevronDown : faBars} /></div>
 

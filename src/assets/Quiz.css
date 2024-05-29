@@ -1,7 +1,6 @@
 .quiz .container{
-    width: 500px;
+    width: 100%;
     height: 80%;
-    margin: 100px auto auto;
     background: white;
     color: #262626;
     display: flex;
@@ -31,18 +30,22 @@
     font-size: 16px;
     cursor: pointer;
 }
-.quiz .container button{
-    margin: auto;
+.quiz .container div img{
+    background-color: none !important;
     border: none;
     outline: none;
-    width: 160px;
-    height: 35px;
-    background: #553f9a;
-    color: #fff;
+    width: 30px;
+    height: 30px;
+    color: #262626;
+    rotate: 180deg;
+    margin-left: 500px;
     font-size: 20px;
     font-weight: 500;
     border-radius: 8px;
     cursor: pointer;
+    position: absolute;
+    bottom: 100px;
+    right: 350px;
 }
 .quiz .container .index{
     margin: auto;

@@ -222,55 +222,13 @@ export default function Newcourse({ data }) {
     }
 
 
-    const handleXclick = () => {
 
 
 
 
 
-        console.log('formData : ', formData)
-        console.log('lastData : ', lastForm)
-        console.log('Are they Equal : ', _.isEqual(formData, lastForm))
-        if (_.isEqual(formData, lastForm)) {
-            console.log('same')
-            setPath('Courses')
-            setNewCourseOpen(false)
-            setFormData({ title: '', img_url: null, description: '', degree: '', level: '', is_draft: false, lessons: [] })
-            setLastForm({ title: '', img_url: null, description: '', degree: '', level: '', is_draft: false, lessons: [] })
-            setXclicked(false)
-        }
-
-        return (
-            <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={showModal}
-                onClick={() => { setShowModal(false) }}>
-                <div className={`fixed top-2/4 left-2/4 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-between items-center w-[500px] h-[200px] py-[40px] px-[40px] bg-[#FFFFFC] text-center rounded-2xl [box-shadow:0px_0px_10px_rgba(0,_0,_0,_0.3)] `}>  <h1 className="text-[#3D3700] text-[16px] font-medium"> You have unsaved changes. Are you sure you want to leave this page without saving? Any changes you made will be lost.</h1>
-                    <div className="flex w-[250px] justify-between items-center">
-                        <button className="flex items-center justify-center px-[20px] py-[20px] w-[100px] h-[30px] bg-[#FFEBEB] text-[#3D3700] text-[16px] font-medium rounded-[8px]" onClick={handleCancel} >Cancel</button>
-                        <button className="flex items-center justify-center px-[20px] py-[20px] w-[100px] h-[30px] bg-[#FFEBEB] text-[#3D3700] text-[16px] font-medium rounded-[8px]" onClick={handleSave}>Save</button>
-                    </div>
-                </div>
-            </Backdrop>)
-
-    }
 
 
-
-    const color = '#0095B2'
-    console.log('from Outside : ', formData)
-
-    const handleCancel = () => {
-        setXclicked(false)
-    }
-
-    const handleSave = () => {
-        handleSaveDraft();
-        setShowModal(false);
-        setPath('Courses');
-        setNewCourseOpen(false)
-        setXclicked(false);
-    }
 
 
     const handleXclick = () => {

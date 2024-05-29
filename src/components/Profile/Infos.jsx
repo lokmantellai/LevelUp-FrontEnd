@@ -8,14 +8,14 @@ import _ from 'lodash'
 
 
 export default function Infos({ data, onEditClick }) {
-
+    console.log(data);
     return (
         <div className="flex justify-around items-center bg-[#FFFBED] h-[100%] rounded-[10px] py-[25px] px-[25px] gap-[20px]
         xs:mx-[25px] xs:my-[25px] xs:flex-col 
         sm:mx-[25px] sm:my-[25px] sm:flex-col  
         md:mx-[50px] md:my-[50px] md:flex-row
         ">
-            <img src={Student.img} alt="" className="w-[150px] rounded-full 
+            <img src={"http://localhost:8000"+ data?.img} alt="" className="w-[150px] rounded-full 
             xs:w-[100px]" />
             <div className="flex flex-col justify-between h-[150px] 
            xs:items-center xs:text-center

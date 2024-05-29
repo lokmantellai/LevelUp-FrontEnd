@@ -21,7 +21,7 @@ function Learn() {
   
   
   const coursesInProgress = [
-    { title: "Database Advanced", level: "Beginner", degree: "Bachelor 1st", progress: "36%" },
+    { title: "Database Advanced", level: "Beginner", degree: "Bachelor 1st", progress: "36%",link: "http://localhost:5173/course/database-advanced/enroll/25/step/4" },
     { title: "Database", level: "Beginner", degree: "Bachelor 1st", progress: "36%" },
     { title: "Database", level: "Beginner", degree: "Bachelor 1st", progress: "36%" },
     { title: "Network System", level: "Beginner", degree: "Bachelor 1st", progress: "38%" },
@@ -126,7 +126,9 @@ function Course({ title, level, degree, progress, xp, lessons, games,textButton 
             <div className="flex items-center justify-between w-full px-[34px] gap-[15px]">
             <span className="text-[#00333D] text-[16px]">{progress}</span>
             <div className="flex-1 h-[10px] bg-[#E8FBFF] rounded-[20px]">
-              <div style={{ width: progress }} className="h-full bg-[#FAE200] rounded-[20px]"></div>
+              <div style={{ width: progress }} className="h-full bg-[#FAE200] rounded-[20px]">
+  
+              </div>
             </div>
           </div>
         }
@@ -140,7 +142,7 @@ function Course({ title, level, degree, progress, xp, lessons, games,textButton 
           <div className="text-[#00333D] text-[18px] justify-center">{lessons} Lesson</div>
         </div>
         }
-        <Link to={`/course/${title.toLowerCase().replace(/ /g, '-')}`} className="border-t-2 border-[#00333D] w-full flex justify-center items-center h-[50px] text-[18px] text-[#00333D]">
+        <Link to={` course/database-advanced/enroll/25/step/4`} className="border-t-2 border-[#00333D] w-full flex justify-center items-center h-[50px] text-[18px] text-[#00333D]">
           {textButton}
         </Link>
       </div>
